@@ -18,6 +18,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 	<link href="{{ asset('admin_asset/css/app.css') }}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script defer src="{{ asset('admin_asset/js/app.js') }}"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -47,6 +48,6 @@
 
     </div>
 
-    <script src="{{ asset('admin_asset/js/app.js') }}"></script>
+
 </body>
 </html>
