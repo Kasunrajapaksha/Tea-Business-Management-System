@@ -60,7 +60,7 @@ class SessionController extends Controller
         // dd($role);
         return match ($role) {
             'Admin' => redirect()->intended(route('admin.index')),
-            'Marketing Manager' => redirect()->intended(route('marketing.client.index')),
+            'Marketing Manager' => redirect()->intended(route('marketing.index')),
             default => redirect()->route('login'),
         };
 

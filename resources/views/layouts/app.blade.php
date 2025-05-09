@@ -15,22 +15,26 @@
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
 	<title>{{ $title }}</title>
+
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 	<link href="{{ asset('admin_asset/css/app.css') }}" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script defer src="{{ asset('admin_asset/js/app.js') }}"></script>
+
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <div class="wrapper">
 
         {{-- sidebar --}}
-        @include('layouts.admin.sidebar')
+        @include('layouts.includes.sidebar')
 
         {{-- main --}}
         <div class="main">
 
             {{-- main/navbar --}}
-            @include('layouts.admin.navbar')
+            @include('layouts.includes.navbar')
 
 
             {{-- main/panel --}}
@@ -41,7 +45,7 @@
             </main>
 
             {{-- main/footer --}}
-            @include('layouts.admin.footer')
+            @include('layouts.includes.footer')
 
         </div>
         {{-- main-panel/ --}}

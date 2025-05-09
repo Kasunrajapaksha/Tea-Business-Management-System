@@ -1,5 +1,5 @@
 
-<x-admin-layout>
+<x-app-layout>
     <x-slot:title>role</x-slot:title>
     <div class="row">
         @if (session('success'))
@@ -72,4 +72,4 @@
 
     </div>
 
-</x-admin-layout>
+</x-app-layout>

@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-app-layout>
     <x-slot:title>user</x-slot:title>
 
     <h1>Edit User</h1>
@@ -101,4 +101,4 @@
         </div>
     </div>
 
-</x-admin-layout>
+</x-app-layout>

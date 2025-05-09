@@ -16,15 +16,15 @@
 
 	<title>TBMS</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 	<link href="{{ asset('admin_asset/css/app.css') }}" rel="stylesheet">
+    <script defer src="{{ asset('admin_asset/js/app.js') }}"></script>
+
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
     {{ $slot }}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-    <script src="{{ asset('admin_asset/js/app.js') }}"></script>
 </body>
 </html>

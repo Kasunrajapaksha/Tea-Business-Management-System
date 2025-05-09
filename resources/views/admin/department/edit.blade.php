@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-app-layout>
     <x-slot:title>department</x-slot:title>
 
     <h3>Edit Department</h3>
@@ -32,4 +32,4 @@
             </div>
         </div>
     </div>
-</x-admin-layout>
+</x-app-layout>

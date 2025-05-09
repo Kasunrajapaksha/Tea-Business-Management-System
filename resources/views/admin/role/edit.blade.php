@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-app-layout>
     <x-slot:title>role</x-slot:title>
 
     <h3>Edit Role</h3>
@@ -50,4 +50,4 @@
             </div>
         </div>
     </div>
-</x-admin-layout>
+</x-app-layout>

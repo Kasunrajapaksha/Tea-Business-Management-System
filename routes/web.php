@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -71,6 +72,10 @@ Route::middleware(['auth'])->group(function () {
     //For Marketer role
     Route::middleware(['role:Marketing Manager'])->group(function () {
         Route::prefix('marketing')->group(function () {
+            Route::controller(MarketingController::class)->group(function () {
+                Route::get('/dashboard', 'index')->name('marketing.index');
+                Route::get('/profile/{user}', 'show')->name('marketing.show');
+            });
             Route::controller(ClientController::class)->group(function () {
                 Route::get('/client', 'index')->name('marketing.client.index');
             });

@@ -1,5 +1,5 @@
 
-<x-admin-layout>
+<x-app-layout>
     <x-slot:title>permition</x-slot:title>
     <div class="row">
         @if (session('success'))
@@ -66,4 +66,4 @@
             </div>
         </div>
 
-</x-admin-layout>
+</x-app-layout>
