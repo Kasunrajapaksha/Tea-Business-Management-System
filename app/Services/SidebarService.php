@@ -26,6 +26,42 @@ class SidebarService{
                     'profile' => 'marketing.show',
                     'dashboard' => 'marketing.index'
                 ];
+
+            case 'Finance Manager':
+                return [
+                    'profile' => 'finance.show',
+                    'dashboard' => 'finance.index'
+                ];
+
+            case 'Production Manager':
+                return [
+                    'profile' => 'production.show',
+                    'dashboard' => 'production.index'
+                ];
+
+            case 'Tea Department Head':
+                return [
+                    'profile' => 'tea.show',
+                    'dashboard' => 'tea.index'
+                ];
+
+            case 'Tea Teaser':
+                return [
+                    'profile' => 'tea.show',
+                    'dashboard' => 'tea.index'
+                ];
+
+            case 'Shipping Manager':
+                return [
+                    'profile' => 'shipping.show',
+                    'dashboard' => 'shipping.index'
+                ];
+
+            case 'General Manager':
+                return [
+                    'profile' => 'management.show',
+                    'dashboard' => 'management.index'
+                ];
         }
     }
 }

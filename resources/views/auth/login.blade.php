@@ -16,29 +16,32 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="m-sm-3">
-                                    <form action="/login" method="post">
+
+                                    <form action="{{ route('login') }}" method="post">
                                         @csrf
+
                                         <div class="mb-3">
                                             <label class="form-label" for="username">Username</label>
                                             <input class="form-control form-control-lg" type="username" name="username" placeholder="Enter your username" value="{{ old('username')}}"/>
-                                            @error('username')
-                                                <p class="text-danger text-sm">{{ $message }}</p>
-                                            @enderror
+                                            <x-error field="username" />
                                         </div>
+
                                         <div class="mb-3">
                                             <label class="form-label">Password</label>
                                             <input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" />
-                                            @error('password')
-                                                <p class="text-danger text-sm">{{ $message }}</p>
-                                            @enderror
+                                            <x-error field="password" />
                                         </div>
+
                                         <div class="d-grid gap-2 mt-5">
                                             <input type="submit" class="btn btn-lg btn-primary" value="Sing in">
                                         </div>
+                                        
                                     </form>
+
 								</div>
 							</div>
 						</div>
+
 					</div>
 				</div>
 			</div>

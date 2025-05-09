@@ -100,7 +100,7 @@
                     <a class="dropdown-item" href="{{ route($sidebarLinks['profile'], Auth::user()->id) }}"><i class="align-middle me-1"
                             data-feather="user"></i> Profile</a>
                     <div class="dropdown-divider"></div>
-                    <form action="/logout" method="post">
+                    <form action="{{ route('logout') }}" method="post">
                         @csrf
                         <input type="submit" class="dropdown-item" value="Log Out">
                     </form>

@@ -17,7 +17,7 @@ class RolePolicy{
     }
 
     public function update(User $user, Role $role): bool{
-        if($role->id > 0 && $user->role->permissions->contains('permission_name', 'update-role')){
+        if($role->id > 10 && $user->role->permissions->contains('permission_name', 'update-role')){
             return true;
         }
         return false;

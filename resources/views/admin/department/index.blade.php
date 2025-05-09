@@ -1,34 +1,33 @@
 
 <x-app-layout>
-    <x-slot:title>department</x-slot:title>
-    <div class="row">
-        @if (session('success'))
-        <div class="card-body">
-            <div class="mb-3">
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <button type="button" class="btn-close " data-bs-dismiss="alert" aria-label="Close" id="alert-close-btn"></button>
-                    <div class="alert-message">
-                         {{ session('success') }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
-    </div>
+    <x-slot:title>Admin | Department</x-slot:title>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href='{{ route('admin.index') }}'>Admin</a></li>
+            <li class="breadcrumb-item"><a href="#">Department</a></li>
+            <li class="breadcrumb-item active">All Departments</li>
+        </ol>
+    </nav>
+
+    <x-success-alert />
+
     <div class="container-fluid p-0">
+
         @can('create', App\Models\Department::class)
             <a href="{{ route('admin.department.create') }}" class="btn btn-primary float-end mt-n1 d-flex align-items-center"><i class="align-middle me-2" data-feather="plus"></i> Add Department</a>
         @endcan
+
         <div class="mb-3">
-            <h1 class="d-inline align-middle">Departments</h1>
+            <h1 class="d-inline align-middle">All Departments</h1>
         </div>
+
         <div class="col-12 d-flex">
             <div class="card flex-fill">
-                <div class="card-header pb-0">
-                    <h5 class="card-title">All Departments</h5>
-                </div>
-                <div class="card-body pt-0">
+                <div class="card-body">
+
                 <table class="table table-hover table-striped my-0 ">
+
                     <thead>
                         <tr>
                             <th>#</th>
@@ -37,9 +36,10 @@
                             <th class="d-none d-md-table-cell">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($departments as $department)
 
+                    <tbody>
+
+                        @foreach ($departments as $department)
                         <tr>
                             <td class="d-none d-xl-table-cell">{{ $department->id}}</td>
                             <td class="d-none d-xl-table-cell">{{ $department->department_name}}</td>
@@ -58,11 +58,11 @@
                                 @endcan
                             </td>
                         </tr>
-
                         @endforeach
 
                     </tbody>
                 </table>
+
             </div>
         </div>
 

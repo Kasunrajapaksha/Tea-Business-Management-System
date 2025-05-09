@@ -1,8 +1,15 @@
 
 <x-app-layout>
-    <x-slot:title>admin</x-slot:title>
+    <x-slot:title>Admin | Dashboard</x-slot:title>
 
-    <h1>Admin</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href='{{ route('admin.index') }}'>Admin</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+    </nav>
+    
+    <h1>Admin Dashboard</h1>
 
 
 </x-app-layout>
