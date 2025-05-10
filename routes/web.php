@@ -117,7 +117,7 @@ Route::middleware(['auth','role:Production Manager'])->group(function () {
 
 
 //For Tea Department Head & Tea Teaser role
-Route::middleware(['auth','role:Tea Department Head'])->group(function () {
+Route::middleware(['auth','role:Tea Department Head,Tea Teaser'])->group(function () {
     Route::prefix('tea')->group(function () {
         Route::name('tea.')->group(function () {
             Route::controller(TeaController::class)->group(function () {

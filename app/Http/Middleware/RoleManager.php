@@ -14,10 +14,10 @@ class RoleManager
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $role): Response {
+    public function handle(Request $request, Closure $next, ...$roles): Response {
 
         $user = Auth::user();
-        if(!$user || !$user->role || $user->role->role_name !== $role) {
+        if(!$user || !$user->role || !in_array($user->role->role_name, $roles)) {
             return redirect()->route("login");
         }
         return $next($request);
