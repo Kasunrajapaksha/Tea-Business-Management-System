@@ -4,7 +4,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href='{{ route('admin.index') }}'>Admin</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.role.index') }}">Role</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.department.index') }}">Department</a></li>
             <li class="breadcrumb-item active">Edit Role</li>
         </ol>
     </nav>
@@ -14,7 +14,12 @@
     <div class="row">
         <div class="col-6">
             <div class="card">
-                <div class="card-body">
+                <div class="card-header pb-0">
+                    <div class="card-title">
+                        {{ $role->department->department_name}} Department
+                    </div>
+                </div>
+                <div class="card-body pt-0">
 
                     <form action="{{ route('admin.role.update', $role) }}" method="POST">
                         @csrf
@@ -28,26 +33,6 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="department_id" class="form-label">Department</label>
-                            <select class="form-select" name="department_id">
-                                @if ($role->department->status == 0)
-                                    <option value="#">Choose a department</option>
-                                    @foreach ($departments as $department)
-                                        <option value="{{ $department->id }}">{{ $department->department_name }}
-                                        </option>
-                                    @endforeach
-                                @else
-                                    @foreach ($departments as $department)
-                                        <option value="{{ $department->id }}"
-                                            {{ $department->id == $role->department->id ? 'selected' : '' }}>
-                                            {{ $department->department_name }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                            <x-error field="department_id" />
-                        </div>
-
-                        <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select" name="status">
                                 <option value="1" {{ $role->status == 1 ? 'selected' : '' }}>Activate</option>
@@ -56,7 +41,10 @@
                             <x-error field="status" />
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 mt-3">Update Role</button>
+                        <div>
+                            <a href="{{ route('admin.department.index') }}" class="btn btn-danger mt-2">cancel</a>
+                            <button type="submit" class="btn btn-primary mt-2">Update Role</button>
+                        </div>
 
                     </form>
 

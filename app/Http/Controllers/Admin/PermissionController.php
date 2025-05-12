@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Gate;
 
 class PermissionController extends Controller
 {
-    public function index(){
+    public function index(Role $role){
         //get roles and permissions
-        $roles = Role::all();
-        $permissions = Permission::all();
+        // $roles = Role::all();
+        $permissions = Permission::with('role')->get();
 
         // authorization
         Gate::authorize("view", Permission::class);
@@ -20,7 +20,7 @@ class PermissionController extends Controller
         //return view
         return view('admin.permission.index', [
             'permissions'=> $permissions,
-            'roles' => $roles,
+            'role' => $role,
         ]);
     }
 
@@ -48,10 +48,9 @@ class PermissionController extends Controller
         return redirect()->route('admin.permission.create')->with('success','Permission created successfully!');
     }
 
-    public function storeRolePermission(){
+    public function update(Role $role){
         //validation
         $validatedData = request()->validate([
-            'role_id' => ['required','exists:roles,id'],
             'permissions' => ['array'],
             'permissions.*' => ['exists:permissions,id'],
         ]);
@@ -60,7 +59,6 @@ class PermissionController extends Controller
         Gate::authorize("update", Permission::class);
 
         //assign permissions to the roles
-        $role = Role::findOrFail($validatedData['role_id']);
         if(request()->has('permissions')){
             $role->permissions()->sync($validatedData['permissions']);
         } else {
@@ -68,18 +66,7 @@ class PermissionController extends Controller
         }
 
         //return view
-        return redirect()->route('admin.permission.index')->with('success','Permission updated successfully!');
-    }
-
-    public function getRolePermissions(Role $role){
-        //get role permissions
-        $permissions = $role->permissions;
-
-        //authorization
-        Gate::authorize("view", Permission::class);
-
-        //return view
-        return response()->json($permissions);
+        return redirect()->route('admin.permission.index', $role)->with('success','Permission updated successfully!');
     }
 
 }

@@ -14,8 +14,8 @@
     <div class="container-fluid p-0">
 
         @can('create', App\Models\Role::class)
-            <a href="{{ route('admin.role.create') }}" class="btn btn-primary float-end mt-n1 d-flex align-items-center">
-            <i class="align-middle me-2" data-feather="plus"></i> Add Role</a>
+            {{-- <a href="{{ route('admin.role.create') }}" class="btn btn-primary float-end mt-n1 d-flex align-items-center">
+            <i class="align-middle me-2" data-feather="plus"></i> Add Role</a> --}}
         @endcan
 
         <div class="mb-3">
@@ -31,8 +31,8 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th class="d-none d-xl-table-cell">Role Name</th>
                                 <th class="d-none d-xl-table-cell">Department</th>
+                                <th class="d-none d-xl-table-cell">Role Name</th>
                                 <th>Status</th>
                                 <th class="d-none d-md-table-cell">Action</th>
                             </tr>
@@ -40,17 +40,25 @@
 
                         <tbody>
 
-                            @foreach ($roles as $role)
+                            @foreach ($departments as $department)
                                 <tr>
-                                    <td class="d-none d-xl-table-cell">{{ $role->id }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $role->role_name }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $role->department->department_name }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $department->id }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $department->department_name }}</td>
+                                    <td class="d-none d-xl-table-cell">
+                                        @foreach($department->role as $role)
+                                            <div>{{ $role->role_name }}</div>
+                                        @endforeach
+                                    </td>
 
-                                    @if ($role->status === 0)
-                                        <td><span class="badge bg-danger">Inactive</span></td>
-                                    @elseif ($role->status === 1)
-                                        <td><span class="badge bg-success">Active</span></td>
-                                    @endif
+                                    <td>
+                                        @foreach($department->role as $role)
+                                            @if ($role->status === 0)
+                                                <div><span class="badge bg-danger">Inactive</span></div>
+                                            @elseif ($role->status === 1)
+                                                <div><span class="badge bg-success">Active</span></div>
+                                            @endif
+                                        @endforeach
+                                    </td>
 
                                     <td class="d-none d-xl-table-cell table-action">
                                         @can('update', $role)
@@ -64,6 +72,7 @@
 
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>

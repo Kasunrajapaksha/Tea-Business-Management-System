@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
@@ -12,13 +14,17 @@ class DepartmentController extends Controller
     public function index(){
         //get department
         $departments = Department::all();
+        $roles = Role::all();
+        $users = User::all();
 
         // authorization
         Gate::authorize("view", Department::class);
 
         //return view
         return view('admin.department.index', [
-            'departments' => $departments
+            'departments' => $departments,
+            'roles' => $roles,
+            'users' => $users,
         ]);
     }
 

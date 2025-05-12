@@ -6,58 +6,52 @@ use Illuminate\Support\Facades\Auth;
 
 class SidebarService{
     public static function getSidebarRoutes(){
-        $userRole = Auth::user()->role->role_name;
+        $userDepartment = Auth::user()->department->department_name;
 
-        $sidebarRoutes = self::getRoleLinks($userRole);
+        $sidebarRoutes = self::getRoleLinks($userDepartment);
         return $sidebarRoutes;
 
     }
 
-    private static function getRoleLinks($role){
-        switch ($role) {
+    private static function getRoleLinks($department){
+        switch ($department) {
             case 'Admin':
                 return [
                     'profile' => 'admin.show',
                     'dashboard' => 'admin.index'
                 ];
 
-            case 'Marketing Manager':
+            case 'Marketing':
                 return [
                     'profile' => 'marketing.show',
                     'dashboard' => 'marketing.index'
                 ];
 
-            case 'Finance Manager':
+            case 'Finance':
                 return [
                     'profile' => 'finance.show',
                     'dashboard' => 'finance.index'
                 ];
 
-            case 'Production Manager':
+            case 'Production':
                 return [
                     'profile' => 'production.show',
                     'dashboard' => 'production.index'
                 ];
 
-            case 'Tea Department Head':
+            case 'Tea':
                 return [
                     'profile' => 'tea.show',
                     'dashboard' => 'tea.index'
                 ];
 
-            case 'Tea Teaser':
-                return [
-                    'profile' => 'tea.show',
-                    'dashboard' => 'tea.index'
-                ];
-
-            case 'Shipping Manager':
+            case 'Shipping':
                 return [
                     'profile' => 'shipping.show',
                     'dashboard' => 'shipping.index'
                 ];
 
-            case 'General Manager':
+            case 'Management':
                 return [
                     'profile' => 'management.show',
                     'dashboard' => 'management.index'

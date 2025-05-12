@@ -45,24 +45,7 @@
                     class="sidebar-item {{ request()->routeIs(['admin.department.index', 'admin.department.create']) ? 'active' : '' }}">
                     <a class="sidebar-link" href="{{ route('admin.department.index') }}">
                         <i class="align-middle" data-feather="server"></i>
-                        <span class="align-middle">Department</span>
-                    </a>
-                </li>
-            @endcan
-            @can('view', App\Models\Role::class)
-                <li
-                    class="sidebar-item {{ request()->routeIs(['admin.role.index', 'admin.role.create']) ? 'active' : '' }}">
-                    <a class="sidebar-link" href="{{ route('admin.role.index') }}">
-                        <i class="align-middle" data-feather="tag"></i>
-                        <span class="align-middle">Role</span>
-                    </a>
-                </li>
-            @endcan
-            @can('view', App\Models\Permission::class)
-                <li class="sidebar-item {{ request()->routeIs('admin.permission.index') ? 'active' : '' }}">
-                    <a class="sidebar-link" href="{{ route('admin.permission.index') }}">
-                        <i class="align-middle" data-feather="shield"></i>
-                        <span class="align-middle">Permission</span>
+                        <span class="align-middle">Departments</span>
                     </a>
                 </li>
             @endcan

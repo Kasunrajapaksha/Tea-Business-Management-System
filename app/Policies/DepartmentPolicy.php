@@ -15,7 +15,7 @@ class DepartmentPolicy{
     }
 
     public function update(User $user, Department $department): bool{
-        if($department->id > 9 && $user->role->permissions->contains('permission_name', 'update-department')){
+        if($user->role->permissions->contains('permission_name', 'update-department')){
             return true;
         }
         return false;

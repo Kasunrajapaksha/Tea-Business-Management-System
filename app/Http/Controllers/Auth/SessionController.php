@@ -44,8 +44,8 @@ class SessionController extends Controller
         request()->session()->regenerate();
 
         //redirect based on role
-        $role = $user->role->role_name;
-        return $this->redirectToDashboard($role);
+        $department = $user->department->department_name;
+        return $this->redirectToDashboard($department);
     }
 
     public function destroy(){
@@ -57,19 +57,16 @@ class SessionController extends Controller
         return redirect()->route('login');
     }
 
-    protected function redirectToDashboard($role){
-        // dd($role);
-        return match ($role) {
-            'Admin' => redirect()->intended(route('admin.index')),
-            'Marketing Manager' => redirect()->intended(route('marketing.index')),
-            'Finance Manager' => redirect()->intended(route('finance.index')),
-            'Production Manager' => redirect()->intended(route('production.index')),
-            'Tea Department Head' => redirect()->intended(route('tea.index')),
-            'Tea Teaser' => redirect()->intended(route('tea.index')),
-            'Shipping Manager' => redirect()->intended(route('shipping.index')),
-            'General Manager' => redirect()->intended(route('management.index')),
-            default => redirect()->route('login'),
-        };
+    protected function redirectToDashboard($department){
 
+        return match ($department) {
+            'Admin' => redirect()->intended(route('admin.index')),
+            'Marketing' => redirect()->intended(route('marketing.index')),
+            'Finance' => redirect()->intended(route('finance.index')),
+            'Production' => redirect()->intended(route('production.index')),
+            'Tea' => redirect()->intended(route('tea.index')),
+            'Shipping' => redirect()->intended(route('shipping.index')),
+            'Management' => redirect()->intended(route('management.index')),
+        };
     }
 }

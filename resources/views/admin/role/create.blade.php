@@ -4,7 +4,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href='{{ route('admin.index') }}'>Admin</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.role.index') }}">Role</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.department.index') }}">Department</a></li>
             <li class="breadcrumb-item active">Create Role</li>
         </ol>
     </nav>
@@ -14,29 +14,26 @@
     <div class="row">
         <div class="col-6">
             <div class="card">
-                <div class="card-body">
+                <div class="card-header pb-0">
+                    <div class="card-title">
+                        Add Role For {{ $department->department_name}} Department
+                    </div>
+                </div>
+                <div class="card-body pt-0">
 
                     <form action="{{ route('admin.role.store') }}" method="POST">
                         @csrf
-                        <div class="mb-3">
+                        <input type="text" name="department_id" value="{{$department->id}}" hidden>
+                        <div>
                             <label for="role_name" class="form-label">Role Name</label>
                             <input type="text" class="form-control" id="role_name" name="role_name">
                             <x-error field="role_name" />
                         </div>
-
-                        <div class="mb-3">
-                            <label for="department_id" class="form-label">Department</label>
-                            <select class="form-select" name="department_id">
-                                <option value="#">Choose a department</option>
-                                @foreach ($departments as $department)
-                                    <option value="{{ $department->id }}">{{ $department->department_name }}</option>
-                                @endforeach
-                            </select>
-                            <x-error field="department_id" />
+                        <div>
+                            <a href="{{ route('admin.department.index') }}" class="btn btn-danger mt-2">cancel</a>
+                            <button type="submit" class="btn btn-primary mt-2">Add Role</button>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 mt-3">Add Role</button>
-                        
                     </form>
                 </div>
             </div>

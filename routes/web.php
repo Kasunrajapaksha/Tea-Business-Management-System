@@ -28,7 +28,7 @@ Route::controller(SessionController::class)->group(function () {
 
 
 //For Admin role
-Route::middleware(['auth','role:Admin'])->group(function () {
+Route::middleware(['auth','department:Admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::name('admin.')->group(function () {
 
@@ -59,18 +59,17 @@ Route::middleware(['auth','role:Admin'])->group(function () {
 
             Route::controller(RoleController::class)->group(function () {
                 Route::get('/role',  'index')->name('role.index');
-                Route::get('/role/create', 'create')->name('role.create');
+                Route::get('/role/{department}/create', 'create')->name('role.create');
                 Route::post('/role', 'store')->name('role.store');
                 Route::get('/role/{role}/edit', 'edit')->name('role.edit');
                 Route::patch('/role/{role}', 'update')->name('role.update');
             });
 
             Route::controller(PermissionController::class)->group(function () {
-                Route::get('/permission',  'index')->name('permission.index');
+                Route::get('/permission/{role}',  'index')->name('permission.index');
                 Route::get('/permission/create',  'create')->name('permission.create');
                 Route::post('/permission',  'store')->name('permission.store');
-                Route::get('/permission/{role}/rolePermission', 'getRolePermissions')->name('role.getRolePermissions');
-                Route::post('/permission/rolePermission',  'storeRolePermission')->name('permission.storeRolePermission');
+                Route::patch('/permission/{role}',  'update')->name('permission.update');
             });
         });
     });
@@ -78,7 +77,7 @@ Route::middleware(['auth','role:Admin'])->group(function () {
 
 
 //For Marketing Manager role
-Route::middleware(['auth','role:Marketing Manager'])->group(function () {
+Route::middleware(['auth','department:Marketing'])->group(function () {
     Route::prefix('marketing')->group(function () {
         Route::name('marketing.')->group(function () {
             Route::controller(MarketingController::class)->group(function () {
@@ -91,7 +90,7 @@ Route::middleware(['auth','role:Marketing Manager'])->group(function () {
 
 
 //For Finance Manager role
-Route::middleware(['auth','role:Finance Manager'])->group(function () {
+Route::middleware(['auth','department:Finance'])->group(function () {
     Route::prefix('finance')->group(function () {
         Route::name('finance.')->group(function () {
             Route::controller(FinanceController::class)->group(function () {
@@ -104,7 +103,7 @@ Route::middleware(['auth','role:Finance Manager'])->group(function () {
 
 
 //For Production Manager role
-Route::middleware(['auth','role:Production Manager'])->group(function () {
+Route::middleware(['auth','department:Production'])->group(function () {
     Route::prefix('production')->group(function () {
         Route::name('production.')->group(function () {
             Route::controller(ProductionController::class)->group(function () {
@@ -117,7 +116,7 @@ Route::middleware(['auth','role:Production Manager'])->group(function () {
 
 
 //For Tea Department Head & Tea Teaser role
-Route::middleware(['auth','role:Tea Department Head,Tea Teaser'])->group(function () {
+Route::middleware(['auth','department:Tea'])->group(function () {
     Route::prefix('tea')->group(function () {
         Route::name('tea.')->group(function () {
             Route::controller(TeaController::class)->group(function () {
@@ -130,7 +129,7 @@ Route::middleware(['auth','role:Tea Department Head,Tea Teaser'])->group(functio
 
 
 //For General Manager role
-Route::middleware(['auth','role:General Manager'])->group(function () {
+Route::middleware(['auth','department:Management'])->group(function () {
     Route::prefix('management')->group(function () {
         Route::name('management.')->group(function () {
             Route::controller(ManagementController::class)->group(function () {
@@ -143,7 +142,7 @@ Route::middleware(['auth','role:General Manager'])->group(function () {
 
 
 //For Shipping role
-Route::middleware(['auth','role:Shipping Manager'])->group(function () {
+Route::middleware(['auth','department:Shipping'])->group(function () {
     Route::prefix('shipping')->group(function () {
         Route::name('shipping.')->group(function () {
             Route::controller(ShippingController::class)->group(function () {
