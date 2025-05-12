@@ -18,43 +18,50 @@ class SidebarService{
             case 'Admin':
                 return [
                     'profile' => 'admin.show',
-                    'dashboard' => 'admin.index'
+                    'dashboard' => 'admin.index',
+               
                 ];
 
             case 'Marketing':
                 return [
                     'profile' => 'marketing.show',
-                    'dashboard' => 'marketing.index'
+                    'dashboard' => 'marketing.index',
+                   
                 ];
 
             case 'Finance':
                 return [
                     'profile' => 'finance.show',
-                    'dashboard' => 'finance.index'
+                    'dashboard' => 'finance.index',
+                 
                 ];
 
             case 'Production':
                 return [
                     'profile' => 'production.show',
-                    'dashboard' => 'production.index'
+                    'dashboard' => 'production.index',
+                    
                 ];
 
             case 'Tea':
                 return [
                     'profile' => 'tea.show',
-                    'dashboard' => 'tea.index'
+                    'dashboard' => 'tea.index',
+             
                 ];
 
             case 'Shipping':
                 return [
                     'profile' => 'shipping.show',
-                    'dashboard' => 'shipping.index'
+                    'dashboard' => 'shipping.index',
+                  
                 ];
 
             case 'Management':
                 return [
                     'profile' => 'management.show',
-                    'dashboard' => 'management.index'
+                    'dashboard' => 'management.index',
+                    
                 ];
         }
     }

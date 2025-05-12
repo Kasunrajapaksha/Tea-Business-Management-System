@@ -41,8 +41,7 @@
 
 
             @can('view', App\Models\Department::class)
-                <li
-                    class="sidebar-item {{ request()->routeIs(['admin.department.index', 'admin.department.create']) ? 'active' : '' }}">
+                <li class="sidebar-item {{ request()->routeIs(['admin.department.index', 'admin.department.create']) ? 'active' : '' }}">
                     <a class="sidebar-link" href="{{ route('admin.department.index') }}">
                         <i class="align-middle" data-feather="server"></i>
                         <span class="align-middle">Departments</span>
@@ -50,8 +49,7 @@
                 </li>
             @endcan
             @can('view', App\Models\User::class)
-                <li
-                    class="sidebar-item {{ request()->routeIs(['admin.user.index', 'admin.user.edit', 'admin.user.create']) ? 'active' : '' }}">
+                <li class="sidebar-item {{ request()->routeIs(['admin.user.index', 'admin.user.edit', 'admin.user.create']) ? 'active' : '' }}">
                     <a class="sidebar-link" href="{{ route('admin.user.index') }}">
                         <i class="align-middle" data-feather="user"></i>
                         <span class="align-middle">User</span>
@@ -60,14 +58,20 @@
             @endcan
 
             @can('view', App\Models\Customer::class)
-                <li
-                    class="sidebar-item {{ request()->routeIs('marketing.customer.index') ? 'active' : '' }}">
+                <li class="sidebar-item {{ request()->routeIs('marketing.customer.index') ? 'active' : '' }}">
                     <a class="sidebar-link" href="{{ route('marketing.customer.index') }}">
                         <i class="align-middle" data-feather="user"></i>
                         <span class="align-middle">Customer</span>
                     </a>
                 </li>
             @endcan
+
+                <li class="sidebar-item {{ request()->routeIs('notifications.index') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('notifications.index') }}">
+                        <i class="align-middle" data-feather="bell"></i>
+                        <span class="align-middle">Notifications</span>
+                    </a>
+                </li>
 
         </ul>
 

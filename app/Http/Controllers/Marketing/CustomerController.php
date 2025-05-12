@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Marketing;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\User;
+use App\Notifications\CreateNewCustomerNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -54,6 +55,7 @@ class CustomerController extends Controller {
         //create user
         $customer = Customer::create($validateData);
 
+        //update customer_no
         $customer->update([
             "customer_no"=> 'CUS'.
             str_pad($customer->user_id,2,'0', STR_PAD_LEFT)  .
@@ -61,6 +63,15 @@ class CustomerController extends Controller {
             str_pad($customer->id,4,'0', STR_PAD_LEFT),
         ]);
 
+        //notification
+        $notifyCustomer = Customer::findOrFail($customer->id);
+        $users = User::whereHas('role', function($query){
+            $query->where('role_name',['Admin']);
+        })->get();
+        foreach ($users as $key => $user) {
+            $user->notify(new CreateNewCustomerNotification($notifyCustomer));
+            $user->notifications()->where('created_at', '<', now()->subDays(30))->delete();
+        }
 
         //return view
         return redirect()->route('marketing.customer.index')->with('success','User created successfully!');

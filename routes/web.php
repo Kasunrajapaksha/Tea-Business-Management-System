@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\Admin\AdminController;
@@ -24,6 +25,14 @@ Route::controller(SessionController::class)->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/logout', 'destroy')->name('logout');
         Route::post('/logout', 'destroy')->name('logout');
+    });
+});
+
+Route::middleware(['auth','department:Admin,Marketing,Finance,Production,Tea,Management,Shipping'])->group(function () {
+    Route::controller(NotificationController::class)->group(function () {
+        Route::get('/notifications', 'index')->name('notifications.index');
+        Route::patch('/notifications/mark-as-read', 'markAsRead')->name('notifications.markAsRead');
+        Route::patch('/notifications/mark-all-as-read', 'markAllAsRead')->name('notifications.markAllAsRead');
     });
 });
 
