@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\Response;
 class PermissionPolicy{
 
     public function view(User $user): bool{
-        return $user->role->permissions->contains('permission_name', 'read-permission');
+        return $user->role->permissions->contains('permission_name', 'view-permission');
     }
 
     public function create(User $user): bool{

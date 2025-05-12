@@ -24,15 +24,20 @@ class PermissionController extends Controller
         ]);
     }
 
-    public function create(){
+    public function create(Role $role){
         //authorization
+
         Gate::authorize("create", Permission::class);
 
         //return view
-        return view('admin.permission.create');
+        return view('admin.permission.create', [
+            'role' => $role,
+        ]);
     }
 
-    public function store(){
+
+
+    public function store(Role $role){
         //validation
         $validatedData = request()->validate([
             'permission_name' => ['required','string','max:255','lowercase','unique:permissions,permission_name'],
@@ -45,7 +50,7 @@ class PermissionController extends Controller
         Permission::create($validatedData);
 
         //return view
-        return redirect()->route('admin.permission.create')->with('success','Permission created successfully!');
+        return redirect()->route('admin.permission.index', $role )->with('success','Permission created successfully!');
     }
 
     public function update(Role $role){

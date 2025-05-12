@@ -11,19 +11,6 @@ use Illuminate\Validation\ValidationException;
 
 class RoleController extends Controller
 {
-    public function index(){
-        //get roles
-        // $roles = Role::all();
-        $departments = Department::with('role')->get();
-        // authorization
-        Gate::authorize('view', Role::class);
-
-        //return view
-        return view('admin.role.index',[
-            // 'roles'=> $roles,
-            'departments' => $departments,
-        ]);
-    }
 
     public function create(Department $department){
         // authorization

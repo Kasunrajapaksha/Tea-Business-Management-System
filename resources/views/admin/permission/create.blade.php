@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <form action="{{ route('admin.permission.store') }}" method="POST">
+                    <form action="{{ route('admin.permission.store', $role) }}" method="POST">
                         @csrf
 
                         <div class="mb-3">
@@ -17,7 +17,8 @@
                             <x-error field="permission_name" />
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 mt-3">Add Permission</button>
+                        <a href="{{ route('admin.permission.index', $role) }}" class="btn btn-danger mt-3">Close</a>
+                        <button type="submit" class="btn btn-primary mt-3">Add Permission</button>
                     </form>
 
                 </div>

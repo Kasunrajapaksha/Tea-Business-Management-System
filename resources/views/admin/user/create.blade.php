@@ -21,12 +21,12 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label for="first_name" class="form-label">First name</label>
-                                <input type="text" class="form-control" id="first_name" name="first_name">
+                                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name')}}">
                             <x-error field="first_name" />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="last_name" class="form-label">Last name</label>
-                                <input type="text" class="form-control" id="last_name" name="last_name">
+                                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name')}}">
                             <x-error field="last_name" />
                             </div>
                         </div>
@@ -34,12 +34,12 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" name="username">
+                                <input type="text" class="form-control" id="username" name="username" value="{{ old('username')}}">
                                 <x-error field="username" />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email">
+                                <input type="text" class="form-control" id="email" name="email" value="{{ old('email')}}">
                                 <x-error field="email" />
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label for="department_id" class="form-label">Department</label>
-                                <select class="form-select" name="department_id">
+                                <select class="form-select" name="department_id" >
                                     <option value="#">Choose a department</option>
                                     @foreach ($departments as $department)
                                         <option value="{{ $department->id}}">{{ $department->department_name}}</option>

@@ -59,6 +59,15 @@
                 </li>
             @endcan
 
+            @can('view', App\Models\Customer::class)
+                <li
+                    class="sidebar-item {{ request()->routeIs('marketing.customer.index') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('marketing.customer.index') }}">
+                        <i class="align-middle" data-feather="user"></i>
+                        <span class="align-middle">Customer</span>
+                    </a>
+                </li>
+            @endcan
 
         </ul>
 

@@ -11,7 +11,13 @@
 
     <x-success-alert />
 
-    <h1>{{$role->role_name}} Permissions</h1>
+    @can('create', App\Models\Permission::class)
+        <a href="{{ route('admin.permission.create', $role) }}" class="btn btn-primary float-end mt-n1 d-flex align-items-center"><i class="align-middle me-2" data-feather="user-plus"></i> Add Permissions</a>
+    @endcan
+
+    <div class="mb-3">
+        <h1 class="d-inline align-middle">{{$role->role_name}} Permissions</h1>
+    </div>
 
     <div class="row">
         <div class="col-12">

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Finance\FinanceController;
 use App\Http\Controllers\Management\ManagementController;
+use App\Http\Controllers\Marketing\CustomerController;
 use App\Http\Controllers\Marketing\MarketingController;
 use App\Http\Controllers\Production\ProductionController;
 use App\Http\Controllers\Shipping\ShippingController;
@@ -58,7 +59,6 @@ Route::middleware(['auth','department:Admin'])->group(function () {
             });
 
             Route::controller(RoleController::class)->group(function () {
-                Route::get('/role',  'index')->name('role.index');
                 Route::get('/role/{department}/create', 'create')->name('role.create');
                 Route::post('/role', 'store')->name('role.store');
                 Route::get('/role/{role}/edit', 'edit')->name('role.edit');
@@ -67,8 +67,8 @@ Route::middleware(['auth','department:Admin'])->group(function () {
 
             Route::controller(PermissionController::class)->group(function () {
                 Route::get('/permission/{role}',  'index')->name('permission.index');
-                Route::get('/permission/create',  'create')->name('permission.create');
-                Route::post('/permission',  'store')->name('permission.store');
+                Route::get('/permission/{role}/create',  'create')->name('permission.create');
+                Route::post('/permission/{role}',  'store')->name('permission.store');
                 Route::patch('/permission/{role}',  'update')->name('permission.update');
             });
         });
@@ -77,12 +77,19 @@ Route::middleware(['auth','department:Admin'])->group(function () {
 
 
 //For Marketing Manager role
-Route::middleware(['auth','department:Marketing'])->group(function () {
+Route::middleware(['auth','department:Marketing,Admin'])->group(function () {
     Route::prefix('marketing')->group(function () {
         Route::name('marketing.')->group(function () {
             Route::controller(MarketingController::class)->group(function () {
                 Route::get('/dashboard', 'index')->name('index');
                 Route::get('/profile', 'show')->name('show');
+            });
+            Route::controller(CustomerController::class)->group(function () {
+                Route::get('/customer', 'index')->name('customer.index');
+                Route::get('/customer/create', 'create')->name('customer.create');
+                Route::post('/customer', 'store')->name('customer.store');
+                Route::get('/customer/{customer}/edit', 'edit')->name('customer.edit');
+                Route::patch('/customer/{customer}', 'update')->name('customer.update');
             });
         });
     });

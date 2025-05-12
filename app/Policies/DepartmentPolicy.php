@@ -11,7 +11,7 @@ class DepartmentPolicy{
     }
 
     public function view(User $user): bool{
-        return $user->role->permissions->contains('permission_name', 'read-department');
+        return $user->role->permissions->contains('permission_name', 'view-department');
     }
 
     public function update(User $user, Department $department): bool{

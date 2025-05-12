@@ -31,7 +31,6 @@
                             <tr>
                                 <th>#</th>
                                 <th class="d-none d-xl-table-cell">User No</th>
-                                <th class="d-none d-xl-table-cell">Username</th>
                                 <th class="d-none d-xl-table-cell">Full Name</th>
                                 <th class="d-none d-xl-table-cell">Email</th>
                                 <th class="d-none d-xl-table-cell">Department</th>
@@ -47,7 +46,6 @@
                                 <tr>
                                     <td><img src="{{ $user->image ? asset('storage/' . $user->image) : asset('admin_asset/img/avatars/avatar.jpg') }}" width="32" height="32" class="rounded-circle my-n1"></td>
                                     <td class="d-none d-xl-table-cell">{{ $user->user_no}}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $user->username}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $user->first_name . ' ' . $user->last_name}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $user->email}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $user->department->department_name}}</td>
@@ -65,6 +63,8 @@
                                         @else
                                             <a href="#"><i class="align-middle me-1" data-feather="slash"></i></a>
                                         @endcan
+                                        <a class=" my-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#user"
+										aria-controls="offcanvasRight"><i class="align-middle ms-2" data-feather="eye"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -72,6 +72,41 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="user" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h3 id="offcanvasRightLabel">Customer Details</h3>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+
+                <div class="card">
+
+                    <div class="card-header">
+                        <div class="card-actions">
+                            <h5 class="card-title mb-0">Name</h5>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="">
+                            <div class="">
+                                <div class="mb-2"><strong>No : </strong></div>
+                                <div class="mb-2"><strong>Created : </strong></div>
+                                <div class="mb-2"><strong>Email : </strong></div>
+                                <div class="mb-2"><strong>Telephone : </strong></div>
+                                <div class="mb-2"><strong>Address : </strong></div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
