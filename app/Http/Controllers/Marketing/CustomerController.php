@@ -15,7 +15,6 @@ class CustomerController extends Controller {
         Gate::authorize('view', Customer::class);
 
         $user = Auth::user();
-
         $customers = ($user->role->role_name == 'Admin')
             ? Customer::all()
             : Customer::where('user_id', $user->id)->get();
@@ -65,8 +64,8 @@ class CustomerController extends Controller {
 
         //notification
         $notifyCustomer = Customer::findOrFail($customer->id);
-        $users = User::whereHas('role', function($query){
-            $query->where('role_name',['Admin']);
+        $users = User::whereHas('department', function($query){
+            $query->whereIn('department_name',['Admin','Management']);
         })->get();
         foreach ($users as $key => $user) {
             $user->notify(new CreateNewCustomerNotification($notifyCustomer));
@@ -74,7 +73,7 @@ class CustomerController extends Controller {
         }
 
         //return view
-        return redirect()->route('marketing.customer.index')->with('success','User created successfully!');
+        return redirect()->route('marketing.customer.index')->with('success','Customer created successfully!');
     }
 
     public function edit(Customer $customer){
@@ -110,7 +109,7 @@ class CustomerController extends Controller {
         $customer->update($validateData);
 
         //return view
-        return redirect()->route('marketing.customer.index')->with('success','User updated successfully!');
+        return redirect()->route('marketing.customer.index')->with('success','Customer updated successfully!');
 
     }
 

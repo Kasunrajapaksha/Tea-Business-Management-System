@@ -15,6 +15,7 @@ use App\Http\Controllers\Marketing\CustomerController;
 use App\Http\Controllers\Marketing\MarketingController;
 use App\Http\Controllers\Production\ProductionController;
 use App\Http\Controllers\Shipping\ShippingController;
+use App\Http\Controllers\Supply\SupplierController;
 use App\Http\Controllers\Tea\TeaController;
 
 //For Auth
@@ -26,28 +27,6 @@ Route::controller(SessionController::class)->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/logout', 'destroy')->name('logout');
         Route::post('/logout', 'destroy')->name('logout');
-    });
-});
-
-
-//For Notifications
-Route::middleware(['auth','department:Admin,Marketing,Finance,Production,Tea,Management,Shipping'])->group(function () {
-    Route::controller(NotificationController::class)->group(function () {
-        Route::get('/notifications', 'index')->name('notifications.index');
-        Route::patch('/notifications/mark-as-read', 'markAsRead')->name('notifications.markAsRead');
-        Route::patch('/notifications/mark-all-as-read', 'markAllAsRead')->name('notifications.markAllAsRead');
-    });
-});
-
-
-//Fro Profile
-Route::middleware(['auth','department:Admin,Marketing,Finance,Production,Tea,Management,Shipping'])->group(function () {
-    Route::controller(ProfileController::class)->group(function () {
-        Route::get('/profile/{user}/edit', 'index')->name('profile.index');
-        Route::patch('/profile/{user}', 'update')->name('profile.update');
-        Route::patch('/profile/{user}/edit/image', 'updateImage')->name('profile.update.image');
-        Route::patch('/profile/reset/password', 'resetPassword')->name('profile.reset.password');
-        Route::delete('/profile/{user}/delete/image', 'destroyImage')->name('profile.delete.image');
     });
 });
 
@@ -95,8 +74,42 @@ Route::middleware(['auth','department:Admin'])->group(function () {
 });
 
 
+//For Notifications
+Route::middleware(['auth','department:Admin,Marketing,Finance,Production,Tea,Management,Shipping'])->group(function () {
+    Route::controller(NotificationController::class)->group(function () {
+        Route::get('/notifications', 'index')->name('notifications.index');
+        Route::patch('/notifications/mark-as-read', 'markAsRead')->name('notifications.markAsRead');
+        Route::patch('/notifications/mark-all-as-read', 'markAllAsRead')->name('notifications.markAllAsRead');
+    });
+});
+
+
+//Fro Profile
+Route::middleware(['auth','department:Admin,Marketing,Finance,Production,Tea,Management,Shipping'])->group(function () {
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile/{user}/edit', 'index')->name('profile.index');
+        Route::patch('/profile/{user}', 'update')->name('profile.update');
+        Route::patch('/profile/{user}/edit/image', 'updateImage')->name('profile.update.image');
+        Route::patch('/profile/reset/password', 'resetPassword')->name('profile.reset.password');
+        Route::delete('/profile/{user}/delete/image', 'destroyImage')->name('profile.delete.image');
+    });
+});
+
+
+//For Supply
+Route::middleware(['auth','department:Admin,Production,Tea,Management'])->group(function () {
+    Route::controller(SupplierController::class)->group(function () {
+        Route::get('/supplier', 'index')->name('supplier.index');
+        Route::get('/supplier/create', 'create')->name('supplier.create');
+        Route::post('/supplier', 'store')->name('supplier.store');
+        Route::get('/supplier/{supplier}', 'edit')->name('supplier.edit');
+        Route::patch('/supplier/{supplier}', 'update')->name('supplier.update');
+    });
+});
+
+
 //For Marketing Manager role
-Route::middleware(['auth','department:Marketing,Admin'])->group(function () {
+Route::middleware(['auth','department:Marketing,Admin,Management'])->group(function () {
     Route::prefix('marketing')->group(function () {
         Route::name('marketing.')->group(function () {
 
@@ -111,7 +124,7 @@ Route::middleware(['auth','department:Marketing,Admin'])->group(function () {
                 Route::get('/customer/{customer}/edit', 'edit')->name('customer.edit');
                 Route::patch('/customer/{customer}', 'update')->name('customer.update');
             });
-            
+
         });
     });
 });

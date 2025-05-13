@@ -30,6 +30,10 @@ class User extends Authenticatable implements CanResetPassword {
         return $this->HasMany(Customer::class);
     }
 
+    public function supplier(){
+        return $this->HasMany(Supplier::class);
+    }
+
 
 
     protected function casts(): array
