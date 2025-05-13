@@ -12,12 +12,12 @@
         <div class="sidebar-user">
             <div class="d-flex justify-content-center px-4">
                 <div class="flex-shrink-0">
-                    <a href="{{ route($sidebarLinks['profile'], Auth::user()->id) }}"><img
+                    <a href="{{ route('profile.index', Auth::user()->id) }}"><img
                             src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('admin_asset/img/avatars/avatar.jpg') }}"
                             class="avatar img-fluid rounded me-1" alt="Charles Hall" /></a>
                 </div>
                 <div class="flex-grow-1 ps-2 align-middle">
-                    <a href="{{ route($sidebarLinks['profile'], Auth::user()->id) }}"
+                    <a href="{{ route('profile.index', Auth::user()->id) }}"
                         class="sidebar-user-title text-white opacity-20 text-decoration-none">{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</a>
                     <div class="sidebar-user-subtitle text-white text-sm opacity-50">{{ Auth::user()->role->role_name }}
                     </div>

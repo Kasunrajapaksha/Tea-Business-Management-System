@@ -12,10 +12,5 @@ class MarketingController extends Controller
         return view('marketing.dashboard');
     }
 
-    public function show(User $user){
-        return view('marketing.profile', [
-            'user' => $user,
-        ]);
-    }
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\Admin\AdminController;
@@ -28,11 +29,25 @@ Route::controller(SessionController::class)->group(function () {
     });
 });
 
+
+//For Notifications
 Route::middleware(['auth','department:Admin,Marketing,Finance,Production,Tea,Management,Shipping'])->group(function () {
     Route::controller(NotificationController::class)->group(function () {
         Route::get('/notifications', 'index')->name('notifications.index');
         Route::patch('/notifications/mark-as-read', 'markAsRead')->name('notifications.markAsRead');
         Route::patch('/notifications/mark-all-as-read', 'markAllAsRead')->name('notifications.markAllAsRead');
+    });
+});
+
+
+//Fro Profile
+Route::middleware(['auth','department:Admin,Marketing,Finance,Production,Tea,Management,Shipping'])->group(function () {
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile/{user}/edit', 'index')->name('profile.index');
+        Route::patch('/profile/{user}', 'update')->name('profile.update');
+        Route::patch('/profile/{user}/edit/image', 'updateImage')->name('profile.update.image');
+        Route::patch('/profile/reset/password', 'resetPassword')->name('profile.reset.password');
+        Route::delete('/profile/{user}/delete/image', 'destroyImage')->name('profile.delete.image');
     });
 });
 
@@ -44,11 +59,6 @@ Route::middleware(['auth','department:Admin'])->group(function () {
 
             Route::controller(AdminController::class)->group(function () {
                 Route::get('/dashboard', 'index')->name('index');
-                Route::get('/profile/{user}/edit', 'show')->name('show');
-                Route::patch('/profile/{user}', 'update')->name('update');
-                Route::patch('/profile/{user}/edit/image', 'updateImage')->name('update.image');
-                Route::patch('/profile/reset/password', 'resetPassword')->name('reset.password');
-                Route::delete('/profile/{user}/delete/image', 'destroyImage')->name('delete.image');
             });
 
             Route::controller(UserController::class)->group(function () {
@@ -89,10 +99,11 @@ Route::middleware(['auth','department:Admin'])->group(function () {
 Route::middleware(['auth','department:Marketing,Admin'])->group(function () {
     Route::prefix('marketing')->group(function () {
         Route::name('marketing.')->group(function () {
+
             Route::controller(MarketingController::class)->group(function () {
                 Route::get('/dashboard', 'index')->name('index');
-                Route::get('/profile', 'show')->name('show');
             });
+
             Route::controller(CustomerController::class)->group(function () {
                 Route::get('/customer', 'index')->name('customer.index');
                 Route::get('/customer/create', 'create')->name('customer.create');
@@ -100,6 +111,7 @@ Route::middleware(['auth','department:Marketing,Admin'])->group(function () {
                 Route::get('/customer/{customer}/edit', 'edit')->name('customer.edit');
                 Route::patch('/customer/{customer}', 'update')->name('customer.update');
             });
+            
         });
     });
 });
