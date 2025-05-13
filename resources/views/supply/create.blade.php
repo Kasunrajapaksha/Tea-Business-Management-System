@@ -42,8 +42,11 @@
                                 <label for="type" class="form-label">Supply Type</label>
                                 <select class="form-control" id="type" name="type">
                                     <option value="">Choose a type</option>
-                                    <option value="01">Tea</option>
-                                    <option value="02">Material</option>
+                                    @if (Auth::user()->department->department_name == 'Tea')
+                                    <option value="01" selected>Tea</option>
+                                    @elseif(Auth::user()->department->department_name == 'Production')
+                                    <option value="02" selected >Material</option>
+                                    @endif
                                 </select>
                                 <x-error field="type" />
                             </div>

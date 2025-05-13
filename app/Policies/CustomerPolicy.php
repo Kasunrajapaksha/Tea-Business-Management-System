@@ -16,7 +16,7 @@ class CustomerPolicy{
      */
     public function create(User $user): bool
     {
-        return $user->role->permissions->contains('permission_name', 'create-customer');
+        return $user->role->permissions->contains('permission_name', 'add-customer');
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Marketing;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\User;
+use App\Notifications\AddNewCustomerNotification;
 use App\Notifications\CreateNewCustomerNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -68,7 +69,7 @@ class CustomerController extends Controller {
             $query->whereIn('department_name',['Admin','Management']);
         })->get();
         foreach ($users as $key => $user) {
-            $user->notify(new CreateNewCustomerNotification($notifyCustomer));
+            $user->notify(new AddNewCustomerNotification($notifyCustomer));
             $user->notifications()->where('created_at', '<', now()->subDays(30))->delete();
         }
 

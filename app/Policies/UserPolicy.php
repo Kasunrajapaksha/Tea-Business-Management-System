@@ -12,7 +12,7 @@ class UserPolicy{
     }
 
     public function create(User $user): bool{
-        return $user->role->permissions->contains('permission_name', 'create-user');
+        return $user->role->permissions->contains('permission_name', 'add-user');
     }
 
     public function update(User $user, User $model): bool{

@@ -12,15 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->string('supplier_no')->default('SUP00000000');
-            $table->string('name');
-            $table->string('email');
-            $table->string('number');
-            $table->string('address');
-            $table->string('bank_details');
-            $table->string('type');
+            $table->string('material_no')->default('MTR00000000');
+            $table->string('material_name');
+            $table->integer('unit_price');
+            $table->integer('stock_level')->nullable();
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('materials');
     }
 };

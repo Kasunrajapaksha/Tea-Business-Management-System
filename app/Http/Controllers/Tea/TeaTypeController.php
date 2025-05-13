@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tea;
 use App\Http\Controllers\Controller;
 use App\Models\Tea;
 use App\Models\User;
+use App\Notifications\AddNewTeaNotification;
 use App\Notifications\CreateNewTeaNotification;
 use App\Notifications\UpdatePriceListNotification;
 use Illuminate\Http\Request;
@@ -54,7 +55,7 @@ class TeaTypeController extends Controller
             $query->whereIn('department_name',['Admin','Management','Marketing']);
         })->get();
         foreach ($users as $key => $user) {
-            $user->notify(new CreateNewTeaNotification($notifyTea));
+            $user->notify(new AddNewTeaNotification($notifyTea));
             $user->notifications()->where('created_at', '<', now()->subDays(30))->delete();
         }
 

@@ -14,6 +14,7 @@ use App\Http\Controllers\Finance\FinanceController;
 use App\Http\Controllers\Management\ManagementController;
 use App\Http\Controllers\Marketing\CustomerController;
 use App\Http\Controllers\Marketing\MarketingController;
+use App\Http\Controllers\Production\MaterialController;
 use App\Http\Controllers\Production\ProductionController;
 use App\Http\Controllers\Shipping\ShippingController;
 use App\Http\Controllers\Supply\SupplierController;
@@ -145,20 +146,29 @@ Route::middleware(['auth','department:Finance'])->group(function () {
 
 
 //For Production Manager role
-Route::middleware(['auth','department:Production'])->group(function () {
+Route::middleware(['auth','department:Production,Admin,Management'])->group(function () {
     Route::prefix('production')->group(function () {
         Route::name('production.')->group(function () {
+
             Route::controller(ProductionController::class)->group(function () {
                 Route::get('/dashboard', 'index')->name('index');
-                Route::get('/profile', 'show')->name('show');
             });
+
+            Route::controller(MaterialController::class)->group(function () {
+                Route::get('/material', 'index')->name('material.index');
+                Route::get('/material/create', 'create')->name('material.create');
+                Route::post('/material', 'store')->name('material.store');
+                Route::get('/material/{material}/edit', 'edit')->name('material.edit');
+                Route::patch('/material/{material}', 'update')->name('material.update');
+            });
+
         });
     });
 });
 
 
 //For Tea Department
-Route::middleware(['auth','department:Tea,Admin'])->group(function () {
+Route::middleware(['auth','department:Tea,Admin,Marketing'])->group(function () {
     Route::prefix('tea')->group(function () {
         Route::name('tea.')->group(function () {
 

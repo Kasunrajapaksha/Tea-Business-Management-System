@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Supply;
 use App\Http\Controllers\Controller;
 use App\Models\Supplier;
 use App\Models\User;
-use App\Notifications\CreateNewSupplierNotification;
-use Illuminate\Http\Request;
+use App\Notifications\AddNewSupplierNotification;
 use Illuminate\Support\Facades\Gate;
 
 class SupplierController extends Controller
@@ -57,7 +56,7 @@ class SupplierController extends Controller
             $query->whereIn('department_name',['Admin','Management']);
         })->get();
         foreach ($users as $key => $user) {
-            $user->notify(new CreateNewSupplierNotification($notifySupplier));
+            $user->notify(new AddNewSupplierNotification($notifySupplier));
             $user->notifications()->where('created_at', '<', now()->subDays(30))->delete();
         }
 

@@ -56,7 +56,7 @@
             @can('view', App\Models\User::class)
                 <li class="sidebar-item {{ request()->routeIs(['admin.user.index', 'admin.user.edit', 'admin.user.create']) ? 'active' : '' }}">
                     <a class="sidebar-link" href="{{ route('admin.user.index') }}">
-                        <i class="align-middle" data-feather="user"></i>
+                        <i class="align-middle" data-feather="users"></i>
                         <span class="align-middle">User</span>
                     </a>
                 </li>
@@ -73,9 +73,32 @@
                 </li>
             @endcan
 
-            @can('view', App\Models\Supplier::class)
-            <li class="sidebar-header">Supply Department</li>
+            @can('view', App\Models\Tea::class)
+            <li class="sidebar-header">Tea Department</li>
 
+            <li class="sidebar-item {{ request()->routeIs('tea.teaType.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('tea.teaType.index') }}">
+                    <i class="align-middle" data-feather="coffee"></i>
+                    <span class="align-middle">Tea</span>
+                </a>
+            </li>
+            @endcan
+
+            @can('view', App\Models\Material::class)
+            <li class="sidebar-header">Production Department</li>
+
+            <li class="sidebar-item {{ request()->routeIs('production.material.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('production.material.index') }}">
+                    <i class="align-middle" data-feather="shopping-bag"></i>
+                    <span class="align-middle">Materials</span>
+                </a>
+            </li>
+            @endcan
+
+            @can('view', App\Models\Supplier::class)
+            @if(in_array(Auth::user()->department->department_name, ['Admin','Management']))
+            <li class="sidebar-header">Supply</li>
+            @endIf
                 <li class="sidebar-item {{ request()->routeIs('supplier.index') ? 'active' : '' }}">
                     <a class="sidebar-link" href="{{ route('supplier.index') }}">
                         <i class="align-middle" data-feather="truck"></i>
@@ -83,18 +106,6 @@
                     </a>
                 </li>
             @endcan
-
-            @can('view', App\Models\Tea::class)
-            <li class="sidebar-header">Tea Department</li>
-
-                <li class="sidebar-item {{ request()->routeIs('tea.teaType.index') ? 'active' : '' }}">
-                    <a class="sidebar-link" href="{{ route('tea.teaType.index') }}">
-                        <i class="align-middle" data-feather="coffee"></i>
-                        <span class="align-middle">Tea</span>
-                    </a>
-                </li>
-            @endcan
-
 
         </ul>
 

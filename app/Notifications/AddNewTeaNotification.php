@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UpdatePriceListNotification extends Notification
+class AddNewTeaNotification extends Notification
 {
     use Queueable;
     private $tea;
@@ -50,9 +50,9 @@ class UpdatePriceListNotification extends Notification
     {
         return [
             'icon' => 'coffee',
-            'color' => 'warning',
-            'title' => 'PRICE LIST UPDATED!',
-            'message' => 'The price for ' . $this->tea->tea_name . ' has been updated by ' . $this->tea->user->first_name . ' ' . $this->tea->user->last_name . '.',
+            'color' => 'success',
+            'title' => 'New Tea!',
+            'message' => 'A new Tea [' . $this->tea->tea_no . '] has been added by ' . $this->tea->user->first_name . ' ' . $this->tea->user->last_name . '.',
         ];
     }
 }

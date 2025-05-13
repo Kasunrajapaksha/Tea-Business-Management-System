@@ -7,16 +7,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CreateNewSupplierNotification extends Notification
+class AddNewMaterialNotification extends Notification
 {
     use Queueable;
-    private $supplier;
+    private $material;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct($supplier)
+    public function __construct($material)
     {
-        $this->supplier = $supplier;
+        $this->material = $material;
     }
 
     /**
@@ -48,10 +49,10 @@ class CreateNewSupplierNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'icon' => 'truck',
+            'icon' => 'shopping-bag',
             'color' => 'success',
-            'title' => 'New Supplier!',
-            'message' => 'A new Supplier [' . $this->supplier->supplier_no . '] has been added by ' . $this->supplier->user->first_name . ' ' . $this->supplier->user->last_name . '.',
+            'title' => 'New material!',
+            'message' => 'A new material [' . $this->material->material_no . '] has been added by ' . $this->material->user->first_name . ' ' . $this->material->user->last_name . '.',
         ];
     }
 }

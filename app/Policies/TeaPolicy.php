@@ -16,7 +16,7 @@ class TeaPolicy
 
     public function create(User $user): bool
     {
-        return $user->role->permissions->contains('permission_name', 'create-tea');
+        return $user->role->permissions->contains('permission_name', 'add-tea');
     }
 
     public function update(User $user): bool

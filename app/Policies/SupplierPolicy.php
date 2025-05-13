@@ -17,7 +17,7 @@ class SupplierPolicy
 
     public function create(User $user): bool
     {
-        return $user->role->permissions->contains('permission_name', 'create-supplier');
+        return $user->role->permissions->contains('permission_name', 'add-supplier');
 
     }
 

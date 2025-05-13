@@ -16,10 +16,9 @@ return new class extends Migration
             $table->id();
             $table->string('tea_no')->default('STD 0000 - NONE');
             $table->string('tea_name');
-            $table->string('tea_standard');
-            $table->string('price_per_Kg');
-            $table->string('stock_level');
-            $table->timestamp('last_update');
+            $table->integer('tea_standard');
+            $table->decimal('price_per_Kg', 8, 2);
+            $table->integer('stock_level')->nullable();
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });

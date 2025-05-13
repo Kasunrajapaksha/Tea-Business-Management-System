@@ -38,6 +38,10 @@ class User extends Authenticatable implements CanResetPassword {
         return $this->HasMany(tea::class);
     }
 
+    public function material(){
+        return $this->HasMany(Material::class);
+    }
+
 
 
     protected function casts(): array

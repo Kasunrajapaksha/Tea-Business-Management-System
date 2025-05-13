@@ -7,17 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CreateNewTeaNotification extends Notification
+class AddNewCustomerNotification extends Notification
 {
     use Queueable;
-    private $tea;
+
+    private $customer;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($tea)
+    public function __construct($customer)
     {
-        $this->tea = $tea;
+        $this->customer = $customer;
     }
 
     /**
@@ -49,10 +50,10 @@ class CreateNewTeaNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'icon' => 'coffee',
+            'icon' => 'user',
             'color' => 'success',
-            'title' => 'New Tea!',
-            'message' => 'A new Tea [' . $this->tea->tea_no . '] has been added by ' . $this->tea->user->first_name . ' ' . $this->tea->user->last_name . '.',
+            'title' => 'New Customer!',
+            'message' => 'A new customer [' . $this->customer->customer_no . '] has been added by ' . $this->customer->user->first_name . ' ' . $this->customer->user->last_name . '.',
         ];
     }
 }
