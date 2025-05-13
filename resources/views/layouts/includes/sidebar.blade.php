@@ -26,7 +26,7 @@
         </div>
 
         <ul class="sidebar-nav">
-            <li class="sidebar-header"> Main </li>
+            <li class="sidebar-header">Main</li>
 
 
             <li class="sidebar-item {{ request()->routeIs($sidebarLinks['dashboard']) ? 'active' : '' }}">
@@ -44,7 +44,7 @@
             </li>
 
             @can('view', App\Models\Department::class)
-            <li class="sidebar-header"> Admin </li>
+            <li class="sidebar-header">Admin</li>
 
                 <li class="sidebar-item {{ request()->routeIs(['admin.department.index', 'admin.department.create']) ? 'active' : '' }}">
                     <a class="sidebar-link" href="{{ route('admin.department.index') }}">
@@ -63,7 +63,7 @@
             @endcan
 
             @can('view', App\Models\Customer::class)
-            <li class="sidebar-header"> Marketing </li>
+            <li class="sidebar-header">Marketing Department</li>
 
                 <li class="sidebar-item {{ request()->routeIs('marketing.customer.index') ? 'active' : '' }}">
                     <a class="sidebar-link" href="{{ route('marketing.customer.index') }}">
@@ -74,12 +74,23 @@
             @endcan
 
             @can('view', App\Models\Supplier::class)
-            <li class="sidebar-header"> supply </li>
+            <li class="sidebar-header">Supply Department</li>
 
                 <li class="sidebar-item {{ request()->routeIs('supplier.index') ? 'active' : '' }}">
                     <a class="sidebar-link" href="{{ route('supplier.index') }}">
                         <i class="align-middle" data-feather="truck"></i>
                         <span class="align-middle">Supplier</span>
+                    </a>
+                </li>
+            @endcan
+
+            @can('view', App\Models\Tea::class)
+            <li class="sidebar-header">Tea Department</li>
+
+                <li class="sidebar-item {{ request()->routeIs('tea.teaType.index') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('tea.teaType.index') }}">
+                        <i class="align-middle" data-feather="coffee"></i>
+                        <span class="align-middle">Tea</span>
                     </a>
                 </li>
             @endcan

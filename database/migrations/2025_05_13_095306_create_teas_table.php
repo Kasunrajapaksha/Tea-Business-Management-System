@@ -12,15 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('teas', function (Blueprint $table) {
             $table->id();
-            $table->string('supplier_no');
-            $table->string('name');
-            $table->string('email');
-            $table->string('number');
-            $table->string('address');
-            $table->string('bank_details');
-            $table->string('type');
+            $table->string('tea_no')->default('STD 0000 - NONE');
+            $table->string('tea_name');
+            $table->string('tea_standard');
+            $table->string('price_per_Kg');
+            $table->string('stock_level');
+            $table->timestamp('last_update');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('teas');
     }
 };

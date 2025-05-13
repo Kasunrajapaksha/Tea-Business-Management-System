@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Tea\TeaTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\Admin\AdminController;
@@ -156,13 +157,23 @@ Route::middleware(['auth','department:Production'])->group(function () {
 });
 
 
-//For Tea Department Head & Tea Teaser role
-Route::middleware(['auth','department:Tea'])->group(function () {
+//For Tea Department
+Route::middleware(['auth','department:Tea,Admin'])->group(function () {
     Route::prefix('tea')->group(function () {
         Route::name('tea.')->group(function () {
+
             Route::controller(TeaController::class)->group(function () {
                 Route::get('/dashboard', 'index')->name('index');
-                Route::get('/profile', 'show')->name('show');
+            });
+
+            Route::controller(TeaTypeController::class)->group(function () {
+                Route::get('/teaType', 'index')->name('teaType.index');
+                Route::get('/teaType/create', 'create')->name('teaType.create');
+                Route::post('/teaType', 'store')->name('teaType.store');
+                Route::get('/teaType/{tea}/edit', 'edit')->name('teaType.edit');
+                Route::patch('/teaType/{tea}/edit', 'update')->name('teaType.update');
+                Route::get('/teaType/{tea}/edit/priceList', 'editPriceList')->name('teaType.edit.price.list');
+                Route::patch('/teaType/{tea}/edit/priceList', 'updatePriceList')->name('teaType.update.price.list');
             });
         });
     });

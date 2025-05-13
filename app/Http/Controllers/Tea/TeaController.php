@@ -10,9 +10,5 @@ class TeaController extends Controller{
         return view('tea.dashboard');
     }
 
-    public function show(User $user){
-        return view('tea.profile', [
-            'user' => $user,
-        ]);
-    }
+    
 }

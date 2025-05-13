@@ -16,7 +16,7 @@ class RolePolicy{
         return $user->role->permissions->contains('permission_name', 'create-role');
     }
 
-    public function update(User $user, Role $role): bool{
+    public function update(User $user): bool{
         if($user->role->permissions->contains('permission_name', 'update-role')){
             return true;
         }

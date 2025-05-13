@@ -35,7 +35,7 @@ class SupplierController extends Controller
         $validateData = request()->validate([
             'user_id' => ['exists:users,id'],
             'name' => ['required','string','max:255'],
-            'type' => ['required','nullable','digits:2'],
+            'type' => ['required','numeric','digits:2'],
             'email' => ['required','email','lowercase'],
             'number' => ['required','numeric','digits:10'],
             'address' => ['required','string'],
