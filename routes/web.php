@@ -19,6 +19,7 @@ use App\Http\Controllers\Production\ProductionController;
 use App\Http\Controllers\Shipping\ShippingController;
 use App\Http\Controllers\Supply\SupplierController;
 use App\Http\Controllers\Tea\TeaController;
+use App\Http\Controllers\Tea\TeaPerchaseController;
 
 //For Auth
 Route::controller(SessionController::class)->group(function () {
@@ -162,6 +163,8 @@ Route::middleware(['auth','department:Production,Admin,Management'])->group(func
                 Route::patch('/material/{material}', 'update')->name('material.update');
             });
 
+
+
         });
     });
 });
@@ -185,6 +188,13 @@ Route::middleware(['auth','department:Tea,Admin,Marketing'])->group(function () 
                 Route::get('/teaType/{tea}/edit/priceList', 'editPriceList')->name('teaType.edit.price.list');
                 Route::patch('/teaType/{tea}/edit/priceList', 'updatePriceList')->name('teaType.update.price.list');
             });
+
+            Route::controller(TeaPerchaseController::class)->group(function () {
+                Route::get('/purchase', 'index')->name('purchase.index');
+                Route::get('/purchase/create', 'create')->name('purchase.create');
+                Route::post('/purchase', 'store')->name('purchase.store');
+            });
+
         });
     });
 });

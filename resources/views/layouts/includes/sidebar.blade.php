@@ -84,6 +84,15 @@
             </li>
             @endcan
 
+            @can('view', App\Models\TeaPurchase::class)
+            <li class="sidebar-item {{ request()->routeIs('tea.purchase.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('tea.purchase.index') }}">
+                    <i class="align-middle" data-feather="dollar-sign"></i>
+                    <span class="align-middle">Tea Purchase</span>
+                </a>
+            </li>
+            @endcan
+
             @can('view', App\Models\Material::class)
             <li class="sidebar-header">Production Department</li>
 

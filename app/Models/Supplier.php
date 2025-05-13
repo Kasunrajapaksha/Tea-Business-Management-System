@@ -14,4 +14,12 @@ class Supplier extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function payment_request(){
+        return $this->hasMany(PaymentRequest::class);
+    }
+
+    public function tea_perchese(){
+        return $this->hasMany(TeaPurchase::class);
+    }
 }

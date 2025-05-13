@@ -6,16 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Tea extends Model
+class PaymentRequest extends Model
 {
     use HasFactory, Notifiable;
     protected $guarded = [];
 
-    public function user(){
-        return $this->belongsTo(User::class);
+
+    public function supplier(){
+        return $this->belongsTo(Supplier::class);
     }
 
     public function tea_perchese(){
-        return $this->hasMany(TeaPurchase::class);
+        return $this->hasOne(TeaPurchase::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }
