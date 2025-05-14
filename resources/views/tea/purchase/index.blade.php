@@ -10,7 +10,7 @@
 
 <x-success-alert />
 
-<div class="container-fluid p-0">
+    <div class="container-fluid p-0">
 
         @can('create', App\Models\TeaPurchase::class)
             <a href="{{ route('tea.purchase.create' )}}" class="btn btn-primary float-end mt-n1 d-flex align-items-center"><i class="align-middle me-2" data-feather="plus"></i>New Purchase</a>
@@ -32,8 +32,9 @@
                                 <th class="d-none d-xl-table-cell">Tea_name</th>
                                 <th class="d-none d-xl-table-cell">Supplier</th>
                                 <th class="d-none d-xl-table-cell">Quantity</th>
-                                <th class="d-none d-xl-table-cell">Status</th>
                                 <th class="d-none d-xl-table-cell">Requested Date</th>
+                                <th class="d-none d-xl-table-cell">Handle By</th>
+                                <th class="d-none d-xl-table-cell">Status</th>
                                 <th class="d-none d-md-table-cell">Action</th>
                             </tr>
                         </thead>
@@ -46,19 +47,21 @@
                                     <td class="d-none d-xl-table-cell">{{ $purchase->tea->tea_name }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->supplier->name }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->quantity}}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->created_at->diffForHumans() }}</td>
+                                    @if ($purchase->payment_request->handler)
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->payment_request->handler->first_name .' '. $purchase->payment_request->handler->last_name}}</td>
+                                    @else
+                                    <td class="d-none d-xl-table-cell">-</td>
+                                    @endif
 
                                     <td class="d-none d-xl-table-cell">
                                         <x-status :status='$purchase->payment_request->status' />
-                                    </td>
-                                    
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->created_at->diffForHumans() }}</td>
+                                        </td>
 
                                     <td class="d-none d-xl-table-cell">
 
                                         {{-- @can('update', $purchase) --}}
                                         {{-- @endcan --}}
-
-
 
                                     <a class=" my-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#purchase"
 										aria-controls="offcanvasRight"><i class="align-middle ms-2" data-feather="eye"></i></a>
@@ -111,5 +114,7 @@
 
         </div>
     </div>
+
+    
 
 </x-app-layout>

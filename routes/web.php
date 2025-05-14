@@ -143,7 +143,9 @@ Route::middleware(['auth','department:Finance,Admin,Management'])->group(functio
             });
 
             Route::controller(PaymentRequestController::class)->group(function () {
-                Route::get('/request', 'index')->name('request.index');
+                Route::get('/request', action: 'index')->name('request.index');
+                Route::get('/request/{request}/show', 'show')->name('request.show');
+                Route::get('/request/{request}/edit', 'edit')->name('request.edit');
             });
         });
     });

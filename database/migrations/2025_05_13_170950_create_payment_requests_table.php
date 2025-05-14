@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('amount',8,2);
             $table->timestamp('approved_date')->nullable();
             $table->integer('status')->default(0);
-            $table->foreignId('approver_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('handler_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignIdFor(Supplier::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
