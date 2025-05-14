@@ -18,6 +18,7 @@ use App\Http\Controllers\Marketing\MarketingController;
 use App\Http\Controllers\Production\MaterialController;
 use App\Http\Controllers\Production\ProductionController;
 use App\Http\Controllers\Shipping\ShippingController;
+use App\Http\Controllers\SupplierPaymentController;
 use App\Http\Controllers\Supply\SupplierController;
 use App\Http\Controllers\Tea\TeaController;
 use App\Http\Controllers\Tea\TeaPerchaseController;
@@ -36,7 +37,7 @@ Route::controller(SessionController::class)->group(function () {
 
 
 //For Admin role
-Route::middleware(['auth','department:Admin'])->group(function () {
+Route::middleware(['auth','department:Admin,Management'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::name('admin.')->group(function () {
 
@@ -145,8 +146,21 @@ Route::middleware(['auth','department:Finance,Admin,Management'])->group(functio
             Route::controller(PaymentRequestController::class)->group(function () {
                 Route::get('/request', action: 'index')->name('request.index');
                 Route::get('/request/{request}/show', 'show')->name('request.show');
-                Route::get('/request/{request}/edit', 'edit')->name('request.edit');
+                Route::get('/request/{request}/{status}/update', 'update')->name('request.update');
             });
+
+            Route::controller(SupplierPaymentController::class)->group(function () {
+                Route::prefix('supplier')->group(function () {
+                    Route::name('supplier.')->group(function () {
+
+                        Route::get('/payment', action: 'index')->name('payment.index');
+                        Route::get('/payment/{request}/create', action: 'create')->name('payment.create');
+                        Route::post('/payment/{request}', action: 'store')->name('payment.store');
+
+                    });
+                });
+            });
+
         });
     });
 });
@@ -177,7 +191,7 @@ Route::middleware(['auth','department:Production,Admin,Management'])->group(func
 
 
 //For Tea Department
-Route::middleware(['auth','department:Tea,Admin,Marketing'])->group(function () {
+Route::middleware(['auth','department:Tea,Admin,Marketing,Management'])->group(function () {
     Route::prefix('tea')->group(function () {
         Route::name('tea.')->group(function () {
 

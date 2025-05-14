@@ -21,7 +21,7 @@
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item"><a class="nav-link active" href="#tab-1" data-bs-toggle="tab" role="tab">{{ $user->department->department_name == 'Finance' ? 'Pending Payment Requests' : 'All Payment Requests' }}</a></li>
                         @if ($user->department->department_name == 'Finance')
-                            <li class="nav-item"><a class="nav-link" href="#tab-2" data-bs-toggle="tab" role="tab"> Payment Requests</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#tab-2" data-bs-toggle="tab" role="tab">My Payment Requests</a></li>
                         @endif
                     </ul>
                     <div class="tab-content">
@@ -42,7 +42,11 @@
                                                     <tr>
                                                         <th class="d-none d-xl-table-cell">Request No</th>
                                                         <th class="d-none d-xl-table-cell">Requested By</th>
+                                                        <th class="d-none d-xl-table-cell">Supplier</th>
+                                                        <th class="d-none d-xl-table-cell">Amount</th>
                                                         <th class="d-none d-xl-table-cell">Requested Date</th>
+                                                        <th class="d-none d-xl-table-cell">Completed Date</th>
+                                                        <th class="d-none d-xl-table-cell">Handle By</th>
                                                         <th class="d-none d-xl-table-cell">Status</th>
                                                         <th class="d-none d-md-table-cell">Action</th>
                                                     </tr>
@@ -52,29 +56,27 @@
 
                                                     @foreach ($requests as $request)
                                                         <tr>
-                                                            <td class="d-none d-xl-table-cell">
-                                                                {{ $request->request_no }}</td>
-                                                            <td class="d-none d-xl-table-cell">
-                                                                {{ $request->requester->first_name . ' ' . $request->requester->last_name }}
-                                                            </td>
-                                                            <td class="d-none d-xl-table-cell">
-                                                                {{ $request->created_at->diffForHumans() }}</td>
+                                                            <td class="d-none d-xl-table-cell">{{ $request->request_no }}</td>
+                                                            <td class="d-none d-xl-table-cell">{{ $request->requester->first_name . ' ' . $request->requester->last_name }}</td>
+                                                            <td class="d-none d-xl-table-cell">{{ $request->supplier->name }}</td>
+                                                            <td class="d-none d-xl-table-cell">{{ $request->amount }}</td>
+                                                            <td class="d-none d-xl-table-cell">{{ $request->created_at->toDateString() }}</td>
+                                                            <td class="d-none d-xl-table-cell">{{ $request->supplier_payment ? $request->supplier_payment->created_at->toDateString() : '' }}</td>
+                                                            <td class="d-none d-xl-table-cell">{{ $request->supplier_payment ? $request->supplier_payment->user->first_name . ' ' . $request->supplier_payment->user->last_name : '' }}</td>
 
                                                             <td class="d-none d-xl-table-cell">
                                                                 <x-status :status='$request->status' />
                                                             </td>
 
                                                             <td class="d-none d-xl-table-cell">
-
-
                                                                 <div class="d-flex align-items-center">
+
                                                                     <form
-                                                                        action="{{ route('finance.request.show', $request) }}"
-                                                                        method="get">
+                                                                        action="{{ route('finance.request.show', $request) }}" method="get">
                                                                         @csrf
-                                                                        <button
-                                                                            class="btn btn-sm btn-primary">{{ $user->department->department_name == 'Finance' ? 'Review' : 'View' }}</button>
+                                                                        <button class="btn btn-sm btn-primary">{{ $user->department->department_name == 'Finance' ? 'Review' : 'View' }}</button>
                                                                     </form>
+
                                                                 </div>
                                                             </td>
                                                         </tr>

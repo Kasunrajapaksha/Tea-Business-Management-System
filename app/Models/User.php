@@ -50,6 +50,10 @@ class User extends Authenticatable implements CanResetPassword {
         return $this->HasMany(TeaPurchase::class);
     }
 
+    public function supplier_payment(){
+        return $this->HasMany(SupplierPayment::class);
+    }
+
 
 
     protected function casts(): array

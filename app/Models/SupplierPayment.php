@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Supplier extends Model
+class SupplierPayment extends Model
 {
     use HasFactory, Notifiable;
     protected $guarded = [];
@@ -15,15 +15,13 @@ class Supplier extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function supplier(){
+        return $this->belongsTo(Supplier::class);
+    }
+
     public function payment_request(){
-        return $this->hasMany(PaymentRequest::class);
+        return $this->belongsTo(PaymentRequest::class);
     }
 
-    public function tea_perchese(){
-        return $this->hasMany(TeaPurchase::class);
-    }
 
-    public function supplier_payment(){
-        return $this->hasMany(SupplierPayment::class);
-    }
 }

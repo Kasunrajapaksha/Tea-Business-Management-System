@@ -18,8 +18,6 @@
                 <div class="card-body">
 
                     <form>
-
-                        <input type="text" name="user_id" value="{{ Auth::user()->id }}" hidden>
                         <div class="row">
                             <div class="mb-3 col-md-3">
                                 <label  class="form-label">Request Number</label>
@@ -36,7 +34,7 @@
                             </div>
                             <div class="mb-3 col-md-3">
                                 <label  class="form-label">Handle By</label>
-                                <input type="text" class="form-control" value="{{ $request->handler->first_name . ' ' . $request->handler->last_name }}" disabled>
+                                <input type="text" class="form-control" value="{{ $request->handler ? $request->handler->first_name . ' ' . $request->handler->last_name : '' }}" disabled>
                             </div>
                         </div>
                         <hr>
@@ -48,7 +46,7 @@
 
                             <div class="mb-3 col-md-4">
                                 <label  class="form-label">Supplier Type</label>
-                                <input type="text" class="form-control" value="{{ $request->supplier->type == 1 ? 'Tea' : 'Matterial' }}" disabled>
+                                <input type="text" class="form-control" value="{{ $request->supplier->type == 1 ? 'Tea' : 'Material' }}" disabled>
                             </div>
                             <div class="mb-3 col-md-4">
                                 <label  class="form-label">Amount (USD)</label>
@@ -83,9 +81,18 @@
                         <div class="row">
 
                         </div>
-
-                        <a href="{{ route('finance.request.index') }}" class="btn btn-danger mt-2">Close</a>
-                        <a href="{{ route('finance.request.edit', $request) }}" class="btn btn-primary mt-2">Pay Supplier</a>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="{{ route('finance.request.index') }}" class="btn btn-dark mt-2">Back</a>
+                            @can('update', $request)
+                            <div class="d-flex align-items-center">
+                                <div>Update status :</div>
+                                <a href="{{ route('finance.request.update', [$request, 'status'=>2]) }}" class="btn btn-lg btn-primary mt-2 ms-3">On Hold</a>
+                                <a href="{{ route('finance.request.update', [$request, 'status'=>3]) }}" class="btn btn-lg btn-secondary mt-2 ms-1">Canceled</a>
+                                <a href="{{ route('finance.request.update', [$request, 'status'=>4]) }}" class="btn btn-lg btn-danger mt-2 ms-1">Not Approved</a>
+                                <a href="{{ route('finance.supplier.payment.create', $request) }}" class="btn btn-lg btn-success mt-2 ms-1">Complete Supplier Payment</a>
+                            </div>
+                            @endcan
+                        </div>
 
                     </form>
                 </div>

@@ -83,6 +83,15 @@
             </li>
             @endcan
 
+            @can('view', App\Models\SupplierPayment::class)
+            <li class="sidebar-item {{ request()->routeIs('finance.supplier.payment.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('finance.supplier.payment.index') }}">
+                    <i class="align-middle" data-feather="truck"></i>
+                    <span class="align-middle">Supplier Payments</span>
+                </a>
+            </li>
+            @endcan
+
             @can('view', App\Models\Tea::class)
             <li class="sidebar-header">Tea Department</li>
 

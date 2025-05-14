@@ -27,4 +27,8 @@ class PaymentRequest extends Model
     public function handler(){
         return $this->belongsTo(User::class,'handler_id');
     }
+
+    public function supplier_payment(){
+        return $this->hasOne(SupplierPayment::class);
+    }
 }
