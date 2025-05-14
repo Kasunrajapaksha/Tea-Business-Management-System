@@ -51,7 +51,7 @@ class TeaPaymentRequestNotification extends Notification
             'icon' => 'dollar-sign',
             'color' => 'danger',
             'title' => 'PAYMENT REQUEAST!',
-            'message' => 'A payment request [' . $this->request->request_no . '] for tea purchasing has been sent by '. $this->request->user->first_name . ' ' . $this->request->user->last_name . '.',
+            'message' => 'A payment request [' . $this->request->request_no . '] for tea purchasing has been sent by '. $this->request->requester->first_name . ' ' . $this->request->requester->last_name . '.',
         ];
     }
 }

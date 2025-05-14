@@ -1,10 +1,10 @@
 <x-app-layout>
-<x-slot:title>Tea | Purchase</x-slot:title>
+<x-slot:title>Finance | Payment Requests</x-slot:title>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href='{{ route('tea.index') }}'>Tea</a></li>
-        <li class="breadcrumb-item active">All Tea Purchases</li>
+        <li class="breadcrumb-item"><a href='{{ route('finance.index') }}'>Finance</a></li>
+        <li class="breadcrumb-item active">Payment Requests</li>
     </ol>
 </nav>
 
@@ -12,12 +12,8 @@
 
 <div class="container-fluid p-0">
 
-        @can('create', App\Models\TeaPurchase::class)
-            <a href="{{ route('tea.purchase.create' )}}" class="btn btn-primary float-end mt-n1 d-flex align-items-center"><i class="align-middle me-2" data-feather="plus"></i>New Purchase</a>
-        @endcan
-
         <div class="mb-3">
-            <h1 class="d-inline align-middle">All Tea Purchases</h1>
+            <h1 class="d-inline align-middle">Payment Requests</h1>
         </div>
 
         <div class="col-12 d-flex">
@@ -28,11 +24,11 @@
 
                         <thead>
                             <tr>
-                                <th class="d-none d-xl-table-cell">Tea Purchase No</th>
-                                <th class="d-none d-xl-table-cell">Tea_name</th>
+                                <th class="d-none d-xl-table-cell">Request No</th>
                                 <th class="d-none d-xl-table-cell">Supplier</th>
-                                <th class="d-none d-xl-table-cell">Quantity</th>
+                                <th class="d-none d-xl-table-cell">Amount</th>
                                 <th class="d-none d-xl-table-cell">Status</th>
+                                <th class="d-none d-xl-table-cell">Requested By</th>
                                 <th class="d-none d-xl-table-cell">Requested Date</th>
                                 <th class="d-none d-md-table-cell">Action</th>
                             </tr>
@@ -40,18 +36,17 @@
 
                         <tbody>
 
-                            @foreach ($purchases as $purchase)
+                            @foreach ($requests as $request)
                                 <tr>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->tea_purchase_no }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->tea->tea_name }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->supplier->name }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->quantity}}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $request->request_no }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $request->supplier->name }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $request->amount }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $request->requester->first_name . ' ' . $request->requester->last_name }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $request->created_at->diffForHumans() }}</td>
 
                                     <td class="d-none d-xl-table-cell">
-                                        <x-status :status='$purchase->payment_request->status' />
+                                        <x-status :status='$request->status' />
                                     </td>
-                                    
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->created_at->diffForHumans() }}</td>
 
                                     <td class="d-none d-xl-table-cell">
 
@@ -60,7 +55,7 @@
 
 
 
-                                    <a class=" my-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#purchase"
+                                    <a class=" my-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#request"
 										aria-controls="offcanvasRight"><i class="align-middle ms-2" data-feather="eye"></i></a>
 
 
@@ -77,7 +72,7 @@
     </div>
 
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="purchase" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="request" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
             <h3 id="offcanvasRightLabel">Customer Details</h3>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>

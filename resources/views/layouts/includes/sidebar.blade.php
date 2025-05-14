@@ -73,6 +73,16 @@
                 </li>
             @endcan
 
+            @can('view', App\Models\PaymentRequest::class)
+            <li class="sidebar-header">Finance Department</li>
+            <li class="sidebar-item {{ request()->routeIs('finance.request.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('finance.request.index') }}">
+                    <i class="align-middle" data-feather="dollar-sign"></i>
+                    <span class="align-middle">Payment Requests</span>
+                </a>
+            </li>
+            @endcan
+
             @can('view', App\Models\Tea::class)
             <li class="sidebar-header">Tea Department</li>
 

@@ -22,7 +22,6 @@ return new class extends Migration
             $table->foreignIdFor(Tea::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(Supplier::class)->nullable()->constrained()->onDelete('set null');
             $table->decimal('quantity',8,2);
-            $table->integer('status')->default(0);
             $table->foreignIdFor(PaymentRequest::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });

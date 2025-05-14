@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Finance\FinanceController;
+use App\Http\Controllers\Finance\PaymentRequestController;
 use App\Http\Controllers\Management\ManagementController;
 use App\Http\Controllers\Marketing\CustomerController;
 use App\Http\Controllers\Marketing\MarketingController;
@@ -134,12 +135,15 @@ Route::middleware(['auth','department:Marketing,Admin,Management'])->group(funct
 
 
 //For Finance Manager role
-Route::middleware(['auth','department:Finance'])->group(function () {
+Route::middleware(['auth','department:Finance,Admin,Management'])->group(function () {
     Route::prefix('finance')->group(function () {
         Route::name('finance.')->group(function () {
             Route::controller(FinanceController::class)->group(function () {
                 Route::get('/dashboard', 'index')->name('index');
-                Route::get('/profile', 'show')->name('show');
+            });
+
+            Route::controller(PaymentRequestController::class)->group(function () {
+                Route::get('/request', 'index')->name('request.index');
             });
         });
     });

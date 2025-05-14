@@ -24,6 +24,7 @@ class TeaPerchaseController extends Controller
 
     public function create(){
         Gate::authorize('create', TeaPurchase::class);
+        Gate::authorize('create', PaymentRequest::class);
 
         $teas = Tea::all();
         $suppliers = Supplier::all();
@@ -32,6 +33,7 @@ class TeaPerchaseController extends Controller
 
     public function store(){
         Gate::authorize('create', TeaPurchase::class);
+        Gate::authorize('create', PaymentRequest::class);
 
         $validateData = request()->validate([
             'user_id' => ['exists:users,id'],
@@ -52,7 +54,7 @@ class TeaPerchaseController extends Controller
         $request = PaymentRequest::create([
             'amount' => $purchase->quantity * $purchase->tea->price_per_Kg,
             'supplier_id' => $purchase->supplier_id,
-            'user_id' => $purchase->user_id,
+            'requester_id' => $purchase->user_id,
         ]);
 
         $purchase->update([
@@ -61,7 +63,7 @@ class TeaPerchaseController extends Controller
 
         $request->update([
             "request_no"=> 'REQ'.
-            str_pad($request->user_id,2,'0', STR_PAD_LEFT)  .
+            str_pad($request->requester_id,2,'0', STR_PAD_LEFT)  .
             str_pad($request->supplier->id,2,'0', STR_PAD_LEFT) .
             str_pad($request->id,4,'0', STR_PAD_LEFT),
         ]);

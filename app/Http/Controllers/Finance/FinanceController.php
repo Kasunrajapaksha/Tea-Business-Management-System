@@ -10,9 +10,4 @@ class FinanceController extends Controller{
         return view('finance.dashboard');
     }
 
-    public function show(User $user){
-        return view('finance.profile', [
-            'user' => $user,
-        ]);
-    }
 }

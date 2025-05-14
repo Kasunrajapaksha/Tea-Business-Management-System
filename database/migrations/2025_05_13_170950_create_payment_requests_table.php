@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('payment_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('requester_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('request_no')->default('REQ00000000');
             $table->decimal('amount',8,2);
             $table->timestamp('approved_date')->nullable();
+            $table->integer('status')->default(0);
+            $table->foreignId('approver_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignIdFor(Supplier::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });

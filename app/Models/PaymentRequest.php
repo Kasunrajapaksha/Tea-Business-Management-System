@@ -20,7 +20,11 @@ class PaymentRequest extends Model
         return $this->hasOne(TeaPurchase::class);
     }
 
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function requester(){
+        return $this->belongsTo(User::class,'requester_id');
+    }
+
+    public function approver(){
+        return $this->belongsTo(User::class,'approver_id');
     }
 }
