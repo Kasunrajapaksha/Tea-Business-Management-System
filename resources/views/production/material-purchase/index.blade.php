@@ -1,10 +1,10 @@
 <x-app-layout>
-<x-slot:title>Tea | Purchase</x-slot:title>
+<x-slot:title>Production | Purchase</x-slot:title>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href='{{ route('tea.index') }}'>Tea</a></li>
-        <li class="breadcrumb-item active">All Tea Purchases</li>
+        <li class="breadcrumb-item"><a href='{{ route('production.material.index') }}'>Material</a></li>
+        <li class="breadcrumb-item active">All Material Purchases</li>
     </ol>
 </nav>
 
@@ -12,12 +12,12 @@
 
     <div class="container-fluid p-0">
 
-        @can('create', App\Models\TeaPurchase::class)
-            <a href="{{ route('tea.purchase.create' )}}" class="btn btn-primary float-end mt-n1 d-flex align-items-center"><i class="align-middle me-2" data-feather="plus"></i>New Purchase</a>
+        @can('create', App\Models\MaterialPurchase::class)
+            <a href="{{ route('production.material.purchase.create' )}}" class="btn btn-primary float-end mt-n1 d-flex align-items-center"><i class="align-middle me-2" data-feather="plus"></i>New Purchase</a>
         @endcan
 
         <div class="mb-3">
-            <h1 class="d-inline align-middle">All Tea Purchases</h1>
+            <h1 class="d-inline align-middle">All Material Purchases</h1>
         </div>
 
         <div class="col-12 d-flex">
@@ -28,11 +28,11 @@
 
                         <thead>
                             <tr>
-                                <th class="d-none d-xl-table-cell">Tea Purchase No</th>
-                                <th class="d-none d-xl-table-cell">Tea_name</th>
+                                <th class="d-none d-xl-table-cell">Material Purchase No</th>
+                                <th class="d-none d-xl-table-cell">Material Name</th>
                                 <th class="d-none d-xl-table-cell">Supplier</th>
-                                <th class="d-none d-xl-table-cell">Quantity</th>
-                                <th class="d-none d-xl-table-cell">Price Per Kg (LKR)</th>
+                                <th class="d-none d-xl-table-cell">Units</th>
+                                <th class="d-none d-xl-table-cell">Unit Price (LKR)</th>
                                 <th class="d-none d-xl-table-cell">Requested at</th>
                                 <th class="d-none d-xl-table-cell">Requested by</th>
                                 <th class="d-none d-xl-table-cell">Review by</th>
@@ -46,11 +46,11 @@
 
                             @foreach ($purchases as $purchase)
                                 <tr>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->tea_purchase_no }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->tea->tea_name }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->material_purchase_no }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->material->material_name }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->supplier->name }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->quantity}}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->price_per_kg}}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->units}}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->unit_price}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->created_at->toDateString() }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->user->first_name . ' ' . $purchase->user->last_name}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->payment_request->handler ?  $purchase->payment_request->handler->first_name .' '. $purchase->payment_request->handler->last_name : '' }}</td>
@@ -62,7 +62,6 @@
                                         </td>
 
                                     <td class="d-none d-xl-table-cell">
-                                        
                                     </td>
                                 </tr>
                             @endforeach

@@ -14,4 +14,8 @@ class Material extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function material_perchese(){
+        return $this->hasMany(MaterialPurchase::class);
+    }
 }

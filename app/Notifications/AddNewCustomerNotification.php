@@ -51,8 +51,8 @@ class AddNewCustomerNotification extends Notification
     {
         return [
             'icon' => 'user',
-            'color' => 'success',
-            'title' => 'New Customer!',
+            'color' => 'info',
+            'title' => 'NEW CUSTOMER!',
             'message' => 'A new customer [' . $this->customer->customer_no . '] has been added by ' . $this->customer->user->first_name . ' ' . $this->customer->user->last_name . '.',
         ];
     }

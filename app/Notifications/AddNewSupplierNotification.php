@@ -49,8 +49,8 @@ class AddNewSupplierNotification extends Notification
     {
         return [
             'icon' => 'truck',
-            'color' => 'success',
-            'title' => 'New Supplier!',
+            'color' => 'info',
+            'title' => 'NEW SUPPLIER!',
             'message' => 'A new Supplier [' . $this->supplier->supplier_no . '] has been added by ' . $this->supplier->user->first_name . ' ' . $this->supplier->user->last_name . '.',
         ];
     }

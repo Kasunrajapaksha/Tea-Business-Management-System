@@ -49,8 +49,8 @@ class UpdatePriceListNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'icon' => 'coffee',
-            'color' => 'warning',
+            'icon' => 'alert-circle',
+            'color' => 'danger',
             'title' => 'PRICE LIST UPDATED!',
             'message' => 'The price for ' . $this->tea->tea_name . ' has been updated by ' . $this->tea->user->first_name . ' ' . $this->tea->user->last_name . '.',
         ];

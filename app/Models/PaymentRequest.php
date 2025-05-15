@@ -20,6 +20,10 @@ class PaymentRequest extends Model
         return $this->hasOne(TeaPurchase::class);
     }
 
+    public function material_perchese(){
+        return $this->hasOne(MaterialPurchase::class);
+    }
+
     public function requester(){
         return $this->belongsTo(User::class,'requester_id');
     }

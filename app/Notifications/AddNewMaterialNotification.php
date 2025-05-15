@@ -50,8 +50,8 @@ class AddNewMaterialNotification extends Notification
     {
         return [
             'icon' => 'shopping-bag',
-            'color' => 'success',
-            'title' => 'New material!',
+            'color' => 'info',
+            'title' => 'NEW MATERIAL!',
             'message' => 'A new material [' . $this->material->material_no . '] has been added by ' . $this->material->user->first_name . ' ' . $this->material->user->last_name . '.',
         ];
     }

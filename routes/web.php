@@ -15,6 +15,7 @@ use App\Http\Controllers\Finance\PaymentRequestController;
 use App\Http\Controllers\Management\ManagementController;
 use App\Http\Controllers\Marketing\CustomerController;
 use App\Http\Controllers\Marketing\MarketingController;
+use App\Http\Controllers\Production\MaterialPurchaseController;
 use App\Http\Controllers\Production\MaterialController;
 use App\Http\Controllers\Production\ProductionController;
 use App\Http\Controllers\Shipping\ShippingController;
@@ -113,7 +114,7 @@ Route::middleware(['auth','department:Admin,Production,Tea,Management'])->group(
 });
 
 
-//For Marketing Manager role
+//For Marketing
 Route::middleware(['auth','department:Marketing,Admin,Management'])->group(function () {
     Route::prefix('marketing')->group(function () {
         Route::name('marketing.')->group(function () {
@@ -135,7 +136,7 @@ Route::middleware(['auth','department:Marketing,Admin,Management'])->group(funct
 });
 
 
-//For Finance Manager role
+//For Finance
 Route::middleware(['auth','department:Finance,Admin,Management'])->group(function () {
     Route::prefix('finance')->group(function () {
         Route::name('finance.')->group(function () {
@@ -166,7 +167,7 @@ Route::middleware(['auth','department:Finance,Admin,Management'])->group(functio
 });
 
 
-//For Production Manager role
+//For Production
 Route::middleware(['auth','department:Production,Admin,Management'])->group(function () {
     Route::prefix('production')->group(function () {
         Route::name('production.')->group(function () {
@@ -183,6 +184,16 @@ Route::middleware(['auth','department:Production,Admin,Management'])->group(func
                 Route::patch('/material/{material}', 'update')->name('material.update');
             });
 
+            Route::prefix('material')->group(function () {
+                Route::name('material.')->group(function () {
+
+                    Route::controller(MaterialPurchaseController::class)->group(function () {
+                        Route::get('/purchase', 'index')->name('purchase.index');
+                        Route::get('/purchase/create', 'create')->name('purchase.create');
+                        Route::post('/purchase', 'store')->name('purchase.store');
+                    });
+                });
+            });
 
 
         });

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TeaPaymentRequestNotification extends Notification
+class TeaPurchaseRequestNotification extends Notification
 {
     use Queueable;
     private $request;
@@ -48,7 +48,7 @@ class TeaPaymentRequestNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'icon' => 'dollar-sign',
+            'icon' => 'alert-circle',
             'color' => 'danger',
             'title' => 'PAYMENT REQUEAST!',
             'message' => 'A payment request [' . $this->request->request_no . '] for tea purchasing has been sent by '. $this->request->requester->first_name . ' ' . $this->request->requester->last_name . '.',

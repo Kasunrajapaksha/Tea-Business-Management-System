@@ -7,17 +7,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AddNewTeaNotification extends Notification
+class MaterialPurchaseRequestNotification extends Notification
 {
     use Queueable;
-    private $tea;
-
+    private $request;
     /**
      * Create a new notification instance.
      */
-    public function __construct($tea)
+    public function __construct($request)
     {
-        $this->tea = $tea;
+        $this->request = $request;
     }
 
     /**
@@ -49,10 +48,10 @@ class AddNewTeaNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'icon' => 'coffee',
-            'color' => 'info',
-            'title' => 'NEW TEA!',
-            'message' => 'A new Tea [' . $this->tea->tea_no . '] has been added by ' . $this->tea->user->first_name . ' ' . $this->tea->user->last_name . '.',
+            'icon' => 'alert-circle',
+            'color' => 'danger',
+            'title' => 'PAYMENT REQUEAST!',
+            'message' => 'A payment request [' . $this->request->request_no . '] for material purchasing has been sent by '. $this->request->requester->first_name . ' ' . $this->request->requester->last_name . '.',
         ];
     }
 }

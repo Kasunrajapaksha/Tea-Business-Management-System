@@ -18,6 +18,7 @@
         <p>You have no notifications.</p>
     @else
     @foreach ($notifications as $notification)
+    <a href="" class="text-decoration-none">
     <div class="alert {{ $notification->read_at ? 'alert-secondary' : 'alert-'.$notification->data['color'] }} alert-dismissible d-flex align-items-center" role="alert">
         <div class="alert-icon me-3">
             <i class="align-middle" data-feather="{{ $notification->data['icon'] }}"></i>
@@ -41,6 +42,7 @@
             @endif
         </form>
     </div>
+    </a>
     @endforeach
     @endif
 

@@ -9,6 +9,7 @@ use App\Models\Tea;
 use App\Models\TeaPurchase;
 use App\Models\User;
 use App\Notifications\TeaPaymentRequestNotification;
+use App\Notifications\TeaPurchaseRequestNotification;
 use Illuminate\Support\Facades\Gate;
 
 class TeaPerchaseController extends Controller
@@ -50,7 +51,7 @@ class TeaPerchaseController extends Controller
 
         //update tea purchase no
         $purchase->update([
-            "tea_purchase_no"=> 'TP'.
+            "tea_purchase_no"=> 'TPC'.
             str_pad($purchase->user_id,2,'0', STR_PAD_LEFT)  .
             str_pad($purchase->tea->id,2,'0', STR_PAD_LEFT) .
             str_pad($purchase->id,4,'0', STR_PAD_LEFT),
@@ -82,7 +83,7 @@ class TeaPerchaseController extends Controller
             $query->whereIn('department_name',['Admin','Management','Finance']);
         })->get();
         foreach ($users as $key => $user) {
-            $user->notify(new TeaPaymentRequestNotification($notifyPaymentRequest));
+            $user->notify(new TeaPurchaseRequestNotification($notifyPaymentRequest));
             $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
         }
 
