@@ -57,7 +57,7 @@ Route::middleware(['auth','department:Admin,Management'])->group(function () {
             Route::controller(DepartmentController::class)->group(function () {
                 Route::get('/department', 'index')->name('department.index');
                 Route::get('/department/create', 'create')->name('department.create');
-                Route::post('/department', 'store')->name('admin.deparstore');
+                Route::post('/department', 'store')->name('department.store');
                 Route::get('/department/{department}/edit', 'edit')->name('department.edit');
                 Route::patch('/department/{department}', 'update')->name('department.update');
             });

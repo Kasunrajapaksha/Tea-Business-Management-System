@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function index(){
         //get users
-        $users = User::all();
+        $users = User::Paginate(8);
 
         // authorization
         Gate::authorize("view", User::class);

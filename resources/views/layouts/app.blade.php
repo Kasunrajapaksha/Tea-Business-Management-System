@@ -17,6 +17,7 @@
 	<title>{{ $title }}</title>
 
 
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 	<link href="{{ asset('admin_asset/css/app.css') }}" rel="stylesheet">
     <script defer src="{{ asset('admin_asset/js/app.js') }}"></script>

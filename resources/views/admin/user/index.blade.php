@@ -69,10 +69,14 @@
                                 </tr>
                             @endforeach
 
+
                         </tbody>
                     </table>
                 </div>
             </div>
+        </div>
+        <div class="col-12 px-3">
+            {{ $users->links() }}
         </div>
 
         <div class="offcanvas offcanvas-end" tabindex="-1" id="user" aria-labelledby="offcanvasRightLabel">

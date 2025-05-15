@@ -3,12 +3,13 @@ import $ from 'jquery';
 window.$ = window.jQuery = $;
 
 
-//alert-auto-close
+// alert-auto-close
 window.addEventListener('DOMContentLoaded', function(){
     this.setTimeout(function(){
         const closeButton = document.getElementById('alert-close-btn');
         if(closeButton){
             closeButton.click();
+            window.location.reload();
         }
     }, 5000);
 });
