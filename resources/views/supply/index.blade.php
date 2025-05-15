@@ -57,7 +57,7 @@
 
 
                                     <a class=" my-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#supplier"
-										aria-controls="offcanvasRight"><i class="align-middle ms-2" data-feather="eye"></i></a>
+										aria-controls="offcanvasRight"><i class="align-middle " data-feather="eye"></i></a>
 
 
 

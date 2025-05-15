@@ -18,7 +18,7 @@ use App\Http\Controllers\Marketing\MarketingController;
 use App\Http\Controllers\Production\MaterialController;
 use App\Http\Controllers\Production\ProductionController;
 use App\Http\Controllers\Shipping\ShippingController;
-use App\Http\Controllers\SupplierPaymentController;
+use App\Http\Controllers\Supply\SupplierPaymentController;
 use App\Http\Controllers\Supply\SupplierController;
 use App\Http\Controllers\Tea\TeaController;
 use App\Http\Controllers\Tea\TeaPerchaseController;

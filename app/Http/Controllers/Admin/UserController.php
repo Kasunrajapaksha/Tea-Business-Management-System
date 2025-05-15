@@ -20,9 +20,7 @@ class UserController extends Controller
         Gate::authorize("view", User::class);
 
         //return view
-        return view('admin.user.index', [
-            'users'=> $users,
-        ]);
+        return view('admin.user.index', compact('users'));
     }
     public function create(){
         //get active roles and departments
@@ -33,10 +31,7 @@ class UserController extends Controller
         Gate::authorize("create", User::class);
 
         //return view
-        return view('admin.user.create',[
-            'roles'=>$roles,
-            'departments'=>$departments,
-        ]);
+        return view('admin.user.create',compact(['roles','departments']));
     }
 
     public function store(){
@@ -84,11 +79,7 @@ class UserController extends Controller
         Gate::authorize("update", $user);
 
         //return view
-        return view('admin.user.edit',[
-            'user'=> $user,
-            'roles'=>$roles,
-            'departments'=>$departments,
-        ]);
+        return view('admin.user.edit',compact(['user','roles','departments']));
     }
 
     public function update(User $user){

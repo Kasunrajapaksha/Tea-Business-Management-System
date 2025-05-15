@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Supply;
 
+use App\Http\Controllers\Controller;
 use App\Models\PaymentRequest;
 use App\Models\Supplier;
 use App\Models\SupplierPayment;
@@ -25,21 +26,27 @@ class SupplierPaymentController extends Controller{
     }
 
     public function store(PaymentRequest $request){
+        //authorizetion
         Gate::authorize('create',SupplierPayment::class);
 
+        //validation
         $validateData = request()->validate([
             'user_id' => ['exists:users,id'],
             'transaction_reference' => ['required','max:255'],
+            'paid_at' => ['required','date'],
         ]);
 
+        //create supplier payment
         $payment = SupplierPayment::create([
             'user_id' => $validateData['user_id'],
             'transaction_reference' => $validateData['transaction_reference'],
+            'paid_at' => $validateData['paid_at'],
             'amount' => $request->amount,
             'payment_request_id' => $request->id,
             'supplier_id' => $request->supplier->id,
         ]);
 
+        //update supplier payment no
         $payment->update([
             "payment_no"=> 'SPT'.
             str_pad($payment->user_id,2,'0', STR_PAD_LEFT)  .
@@ -47,20 +54,22 @@ class SupplierPaymentController extends Controller{
             str_pad($payment->id,4,'0', STR_PAD_LEFT),
         ]);
 
+        //update payment request
         $request->update([
             'status' => 5,
-            'approved_date' => now(),
         ]);
 
+        //notify users
         $notifypayment = SupplierPayment::findOrFail($payment->id);
         $users = User::whereHas('department', function($query){
             $query->whereIn('department_name',['Admin','Management','Tea']);
         })->get();
         foreach ($users as $key => $user) {
             $user->notify(new SupplierPaymentCompletedNotification($notifypayment));
-            $user->notifications()->where('created_at', '<', now()->subDays(30))->delete();
+            $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
         }
 
+        //return view
         return redirect()->route('finance.supplier.payment.index')->with('success','Supplier payment complited!');
     }
 

@@ -28,9 +28,9 @@
                                         <th class="d-none d-xl-table-cell">Payment No</th>
                                         <th class="d-none d-xl-table-cell">Request No</th>
                                         <th class="d-none d-xl-table-cell">Supplier</th>
-                                        <th class="d-none d-xl-table-cell">Amount</th>
-                                        <th class="d-none d-md-table-cell">Pain Date</th>
-                                        <th class="d-none d-md-table-cell">Pain By</th>
+                                        <th class="d-none d-xl-table-cell">Amount (LKR)</th>
+                                        <th class="d-none d-md-table-cell">Paid at</th>
+                                        <th class="d-none d-md-table-cell">Paid by</th>
                                         <th class="d-none d-md-table-cell">Action</th>
                                     </tr>
                                 </thead>
@@ -43,7 +43,7 @@
                                             <td class="d-none d-xl-table-cell">{{ $payment->payment_request->request_no }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $payment->supplier->name }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $payment->amount }}</td>
-                                            <td class="d-none d-xl-table-cell">{{ $payment->created_at->toDateString() }}</td>
+                                            <td class="d-none d-xl-table-cell">{{ $payment->paid_at }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $payment->user->first_name . ' ' . $payment->user->last_name }}</td>
                                             <td></td>
                                         </tr>

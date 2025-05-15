@@ -3,7 +3,7 @@
 
 @switch($status)
     @case(0)
-        <span class="badge bg-secondary">Pending</span>
+        <span class="badge bg-dark">Pending</span>
         @break
     @case(1)
         <span class="badge bg-warning">Under Review</span>

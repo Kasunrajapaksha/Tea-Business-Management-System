@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignIdFor(Tea::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(Supplier::class)->nullable()->constrained()->onDelete('set null');
             $table->decimal('quantity',8,2);
+            $table->decimal('price_per_kg',8,2);
             $table->foreignIdFor(PaymentRequest::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });

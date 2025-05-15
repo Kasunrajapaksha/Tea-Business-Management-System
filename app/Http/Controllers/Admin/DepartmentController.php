@@ -21,11 +21,7 @@ class DepartmentController extends Controller
         Gate::authorize("view", Department::class);
 
         //return view
-        return view('admin.department.index', [
-            'departments' => $departments,
-            'roles' => $roles,
-            'users' => $users,
-        ]);
+        return view('admin.department.index',  compact(['departments','roles','users']));
     }
 
     public function create(){
@@ -57,9 +53,7 @@ class DepartmentController extends Controller
         Gate::authorize("update", $department);
 
         //return view
-        return view('admin.department.edit', [
-            'department' => $department
-        ]);
+        return view('admin.department.edit', compact('department'));
     }
 
     public function update(Department $department){

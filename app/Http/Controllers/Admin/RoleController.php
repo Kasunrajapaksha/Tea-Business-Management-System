@@ -17,9 +17,7 @@ class RoleController extends Controller
         Gate::authorize('create', Role::class);
 
         //return view
-        return view('admin.role.create', [
-            'department' => $department,
-        ]);
+        return view('admin.role.create', compact('department'));
     }
 
     public function store(){
@@ -44,9 +42,7 @@ class RoleController extends Controller
         Gate::authorize('update', $role);
 
         //return view
-        return view('admin.role.edit',[
-            'role'=> $role,
-        ]);
+        return view('admin.role.edit', compact('role'));
     }
 
     public function update(Role $role){

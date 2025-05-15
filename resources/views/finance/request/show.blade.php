@@ -84,6 +84,7 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <a href="{{ route('finance.request.index') }}" class="btn btn-dark mt-2">Back</a>
                             @can('update', $request)
+                            @if ($request->status < 3)
                             <div class="d-flex align-items-center">
                                 <div>Update status :</div>
                                 <a href="{{ route('finance.request.update', [$request, 'status'=>2]) }}" class="btn btn-lg btn-primary mt-2 ms-3">On Hold</a>
@@ -91,6 +92,7 @@
                                 <a href="{{ route('finance.request.update', [$request, 'status'=>4]) }}" class="btn btn-lg btn-danger mt-2 ms-1">Not Approved</a>
                                 <a href="{{ route('finance.supplier.payment.create', $request) }}" class="btn btn-lg btn-success mt-2 ms-1">Complete Supplier Payment</a>
                             </div>
+                            @endif
                             @endcan
                         </div>
 

@@ -22,13 +22,9 @@ class SupplierPolicy
     }
 
 
-    public function update(User $user, Supplier $supplier): bool
+    public function update(User $user): bool
     {
-        if($supplier->user_id != $user->id){
-            return false;
-        }
         return $user->role->permissions->contains('permission_name', 'update-supplier');
-
     }
 
 

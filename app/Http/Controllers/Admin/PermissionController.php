@@ -11,17 +11,13 @@ class PermissionController extends Controller
 {
     public function index(Role $role){
         //get roles and permissions
-        // $roles = Role::all();
         $permissions = Permission::with('role')->get();
 
         // authorization
         Gate::authorize("view", Permission::class);
 
         //return view
-        return view('admin.permission.index', [
-            'permissions'=> $permissions,
-            'role' => $role,
-        ]);
+        return view('admin.permission.index', compact(['permissions','role']));
     }
 
     public function create(Role $role){
@@ -30,9 +26,7 @@ class PermissionController extends Controller
         Gate::authorize("create", Permission::class);
 
         //return view
-        return view('admin.permission.create', [
-            'role' => $role,
-        ]);
+        return view('admin.permission.create', compact('role'));
     }
 
 

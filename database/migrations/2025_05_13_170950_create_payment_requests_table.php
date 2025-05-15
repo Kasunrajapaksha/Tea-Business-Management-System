@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('requester_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('request_no')->default('REQ00000000');
             $table->decimal('amount',8,2);
-            $table->timestamp('approved_date')->nullable();
             $table->integer('status')->default(0);
             $table->foreignId('handler_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignIdFor(Supplier::class)->nullable()->constrained()->onDelete('set null');

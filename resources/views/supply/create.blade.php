@@ -41,12 +41,7 @@
                             <div class="mb-3 col-md-4">
                                 <label for="type" class="form-label">Supply Type</label>
                                 <select class="form-control" id="type" name="type">
-                                    <option value="">Choose a type</option>
-                                    @if (Auth::user()->department->department_name == 'Tea')
-                                    <option value="01" selected>Tea</option>
-                                    @elseif(Auth::user()->department->department_name == 'Production')
-                                    <option value="02" selected >Material</option>
-                                    @endif
+                                    <option value="{{ Auth::user()->department->department_name == 'Tea' ? '01' : '02' }}">{{ Auth::user()->department->department_name == 'Tea' ? 'Tea' : 'Material' }}</option>
                                 </select>
                                 <x-error field="type" />
                             </div>

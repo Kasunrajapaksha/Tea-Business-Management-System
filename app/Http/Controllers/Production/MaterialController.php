@@ -47,7 +47,7 @@ class MaterialController extends Controller
         })->get();
         foreach ($users as $key => $user) {
             $user->notify(new AddNewMaterialNotification($notifyMaterial));
-            $user->notifications()->where('created_at', '<', now()->subDays(30))->delete();
+            $user->notifications()->where('created_at', '<', now()->subDays(value: 7))->delete();
         }
 
         return redirect()->route('production.material.index')->with('success','Material added successfully!');

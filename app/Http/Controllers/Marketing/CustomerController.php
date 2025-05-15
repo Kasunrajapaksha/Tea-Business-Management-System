@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\User;
 use App\Notifications\AddNewCustomerNotification;
-use App\Notifications\CreateNewCustomerNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -20,9 +19,7 @@ class CustomerController extends Controller {
             ? Customer::all()
             : Customer::where('user_id', $user->id)->get();
 
-        return view('marketing.customer.index', [
-            'customers' => $customers,
-        ]);
+        return view('marketing.customer.index', compact('customers'));
     }
 
     public function create(){
@@ -70,7 +67,7 @@ class CustomerController extends Controller {
         })->get();
         foreach ($users as $key => $user) {
             $user->notify(new AddNewCustomerNotification($notifyCustomer));
-            $user->notifications()->where('created_at', '<', now()->subDays(30))->delete();
+            $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
         }
 
         //return view
@@ -82,9 +79,7 @@ class CustomerController extends Controller {
         Gate::authorize("update", Customer::class);
 
         //return view
-        return view('marketing.customer.edit', [
-            'customer' => $customer,
-        ]);
+        return view('marketing.customer.edit', compact('customer'));
     }
 
     public function update(Customer $customer){

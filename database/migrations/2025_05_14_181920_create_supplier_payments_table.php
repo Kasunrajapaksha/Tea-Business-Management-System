@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('payment_no')->default('PAY00000000');
             $table->decimal('amount',8,2);
-            $table->timestamp('paid_date')->nullable();
+            $table->date('paid_at')->nullable();
             $table->string('transaction_reference')->nullable();
             $table->foreignIdFor(PaymentRequest::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(Supplier::class)->nullable()->constrained()->onDelete('set null');

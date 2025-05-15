@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Notifications\AddNewSupplierNotification;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class SupplierController extends Controller
@@ -13,7 +14,14 @@ class SupplierController extends Controller
     public function index(){
         Gate::authorize('view', Supplier::class);
 
-        $suppliers = Supplier::all();
+        $user = Auth::user();
+         if(in_array($user->department->department_name, ['Admin','Management'])){
+            $suppliers = Supplier::all();
+         } elseif($user->department->department_name == 'Tea'){
+            $suppliers = Supplier::where('type',01)->get();
+         } elseif($user->department->department_name == 'Production'){
+            $suppliers = Supplier::where('type',02)->get();
+         }
 
         return view('supply.index',compact('suppliers'));
     }
@@ -57,7 +65,7 @@ class SupplierController extends Controller
         })->get();
         foreach ($users as $key => $user) {
             $user->notify(new AddNewSupplierNotification($notifySupplier));
-            $user->notifications()->where('created_at', '<', now()->subDays(30))->delete();
+            $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
         }
 
 
@@ -79,7 +87,6 @@ class SupplierController extends Controller
 
         $validateData = request()->validate([
             'name' => ['required','string','max:255'],
-            'type' => ['required','nullable','digits:2'],
             'email' => ['required','email','lowercase'],
             'number' => ['required','numeric','digits:10'],
             'address' => ['required','string'],

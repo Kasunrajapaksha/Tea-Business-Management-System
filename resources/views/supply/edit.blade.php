@@ -4,7 +4,7 @@
     <nav aria-label="breadcrumb">
        <ol class="breadcrumb">
            <li class="breadcrumb-item"><a href="{{ route('supplier.index') }}">Suppliers</a></li>
-           <li class="breadcrumb-item active">Create Supplier</li>
+           <li class="breadcrumb-item active">Update Supplier</li>
        </ol>
    </nav>
 
@@ -40,9 +40,8 @@
                             </div>
                             <div class="mb-3 col-md-4">
                                 <label for="type" class="form-label">Supply Type</label>
-                                <select class="form-control" id="type" name="type">
-                                    <option {{ $supplier->type == 01 ? 'selected' : ''}} value="01">Tea</option>
-                                    <option {{ $supplier->type == 02 ? 'selected' : ''}} value="02">Material</option>
+                                <select class="form-control" id="type" name="type" disabled>
+                                    <option>{{ $supplier->type == 01 ? 'Tea' : 'Material' }}</option>
                                 </select>
                                 <x-error field="type" />
                             </div>
@@ -60,7 +59,7 @@
                                 <x-error field="bank_details" />
                             </div>
                         </div>
-
+                        
                         <a href="{{ route('supplier.index') }}" class="btn btn-danger mt-2">Close</a>
                         <button type="submit" class="btn btn-primary mt-2">Update Supplier</button>
 

@@ -54,13 +54,20 @@
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6">
-                                <label  class="form-label"><sup class="text-danger">*</sup> Transaction Reference No</label>
-                                <input type="text" class="form-control" name="transaction_reference">
-                                <x-error field="transaction_reference" />
+                                <div class="row">
+                                    <label for="transaction_reference"  class="form-label"><sup class="text-danger">*</sup> Transaction Reference No</label>
+                                    <input type="text" class="form-control" name="transaction_reference">
+                                    <x-error field="transaction_reference" />
+                                </div>
+                                <div class="row mt-3">
+                                    <label for="paid_at" class="form-label"><sup class="text-danger">*</sup>Select Paid Date</label>
+                                    <input type="date" class="form-control" name="paid_at">
+                                    <x-error field="paid_at" />
+                                </div>
                             </div>
                         </div>
                         <div>
-                            <a href="{{ route('finance.request.index') }}" class="btn btn-dark mt-2">Back</a>
+                            <a href="{{ route('finance.request.show', $request) }}" class="btn btn-dark mt-2">Back</a>
                             @can('update', $request)
                             <button type="submit" class="btn btn-success mt-2">Confirm Supplier Payment</button>
                             @endcan

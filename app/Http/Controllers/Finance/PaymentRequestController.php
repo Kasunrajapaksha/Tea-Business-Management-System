@@ -22,16 +22,18 @@ class PaymentRequestController extends Controller
         );
 
         $myRequests = PaymentRequest::where('handler_id', Auth::user()->id)->get();
+        $completedRequests = PaymentRequest::where('status', 5)->get();
 
-        return view('finance.request.index', compact(['requests','myRequests']));
+        return view('finance.request.index', compact(['requests','myRequests','completedRequests']));
     }
 
     public function show(PaymentRequest $request){
+
         Gate::authorize('view', PaymentRequest::class);
 
         if(Auth::user()->department->department_name == 'Finance'){
             $request->update([
-                'status' => $request->status > 1 ? $request->status : 1, //under review
+                'status' => $request->status > 1 ? $request->status : 1,
                 'handler_id' => Auth::user()->id,
             ]);
 
@@ -44,7 +46,7 @@ class PaymentRequestController extends Controller
     public function update(PaymentRequest $request, $status){
         Gate::authorize('update', PaymentRequest::class);
 
-        if(Auth::user()->department->department_name == 'Finance'){
+        if(Auth::user()->department->department_name == 'Finance' && $request->status < 3){
 
             $request->update([
                 'status' => (int)$status,

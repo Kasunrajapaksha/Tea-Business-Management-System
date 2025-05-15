@@ -32,8 +32,11 @@
                                 <th class="d-none d-xl-table-cell">Tea_name</th>
                                 <th class="d-none d-xl-table-cell">Supplier</th>
                                 <th class="d-none d-xl-table-cell">Quantity</th>
-                                <th class="d-none d-xl-table-cell">Requested Date</th>
-                                <th class="d-none d-xl-table-cell">Handle By</th>
+                                <th class="d-none d-xl-table-cell">Price Per Kg (LKR)</th>
+                                <th class="d-none d-xl-table-cell">Requested at</th>
+                                <th class="d-none d-xl-table-cell">Requested by</th>
+                                <th class="d-none d-xl-table-cell">Review by</th>
+                                <th class="d-none d-xl-table-cell">Paid at</th>
                                 <th class="d-none d-xl-table-cell">Status</th>
                                 <th class="d-none d-md-table-cell">Action</th>
                             </tr>
@@ -47,27 +50,18 @@
                                     <td class="d-none d-xl-table-cell">{{ $purchase->tea->tea_name }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->supplier->name }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->quantity}}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->created_at->diffForHumans() }}</td>
-                                    @if ($purchase->payment_request->handler)
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->payment_request->handler->first_name .' '. $purchase->payment_request->handler->last_name}}</td>
-                                    @else
-                                    <td class="d-none d-xl-table-cell">-</td>
-                                    @endif
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->price_per_kg}}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->created_at->toDateString() }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->user->first_name . ' ' . $purchase->user->last_name}}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->payment_request->handler ?  $purchase->payment_request->handler->first_name .' '. $purchase->payment_request->handler->last_name : '' }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->payment_request->supplier_payment ? $purchase->payment_request->supplier_payment->paid_at : '' }}</td>
+
 
                                     <td class="d-none d-xl-table-cell">
-                                        <x-status :status='$purchase->payment_request->status' />
+                                        <x-status :status=' $purchase->payment_request->handler ? $purchase->payment_request->status : 0 ' />
                                         </td>
 
                                     <td class="d-none d-xl-table-cell">
-
-                                        {{-- @can('update', $purchase) --}}
-                                        {{-- @endcan --}}
-
-                                    <a class=" my-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#purchase"
-										aria-controls="offcanvasRight"><i class="align-middle ms-2" data-feather="eye"></i></a>
-
-
-
                                     </td>
                                 </tr>
                             @endforeach
@@ -78,43 +72,5 @@
             </div>
         </div>
     </div>
-
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="purchase" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h3 id="offcanvasRightLabel">Customer Details</h3>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-
-            <div class="card">
-
-                <div class="card-header">
-                    <div class="card-actions">
-                        <h5 class="card-title mb-0">Name</h5>
-                    </div>
-                </div>
-
-                <div class="card-body">
-
-                    <div class="">
-                        <div class="">
-                            <div class="mb-2"><strong>No : </strong></div>
-                            <div class="mb-2"><strong>Created : </strong></div>
-                            <div class="mb-2"><strong>Email : </strong></div>
-                            <div class="mb-2"><strong>Telephone : </strong></div>
-                            <div class="mb-2"><strong>Address : </strong></div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-    
 
 </x-app-layout>
