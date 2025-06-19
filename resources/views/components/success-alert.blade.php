@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row m-0 p-o">
     @if (session('success'))
         <div class="card-body">
             <div class="mb-3">

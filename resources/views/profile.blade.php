@@ -99,7 +99,7 @@
 
                             </form>
 
-                            <form action="{{ route('profile.update.image', $user) }}" method="POST" id="delete-image" hidden>
+                            <form action="{{ route('profile.delete.image', $user) }}" method="POST" id="delete-image" hidden>
                                 @csrf
                                 @method('delete')
                             </form>

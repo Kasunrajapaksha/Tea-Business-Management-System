@@ -9,7 +9,7 @@
         </ol>
     </nav>
 
-    <x-success-alert />
+
 
     <div class="container-fluid p-0">
 
@@ -69,51 +69,53 @@
                                 </tr>
                             @endforeach
 
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
         <div class="col-12 px-3">
             {{ $users->links() }}
         </div>
 
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="user" aria-labelledby="offcanvasRightLabel">
-            <div class="offcanvas-header">
-                <h3 id="offcanvasRightLabel">Customer Details</h3>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
+    </div>
 
-                <div class="card">
+    <x-success-alert />
 
-                    <div class="card-header">
-                        <div class="card-actions">
-                            <h5 class="card-title mb-0">Name</h5>
-                        </div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="user" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h3 id="offcanvasRightLabel">Customer Details</h3>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="card-actions">
+                        <h5 class="card-title mb-0">Name</h5>
                     </div>
+                </div>
 
-                    <div class="card-body">
+                <div class="card-body">
 
+                    <div class="">
                         <div class="">
-                            <div class="">
-                                <div class="mb-2"><strong>No : </strong></div>
-                                <div class="mb-2"><strong>Created : </strong></div>
-                                <div class="mb-2"><strong>Email : </strong></div>
-                                <div class="mb-2"><strong>Telephone : </strong></div>
-                                <div class="mb-2"><strong>Address : </strong></div>
+                            <div class="mb-2"><strong>No : </strong></div>
+                            <div class="mb-2"><strong>Created : </strong></div>
+                            <div class="mb-2"><strong>Email : </strong></div>
+                            <div class="mb-2"><strong>Telephone : </strong></div>
+                            <div class="mb-2"><strong>Address : </strong></div>
 
-                            </div>
                         </div>
-
                     </div>
 
                 </div>
 
             </div>
-        </div>
 
+        </div>
     </div>
 
 </x-app-layout>

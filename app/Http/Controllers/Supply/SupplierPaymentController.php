@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Supply;
 
 use App\Http\Controllers\Controller;
+use App\Models\InventoryTransaction;
+use App\Models\MaterialPurchase;
 use App\Models\PaymentRequest;
 use App\Models\Supplier;
 use App\Models\SupplierPayment;
+use App\Models\TeaPurchase;
 use App\Models\User;
 use App\Notifications\SupplierPaymentCompletedNotification;
 use Illuminate\Http\Request;
@@ -28,6 +31,7 @@ class SupplierPaymentController extends Controller{
     public function store(PaymentRequest $request){
         //authorizetion
         Gate::authorize('create',SupplierPayment::class);
+        Gate::authorize('create',InventoryTransaction::class);
 
         //validation
         $validateData = request()->validate([
@@ -46,6 +50,18 @@ class SupplierPaymentController extends Controller{
             'supplier_id' => $request->supplier->id,
         ]);
 
+        //create inventory transaction
+        InventoryTransaction::create([
+            'transaction_type' => 1, //add
+            'item_type' => $request->supplier->type,
+            'material_purchase_id' => $request->material_perchese ? $request->material_perchese->id : null,
+            'tea_purchase_id' => $request->tea_perchese ? $request->tea_perchese->id : null,
+            'tea_id' => $request->tea_perchese ? $request->tea_perchese->tea_id : null,
+            'material_id' => $request->material_perchese ? $request->material_perchese->material_id : null,
+            'supplier_id' => $request->supplier->id,
+
+        ]);
+
         //update supplier payment no
         $payment->update([
             "payment_no"=> 'SPT'.
@@ -62,7 +78,7 @@ class SupplierPaymentController extends Controller{
         //notify users
         $notifypayment = SupplierPayment::findOrFail($payment->id);
         $users = User::whereHas('department', function($query){
-            $query->whereIn('department_name',['Admin','Management','Tea']);
+            $query->whereIn('department_name',['Admin','Management','Tea','Warehouse']);
         })->get();
         foreach ($users as $key => $user) {
             $user->notify(new SupplierPaymentCompletedNotification($notifypayment));

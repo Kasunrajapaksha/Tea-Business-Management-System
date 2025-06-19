@@ -23,6 +23,8 @@ use App\Http\Controllers\Supply\SupplierPaymentController;
 use App\Http\Controllers\Supply\SupplierController;
 use App\Http\Controllers\Tea\TeaController;
 use App\Http\Controllers\Tea\TeaPerchaseController;
+use App\Http\Controllers\Warehouse\InventoryTransactionsController;
+use App\Http\Controllers\Warehouse\WarehouseController;
 
 //For Auth
 Route::controller(SessionController::class)->group(function () {
@@ -81,7 +83,7 @@ Route::middleware(['auth','department:Admin,Management'])->group(function () {
 
 
 //For Notifications
-Route::middleware(['auth','department:Admin,Marketing,Finance,Production,Tea,Management,Shipping'])->group(function () {
+Route::middleware(['auth','department:Admin,Marketing,Finance,Production,Tea,Management,Shipping,Warehouse'])->group(function () {
     Route::controller(NotificationController::class)->group(function () {
         Route::get('/notifications', 'index')->name('notifications.index');
         Route::patch('/notifications/mark-as-read', 'markAsRead')->name('notifications.markAsRead');
@@ -91,7 +93,7 @@ Route::middleware(['auth','department:Admin,Marketing,Finance,Production,Tea,Man
 
 
 //Fro Profile
-Route::middleware(['auth','department:Admin,Marketing,Finance,Production,Tea,Management,Shipping'])->group(function () {
+Route::middleware(['auth','department:Admin,Marketing,Finance,Production,Tea,Management,Shipping,Warehouse'])->group(function () {
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile/{user}/edit', 'index')->name('profile.index');
         Route::patch('/profile/{user}', 'update')->name('profile.update');
@@ -251,6 +253,23 @@ Route::middleware(['auth','department:Shipping'])->group(function () {
             Route::controller(ShippingController::class)->group(function () {
                 Route::get('/dashboard', 'index')->name('index');
                 Route::get('/profile', 'show')->name('show');
+            });
+        });
+    });
+});
+
+//For Warehouse
+Route::middleware(['auth','department:Admin,Warehouse'])->group(function () {
+    Route::prefix('warehouse')->group(function () {
+        Route::name('warehouse.')->group(function () {
+            Route::controller(WarehouseController::class)->group(function () {
+                Route::get('/dashboard', 'index')->name('index');
+            });
+
+            Route::controller(InventoryTransactionsController::class)->group(function () {
+                Route::get('/inventory', 'index')->name('inventory.index');
+                Route::get('/inventory/{transactionId}/show', 'show')->name('inventory.show');
+                Route::patch('/inventory/{transactionId}/update', 'update')->name('inventory.update');
             });
         });
     });

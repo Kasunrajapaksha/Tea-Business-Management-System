@@ -49,6 +49,10 @@ class SidebarService{
                 return [
                     'dashboard' => 'management.index',
                 ];
+            case 'Warehouse':
+                return [
+                    'dashboard' => 'warehouse.index',
+                ];
         }
     }
 }

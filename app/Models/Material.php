@@ -18,4 +18,8 @@ class Material extends Model
     public function material_perchese(){
         return $this->hasMany(MaterialPurchase::class);
     }
+
+    public function inventory_transaction(){
+        return $this->hasMany(InventoryTransaction::class);
+    }
 }

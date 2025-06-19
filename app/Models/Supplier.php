@@ -30,4 +30,8 @@ class Supplier extends Model
     public function supplier_payment(){
         return $this->hasMany(SupplierPayment::class);
     }
+
+    public function inventory_transaction(){
+        return $this->hasMany(InventoryTransaction::class);
+    }
 }

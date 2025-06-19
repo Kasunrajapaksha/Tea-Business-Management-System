@@ -28,5 +28,9 @@ class TeaPurchase extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function inventory_transaction(){
+        return $this->hasMany(InventoryTransaction::class);
+    }
+
 
 }

@@ -66,6 +66,7 @@ class SessionController extends Controller
             'Tea' => redirect()->intended(route('tea.index')),
             'Shipping' => redirect()->intended(route('shipping.index')),
             'Management' => redirect()->intended(route('management.index')),
+            'Warehouse' => redirect()->intended(route('warehouse.index')),
         };
     }
 }

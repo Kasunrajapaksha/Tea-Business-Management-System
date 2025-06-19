@@ -132,18 +132,28 @@
             </li>
             @endcan
 
+
             @can('view', App\Models\Supplier::class)
             @if(in_array(Auth::user()->department->department_name, ['Admin','Management']))
             <li class="sidebar-header">Supply</li>
             @endIf
-                <li class="sidebar-item {{ request()->routeIs('supplier.index') ? 'active' : '' }}">
-                    <a class="sidebar-link" href="{{ route('supplier.index') }}">
-                        <i class="align-middle" data-feather="truck"></i>
-                        <span class="align-middle">Supplier</span>
-                    </a>
-                </li>
+            <li class="sidebar-item {{ request()->routeIs('supplier.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('supplier.index') }}">
+                    <i class="align-middle" data-feather="truck"></i>
+                    <span class="align-middle">Supplier</span>
+                </a>
+            </li>
             @endcan
 
+            @can('view',App\Models\InventoryTransaction::class)
+            <li class="sidebar-header">Warehouse</li>
+            <li class="sidebar-item {{ request()->routeIs('warehouse.inventory.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('warehouse.inventory.index') }}">
+                    <i class="align-middle" data-feather="home"></i>
+                    <span class="align-middle">Stocks</span>
+                </a>
+            </li>
+            @endcan
         </ul>
 
         <div class="sidebar-cta">

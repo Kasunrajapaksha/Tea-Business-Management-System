@@ -73,4 +73,5 @@ class DepartmentController extends Controller
         return redirect()->route('admin.department.index')->with('success','Department updated successfully!');
     }
 
+
 }

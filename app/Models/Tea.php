@@ -18,4 +18,10 @@ class Tea extends Model
     public function tea_perchese(){
         return $this->hasMany(TeaPurchase::class);
     }
+
+    public function inventory_transaction(){
+        return $this->hasMany(InventoryTransaction::class);
+    }
+
+    
 }
