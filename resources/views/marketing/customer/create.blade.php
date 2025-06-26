@@ -19,6 +19,7 @@
                         @csrf
 
                         <input type="text" name="user_id" value="{{ Auth::user()->id }}" hidden>
+
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label for="first_name" class="form-label">First name</label>

@@ -32,7 +32,7 @@
                                 <th class="d-none d-xl-table-cell">Tea Name</th>
                                 <th class="d-none d-xl-table-cell">Standard</th>
                                 <th class="d-none d-xl-table-cell">Price Per Kg (USD)</th>
-                                <th class="d-none d-xl-table-cell">Stock Level</th>
+                                <th class="d-none d-xl-table-cell">Stock Level (kg)</th>
                                 <th class="d-none d-xl-table-cell">Last Update</th>
                                 <th class="d-none d-xl-table-cell">Updated By</th>
                                 <th class="d-none d-md-table-cell">Action</th>
@@ -51,7 +51,7 @@
 
                                     <td class="d-none d-xl-table-cell">{{ $tea->price_per_Kg}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $tea->stock_level}}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $tea->updated_at->diffForHumans() }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $tea->updated_at->toDateString() }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $tea->user->first_name . ' ' . $tea->user->last_name }}</td>
 
                                     <td class="d-none d-xl-table-cell">
@@ -59,14 +59,6 @@
                                             <a href="{{ route('tea.teaType.edit.price.list', $tea) }}"><i class="align-middle" data-feather="dollar-sign"></i></a>
                                             <a href="{{ route('tea.teaType.edit', $tea) }}"><i class="align-middle ms-2" data-feather="edit"></i></a>
                                         @endcan
-
-
-
-                                    <a class=" my-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#tea"
-										aria-controls="offcanvasRight"><i class="align-middle ms-2" data-feather="eye"></i></a>
-
-
-
                                     </td>
                                 </tr>
                             @endforeach
@@ -77,43 +69,4 @@
             </div>
         </div>
     </div>
-
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="tea" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h3 id="offcanvasRightLabel">Customer Details</h3>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-
-            <div class="card">
-
-                <div class="card-header">
-                    <div class="card-actions">
-                        <h5 class="card-title mb-0">Name</h5>
-                    </div>
-                </div>
-
-                <div class="card-body">
-
-                    <div class="">
-                        <div class="">
-                            <div class="mb-2"><strong>No : </strong></div>
-                            <div class="mb-2"><strong>Created : </strong></div>
-                            <div class="mb-2"><strong>Email : </strong></div>
-                            <div class="mb-2"><strong>Telephone : </strong></div>
-                            <div class="mb-2"><strong>Address : </strong></div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-
-
 </x-app-layout>

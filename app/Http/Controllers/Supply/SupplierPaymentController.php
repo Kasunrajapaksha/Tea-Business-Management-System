@@ -86,7 +86,7 @@ class SupplierPaymentController extends Controller{
         }
 
         //return view
-        return redirect()->route('finance.supplier.payment.index')->with('success','Supplier payment complited!');
+        return redirect()->route('finance.supplier.payment.index')->with('success','Supplier payment completed!');
     }
 
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\Finance\PaymentRequestController;
 use App\Http\Controllers\Management\ManagementController;
 use App\Http\Controllers\Marketing\CustomerController;
 use App\Http\Controllers\Marketing\MarketingController;
+use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Production\MaterialPurchaseController;
 use App\Http\Controllers\Production\MaterialController;
 use App\Http\Controllers\Production\ProductionController;
@@ -132,8 +133,17 @@ Route::middleware(['auth','department:Marketing,Admin,Management'])->group(funct
                 Route::get('/customer/{customer}/edit', 'edit')->name('customer.edit');
                 Route::patch('/customer/{customer}', 'update')->name('customer.update');
             });
-
         });
+    });
+});
+
+//For Order
+Route::middleware(['auth','department:Admin,Management,Marketing,Shipping,Production,Tea,Finance'])->group(function () {
+    Route::controller(OrderController::class)->group(function () {
+        Route::get('/order', 'index')->name('order.index');
+        Route::get('/order/{customer}/create', 'create')->name('order.create');
+        Route::post('/order', 'store')->name('order.store');
+        Route::get('/order/{order}/show', 'show')->name('order.show');
     });
 });
 

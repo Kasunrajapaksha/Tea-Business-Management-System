@@ -52,6 +52,7 @@ class MaterialPurchaseRequestNotification extends Notification
             'color' => 'danger',
             'title' => 'PAYMENT REQUEAST!',
             'message' => 'A payment request [' . $this->request->request_no . '] for material purchasing has been sent by '. $this->request->requester->first_name . ' ' . $this->request->requester->last_name . '.',
+            'route' => route('production.material.purchase.index'),
         ];
     }
 }

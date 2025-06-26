@@ -51,6 +51,7 @@ class UpdateStockReceivedNotification extends Notification
             'color' => 'success',
             'title' => $this->stock->tea ? $this->stock->tea->tea_name . 'received!' : $this->stock->material->material_name . ' RECEIVED!',
             'message' => 'The stock [' . ($this->stock->tea_purchase ? $this->stock->tea_purchase->tea_purchase_no  : $this->stock->material_purchase->material_purchase_no)  . '] has been collected by ' . $this->stock->user->first_name . ' ' . $this->stock->user->last_name . '.',
+            'route' => route('warehouse.inventory.index'),
         ];
     }
 }

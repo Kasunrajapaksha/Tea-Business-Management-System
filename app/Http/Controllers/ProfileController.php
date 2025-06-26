@@ -48,7 +48,7 @@ class ProfileController extends Controller
 
             $user->update(['image'=> $imagePath]);
 
-            return redirect()->route('profile.index', $user)->with('success', 'Image uploaded successfully');
+            return redirect()->route('profile.index', $user)->with('success', 'Image uploaded successfully!');
         }
     }
 
@@ -61,7 +61,7 @@ class ProfileController extends Controller
             'password'=> Hash::make($validatedData['password']),
         ]);
 
-        return redirect()->back()->with('success', 'Reset password successfully!');
+        return redirect()->back()->with('success', 'Password updated successfully!');
     }
 
     public function destroyImage(User $user){

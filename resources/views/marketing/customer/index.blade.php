@@ -50,8 +50,11 @@
                                     <td></td>
 
                                     <td class="d-none d-xl-table-cell">
+                                        @can('create', App\Models\Order::class)
+                                            <a href="{{route('order.create',$customer)}}" class="btn btn-sm btn-primary">Order</a>
+                                        @endcan
                                         @can('update', $customer)
-                                            <a href="{{route('marketing.customer.edit',$customer)}}"><i class="align-middle" data-feather="edit"></i></a>
+                                            <a href="{{route('marketing.customer.edit',$customer)}}" class="btn btn-sm btn-primary">Edit</a>
                                         @endcan
                                     </td>
                                 </tr>

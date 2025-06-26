@@ -53,6 +53,7 @@ class AddNewTeaNotification extends Notification
             'color' => 'info',
             'title' => 'NEW TEA!',
             'message' => 'A new Tea [' . $this->tea->tea_no . '] has been added by ' . $this->tea->user->first_name . ' ' . $this->tea->user->last_name . '.',
+            'route' => route('tea.teaType.index'),
         ];
     }
 }

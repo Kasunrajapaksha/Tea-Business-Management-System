@@ -109,34 +109,34 @@
     </div>
 
     <div class="modal fade" id="oredrReceive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-3" id="staticBackdropLabel">Confirm order received!</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <h5>
-            @if ($transaction->tea_purchase)
-            - Received <strong>{{ $transaction->tea_purchase->quantity . 'kg ' . $transaction->tea_purchase->tea->tea_name }}</strong> [{{ $transaction->tea_purchase->tea_purchase_no }}] from <strong>{{ $transaction->supplier->name }}</strong>.
-            @elseif ($transaction->material_purchase)
-            - Received <strong>{{ $transaction->material_purchase->units . ' ' . $transaction->material_purchase->material->material_name }}</strong> [{{ $transaction->material_purchase->material_purchase_no }}] from <strong>{{ $transaction->supplier->name }}</strong>.
-            @endif
-        </h5>
-        <h5>
-            - Updated by <strong>{{ $user->first_name . ' ' . $user->last_name }}</strong> on <strong>{{ now()->format('Y-m-d') }}</strong>.
-        </h5>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <form action="{{ route('warehouse.inventory.update', $transaction) }}" method="post" id="transaction-update-form">
-            @csrf
-            @method('PATCH')
-            <button class="btn btn-success">Confirm</button>
-            </form>
-      </div>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-3" id="staticBackdropLabel">Confirm order received!</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5>
+                    @if ($transaction->tea_purchase)
+                    - Received <strong>{{ $transaction->tea_purchase->quantity . 'kg ' . $transaction->tea_purchase->tea->tea_name }}</strong> [{{ $transaction->tea_purchase->tea_purchase_no }}] from <strong>{{ $transaction->supplier->name }}</strong>.
+                    @elseif ($transaction->material_purchase)
+                    - Received <strong>{{ $transaction->material_purchase->units . ' ' . $transaction->material_purchase->material->material_name }}</strong> [{{ $transaction->material_purchase->material_purchase_no }}] from <strong>{{ $transaction->supplier->name }}</strong>.
+                    @endif
+                </h5>
+                <h5>
+                    - Updated by <strong>{{ $user->first_name . ' ' . $user->last_name }}</strong> on <strong>{{ now()->format('Y-m-d') }}</strong>.
+                </h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <form action="{{ route('warehouse.inventory.update', $transaction) }}" method="post" id="transaction-update-form">
+                    @csrf
+                    @method('PATCH')
+                    <button class="btn btn-success">Confirm</button>
+                    </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 </x-app-layout>

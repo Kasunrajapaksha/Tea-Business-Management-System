@@ -40,7 +40,7 @@
                     @else
                     @foreach ($notifications as $notification)
                     <div class="list-group">
-                        <a href="#" class="list-group-item">
+                        <a href="{{ $notification->data['route']}}" class="list-group-item">
                             <div class="row g-0 align-items-center">
                                 <div class="col-2">
                                     <i class="text-{{ $notification->data['color']}}" data-feather="{{ $notification->data['icon']}}"></i>

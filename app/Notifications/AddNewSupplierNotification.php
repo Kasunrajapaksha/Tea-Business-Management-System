@@ -52,6 +52,7 @@ class AddNewSupplierNotification extends Notification
             'color' => 'info',
             'title' => 'NEW SUPPLIER!',
             'message' => 'A new Supplier [' . $this->supplier->supplier_no . '] has been added by ' . $this->supplier->user->first_name . ' ' . $this->supplier->user->last_name . '.',
+            'route' => route('supplier.index'),
         ];
     }
 }

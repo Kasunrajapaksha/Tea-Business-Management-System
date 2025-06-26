@@ -89,9 +89,8 @@ class InventoryTransactionsController extends Controller
                     $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
                 }
             }
-        } elseif($transaction->transaction_type === 2){ // check reduce
-            dd('code!');
         }
+
 
 
 

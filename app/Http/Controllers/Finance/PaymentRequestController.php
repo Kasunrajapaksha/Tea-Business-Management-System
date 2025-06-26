@@ -21,7 +21,7 @@ class PaymentRequestController extends Controller
             : PaymentRequest::all()
         );
 
-        $myRequests = PaymentRequest::where('handler_id', Auth::user()->id)->get();
+        $myRequests = PaymentRequest::where('handler_id', Auth::user()->id )->whereIn('status',[1,2])->get();
         $completedRequests = PaymentRequest::whereIn('status', [5,6])->get();
 
         return view('finance.request.index', compact(['requests','myRequests','completedRequests']));

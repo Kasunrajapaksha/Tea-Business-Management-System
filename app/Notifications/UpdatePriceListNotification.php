@@ -53,6 +53,7 @@ class UpdatePriceListNotification extends Notification
             'color' => 'danger',
             'title' => 'PRICE LIST UPDATED!',
             'message' => 'The price for ' . $this->tea->tea_name . ' has been updated by ' . $this->tea->user->first_name . ' ' . $this->tea->user->last_name . '.',
+            'route' => route('teaType.update.price.list'),
         ];
     }
 }

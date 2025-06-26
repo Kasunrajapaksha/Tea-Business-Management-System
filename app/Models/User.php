@@ -62,6 +62,10 @@ class User extends Authenticatable implements CanResetPassword {
         return $this->hasMany(InventoryTransaction::class);
     }
 
+    public function order(){
+        return $this->hasMany(Order::class);
+    }
+
 
 
     protected function casts(): array

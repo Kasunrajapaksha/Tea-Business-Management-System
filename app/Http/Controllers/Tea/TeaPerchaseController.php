@@ -88,7 +88,7 @@ class TeaPerchaseController extends Controller
         }
 
         //return view
-        return redirect()->route('tea.purchase.index')->with('success','Sent tea purchase request successfully!');
+        return redirect()->route('tea.purchase.index')->with('success','Tea purchase request sent successfully!');
     }
 
 }

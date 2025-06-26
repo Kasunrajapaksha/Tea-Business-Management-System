@@ -67,7 +67,7 @@ class UserController extends Controller
 
 
         //return view
-        return redirect()->route('admin.user.index')->with('success','User created successfully!');
+        return redirect()->route('admin.user.index')->with('success','User added successfully!');
     }
 
     public function edit(User $user){

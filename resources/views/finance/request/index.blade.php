@@ -19,20 +19,15 @@
             <div class="col-12 col-lg-12">
                 <div class="tab">
 
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item"><a class="nav-link active" href="#tab-1" data-bs-toggle="tab" role="tab">{{ $user->department->department_name == 'Finance' ? 'Pending Payment Requests' : 'All Payment Requests' }}</a></li>
+                    <ul class="nav nav-pills" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" href="#tab-1" data-bs-toggle="tab" role="tab">{{ $user->department->department_name == 'Finance' ? 'Pending Payment' : 'All Requests' }}</a></li>
                         @if ($user->department->department_name == 'Finance')
-                        <li class="nav-item"><a class="nav-link" href="#tab-2" data-bs-toggle="tab" role="tab">My Payment Requests</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#tab-2" data-bs-toggle="tab" role="tab">Pending Action</a></li>
                         @endif
-                        <li class="nav-item"><a class="nav-link" href="#tab-3" data-bs-toggle="tab" role="tab">Completed Payment Requests</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#tab-3" data-bs-toggle="tab" role="tab">Completed Payments</a></li>
                     </ul>
-
-                    <div class="tab-content">
+                    <div class="tab-content mt-2">
                         <div class="tab-pane active" id="tab-1" role="tabpanel">
-                            <div class="p-3">
-                                <h1 class="d-inline align-middle">{{ $user->department->department_name == 'Finance' ? 'Pending Payment Requests' : 'All Payment Requests' }}</h1>
-                            </div>
-
                             <div class="col-12 d-flex">
                                 <div class="card flex-fill">
                                     <div class="card-body">
@@ -44,12 +39,9 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="d-none d-xl-table-cell">Request No</th>
-                                                        <th class="d-none d-xl-table-cell">Requested By</th>
-                                                        <th class="d-none d-xl-table-cell">Supplier</th>
-                                                        <th class="d-none d-xl-table-cell">Amount (LKR)</th>
+                                                        <th class="d-none d-xl-table-cell">Requested by</th>
                                                         <th class="d-none d-xl-table-cell">Requested at</th>
-                                                        <th class="d-none d-xl-table-cell">Paid at</th>
-                                                        <th class="d-none d-xl-table-cell">Review By</th>
+                                                        <th class="d-none d-xl-table-cell">Amount (LKR)</th>
                                                         <th class="d-none d-xl-table-cell">Status</th>
                                                         <th class="d-none d-md-table-cell">Action</th>
                                                     </tr>
@@ -61,11 +53,8 @@
                                                         <tr>
                                                             <td class="d-none d-xl-table-cell">{{ $request->request_no }}</td>
                                                             <td class="d-none d-xl-table-cell">{{ $request->requester->first_name . ' ' . $request->requester->last_name }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->supplier->name }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->amount }}</td>
                                                             <td class="d-none d-xl-table-cell">{{ $request->created_at->toDateString() }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->supplier_payment ? $request->supplier_payment->paid_at : '' }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->supplier_payment ? $request->supplier_payment->user->first_name . ' ' . $request->supplier_payment->user->last_name : '' }}</td>
+                                                            <td class="d-none d-xl-table-cell">{{ $request->amount }}</td>
 
                                                             <td class="d-none d-xl-table-cell">
                                                                 <x-status :status='$request->status' />
@@ -94,9 +83,9 @@
                         </div>
 
                         <div class="tab-pane" id="tab-3" role="tabpanel">
-                            <div class="p-3">
+                            {{-- <div class="p-3">
                                 <h1 class="d-inline align-middle">Completed Payment Requests</h1>
-                            </div>
+                            </div> --}}
 
                             <div class="col-12 d-flex">
                                 <div class="card flex-fill">
@@ -109,12 +98,9 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="d-none d-xl-table-cell">Request No</th>
-                                                        <th class="d-none d-xl-table-cell">Requested By</th>
-                                                        <th class="d-none d-xl-table-cell">Supplier</th>
-                                                        <th class="d-none d-xl-table-cell">Amount (LKR)</th>
+                                                        <th class="d-none d-xl-table-cell">Requested by</th>
                                                         <th class="d-none d-xl-table-cell">Requested at</th>
-                                                        <th class="d-none d-xl-table-cell">paid at</th>
-                                                        <th class="d-none d-xl-table-cell">Review By</th>
+                                                        <th class="d-none d-xl-table-cell">Amount (LKR)</th>
                                                         <th class="d-none d-xl-table-cell">Status</th>
                                                         <th class="d-none d-md-table-cell">Action</th>
                                                     </tr>
@@ -126,11 +112,8 @@
                                                         <tr>
                                                             <td class="d-none d-xl-table-cell">{{ $request->request_no }}</td>
                                                             <td class="d-none d-xl-table-cell">{{ $request->requester->first_name . ' ' . $request->requester->last_name }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->supplier->name }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->amount }}</td>
                                                             <td class="d-none d-xl-table-cell">{{ $request->created_at->toDateString() }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->supplier_payment ? $request->supplier_payment->paid_at : '' }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->supplier_payment ? $request->supplier_payment->user->first_name . ' ' . $request->supplier_payment->user->last_name : '' }}</td>
+                                                            <td class="d-none d-xl-table-cell">{{ $request->amount }}</td>
 
                                                             <td class="d-none d-xl-table-cell">
                                                                 <x-status :status='$request->status' />
@@ -160,9 +143,9 @@
 
                         @if ($user->department->department_name == 'Finance')
                             <div class="tab-pane" id="tab-2" role="tabpanel">
-                                <div class="p-3">
+                                {{-- <div class="p-3">
                                     <h1 class="d-inline align-middle">My Payment Requests</h1>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-12 d-flex">
                                     <div class="card flex-fill">
@@ -175,12 +158,9 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="d-none d-xl-table-cell">Request No</th>
-                                                            <th class="d-none d-xl-table-cell">Requested By</th>
-                                                            <th class="d-none d-xl-table-cell">Supplier</th>
-                                                            <th class="d-none d-xl-table-cell">Amount (LKR)</th>
+                                                            <th class="d-none d-xl-table-cell">Requested by</th>
                                                             <th class="d-none d-xl-table-cell">Requested at</th>
-                                                            <th class="d-none d-xl-table-cell">paid at</th>
-                                                            <th class="d-none d-xl-table-cell">Review By</th>
+                                                            <th class="d-none d-xl-table-cell">Amount (LKR)</th>
                                                             <th class="d-none d-xl-table-cell">Status</th>
                                                             <th class="d-none d-md-table-cell">Action</th>
                                                         </tr>
@@ -192,11 +172,8 @@
                                                             <tr>
                                                             <td class="d-none d-xl-table-cell">{{ $request->request_no }}</td>
                                                             <td class="d-none d-xl-table-cell">{{ $request->requester->first_name . ' ' . $request->requester->last_name }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->supplier->name }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->amount }}</td>
                                                             <td class="d-none d-xl-table-cell">{{ $request->created_at->toDateString() }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->supplier_payment ? $request->supplier_payment->paid_at : '' }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->supplier_payment ? $request->supplier_payment->user->first_name . ' ' . $request->supplier_payment->user->last_name : '' }}</td>
+                                                            <td class="d-none d-xl-table-cell">{{ $request->amount }}</td>
 
                                                             <td class="d-none d-xl-table-cell">
                                                                 <x-status :status='$request->status' />

@@ -6,10 +6,10 @@
 <nav id="sidebar" class="sidebar js-sidebar ">
     <div class="sidebar-content js-simplebar">
         <a class="sidebar-brand" href="index.html">
-            <span class="align-middle">TBMS</span>
+            <img src="{{ asset('admin_asset/img/logo/continental_logo-2.png') }}" class="img-fluid ms-4" style="width: 150px">
         </a>
 
-        <div class="sidebar-user">
+        <div class="sidebar-user my-4">
             <div class="d-flex justify-content-center px-4">
                 <div class="flex-shrink-0">
                     <a href="{{ route('profile.index', Auth::user()->id) }}"><img
@@ -64,13 +64,23 @@
 
             @can('view', App\Models\Customer::class)
             <li class="sidebar-header">Marketing Department</li>
+            <li class="sidebar-item {{ request()->routeIs('marketing.customer.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('marketing.customer.index') }}">
+                    <i class="align-middle" data-feather="user"></i>
+                    <span class="align-middle">Customer</span>
+                </a>
+            </li>
+            @endcan
 
-                <li class="sidebar-item {{ request()->routeIs('marketing.customer.index') ? 'active' : '' }}">
-                    <a class="sidebar-link" href="{{ route('marketing.customer.index') }}">
-                        <i class="align-middle" data-feather="user"></i>
-                        <span class="align-middle">Customer</span>
-                    </a>
-                </li>
+            @can('view', App\Models\Order::class)
+            <li class="sidebar-header">Orders</li>
+
+            <li class="sidebar-item {{ request()->routeIs('order.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('order.index') }}">
+                    <i class="align-middle" data-feather="package"></i>
+                    <span class="align-middle">Order</span>
+                </a>
+            </li>
             @endcan
 
             @can('view', App\Models\PaymentRequest::class)
@@ -155,6 +165,7 @@
             </li>
             @endcan
         </ul>
+
 
         <div class="sidebar-cta">
             <div class="sidebar-cta-content">

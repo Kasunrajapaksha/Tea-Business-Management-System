@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Gate;
 
 class TeaTypeController extends Controller
 {
-    public function index(){
+    public function index(){ 
         Gate::authorize('view', Tea::class);
 
         $teas = Tea::all();

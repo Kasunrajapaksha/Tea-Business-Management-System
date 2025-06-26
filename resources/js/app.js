@@ -1,5 +1,6 @@
 import './bootstrap';
 import $ from 'jquery';
+
 window.$ = window.jQuery = $;
 
 
@@ -13,6 +14,9 @@ window.addEventListener('DOMContentLoaded', function(){
         }
     }, 5000);
 });
+
+
+
 
 
 
