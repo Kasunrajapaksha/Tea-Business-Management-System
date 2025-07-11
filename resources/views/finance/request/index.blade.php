@@ -54,7 +54,7 @@
                                                             <td class="d-none d-xl-table-cell">{{ $request->request_no }}</td>
                                                             <td class="d-none d-xl-table-cell">{{ $request->requester->first_name . ' ' . $request->requester->last_name }}</td>
                                                             <td class="d-none d-xl-table-cell">{{ $request->created_at->toDateString() }}</td>
-                                                            <td class="d-none d-xl-table-cell">{{ $request->amount }}</td>
+                                                            <td class="d-none d-xl-table-cell">{{ number_format($request->amount) }}</td>
 
                                                             <td class="d-none d-xl-table-cell">
                                                                 <x-status :status='$request->status' />

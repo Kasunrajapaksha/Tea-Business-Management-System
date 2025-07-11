@@ -18,10 +18,11 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 	<link href="{{ asset('admin_asset/css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('datatables/datatables.min.css') }}">
 
     <script defer src="{{ asset('admin_asset/js/app.js') }}"></script>
-    <script defer src="{{ asset('datatables/datatables.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ asset('datatables/datatables.css') }}">
+    <script defer src="{{ asset('datatables/datatables.js') }}"></script>
 
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 

@@ -82,6 +82,30 @@
                 </a>
             </li>
             @endcan
+            @can('view', App\Models\ProductionPlan::class)
+            <li class="sidebar-item {{ request()->routeIs('production.plan.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('production.plan.index') }}">
+                    <i class="align-middle" data-feather="map"></i>
+                    <span class="align-middle">Production Plan</span>
+                </a>
+            </li>
+            @endcan
+            @can('view',App\Models\ShippingSchedule::class)
+            <li class="sidebar-item {{ request()->routeIs('shipping.schedule.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('shipping.schedule.index') }}">
+                    <i class="align-middle" data-feather="calendar"></i>
+                    <span class="align-middle">Shipping schedule</span>
+                </a>
+            </li>
+            @endcan
+            @can('view',App\Models\ProformaInvoice::class)
+            <li class="sidebar-item {{ request()->routeIs('marketing.invoice.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('marketing.invoice.index') }}">
+                    <i class="align-middle" data-feather="file"></i>
+                    <span class="align-middle">Proforma Invoice</span>
+                </a>
+            </li>
+            @endcan
 
             @can('view', App\Models\PaymentRequest::class)
             <li class="sidebar-header">Finance Department</li>
@@ -133,6 +157,7 @@
             </li>
             @endcan
 
+
             @can('view', App\Models\MaterialPurchase::class)
             <li class="sidebar-item {{ request()->routeIs('production.material.purchase.index') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('production.material.purchase.index') }}">
@@ -154,6 +179,17 @@
                 </a>
             </li>
             @endcan
+
+            @can('view',App\Models\ShippingProvider::class)
+            <li class="sidebar-header">Shippig</li>
+            <li class="sidebar-item {{ request()->routeIs('shipping.provider.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('shipping.provider.index') }}">
+                    <i class="align-middle" data-feather="anchor"></i>
+                    <span class="align-middle">Shipping Provider</span>
+                </a>
+            </li>
+            @endcan
+
 
             @can('view',App\Models\InventoryTransaction::class)
             <li class="sidebar-header">Warehouse</li>

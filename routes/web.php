@@ -15,17 +15,22 @@ use App\Http\Controllers\Finance\PaymentRequestController;
 use App\Http\Controllers\Management\ManagementController;
 use App\Http\Controllers\Marketing\CustomerController;
 use App\Http\Controllers\Marketing\MarketingController;
+use App\Http\Controllers\Marketing\ProformaInvoiceController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Production\MaterialPurchaseController;
 use App\Http\Controllers\Production\MaterialController;
 use App\Http\Controllers\Production\ProductionController;
+use App\Http\Controllers\Production\ProductionPlanController;
 use App\Http\Controllers\Shipping\ShippingController;
+use App\Http\Controllers\Shipping\ShippingProviderController;
+use App\Http\Controllers\Shipping\ShippingScheduleController;
 use App\Http\Controllers\Supply\SupplierPaymentController;
 use App\Http\Controllers\Supply\SupplierController;
 use App\Http\Controllers\Tea\TeaController;
 use App\Http\Controllers\Tea\TeaPerchaseController;
 use App\Http\Controllers\Warehouse\InventoryTransactionsController;
 use App\Http\Controllers\Warehouse\WarehouseController;
+use App\Models\ShippingProvider;
 
 //For Auth
 Route::controller(SessionController::class)->group(function () {
@@ -47,6 +52,11 @@ Route::middleware(['auth','department:Admin,Management'])->group(function () {
 
             Route::controller(AdminController::class)->group(function () {
                 Route::get('/dashboard', 'index')->name('index');
+                Route::get('/report/customer', 'customerReport')->name('report.customer');
+                Route::get('/report/order', 'orderReport')->name('report.order');
+                Route::get('/report/supplier/payament', 'supplierPayament')->name('report.supplier.payament');
+                Route::get('/report/tea/purchase', 'teaPurchase')->name('report.tea.purchase');
+
             });
 
             Route::controller(UserController::class)->group(function () {
@@ -133,6 +143,16 @@ Route::middleware(['auth','department:Marketing,Admin,Management'])->group(funct
                 Route::get('/customer/{customer}/edit', 'edit')->name('customer.edit');
                 Route::patch('/customer/{customer}', 'update')->name('customer.update');
             });
+
+            Route::controller(ProformaInvoiceController::class)->group(function () {
+                Route::get('/invoice',  'index')->name('invoice.index');
+                Route::get('/invoice/{order}/create',  'create')->name('invoice.create');
+                Route::post('/invoice/{order}',  'store')->name('invoice.store');
+                Route::get('/invoice/{invoice}',  'show')->name('invoice.show');
+                Route::get('/invoice/{invoice}/edit',  'edit')->name('invoice.edit');
+                Route::patch('/invoice/{invoice}',  'update')->name('invoice.update');
+            });
+
         });
     });
 });
@@ -144,6 +164,9 @@ Route::middleware(['auth','department:Admin,Management,Marketing,Shipping,Produc
         Route::get('/order/{customer}/create', 'create')->name('order.create');
         Route::post('/order', 'store')->name('order.store');
         Route::get('/order/{order}/show', 'show')->name('order.show');
+        Route::get('/order/{order}', 'edit')->name('order.edit');
+        Route::patch('/order/{order}', 'update')->name('order.update');
+        Route::patch('/order/{order}/{status}', 'updateStatus')->name('order.status.update');
     });
 });
 
@@ -198,7 +221,6 @@ Route::middleware(['auth','department:Production,Admin,Management'])->group(func
 
             Route::prefix('material')->group(function () {
                 Route::name('material.')->group(function () {
-
                     Route::controller(MaterialPurchaseController::class)->group(function () {
                         Route::get('/purchase', 'index')->name('purchase.index');
                         Route::get('/purchase/create', 'create')->name('purchase.create');
@@ -207,6 +229,14 @@ Route::middleware(['auth','department:Production,Admin,Management'])->group(func
                 });
             });
 
+            Route::controller(ProductionPlanController::class)->group(function () {
+                Route::get('/plan', 'index')->name('plan.index');
+                Route::get('/plan/{order}/create', 'create')->name('plan.create');
+                Route::post('/plan/store', 'store')->name('plan.store');
+                Route::get('/plan/{plan}/show', 'show')->name('plan.show');
+                Route::get('/plan/{plan}/edit', 'edit')->name('plan.edit');
+                Route::patch('/plan/{plan}', 'update')->name('plan.update');
+            });
 
         });
     });
@@ -257,12 +287,31 @@ Route::middleware(['auth','department:Management'])->group(function () {
 
 
 //For Shipping role
-Route::middleware(['auth','department:Shipping'])->group(function () {
+Route::middleware(['auth','department:Shipping,Admin,Management'])->group(function () {
     Route::prefix('shipping')->group(function () {
         Route::name('shipping.')->group(function () {
             Route::controller(ShippingController::class)->group(function () {
                 Route::get('/dashboard', 'index')->name('index');
                 Route::get('/profile', 'show')->name('show');
+            });
+
+            Route::controller(ShippingScheduleController::class)->group(function () {
+                Route::get('/schedule','index')->name('schedule.index');
+                Route::get('/schedule/{order}/create', 'create')->name('schedule.create');
+                Route::post('/schedule/store', 'store')->name('schedule.store');
+                Route::get('/schedule/{schedule}/show', 'show')->name('schedule.show');
+                Route::get('/schedule/{schedule}/edit', 'edit')->name('schedule.edit');
+                Route::patch('/schedule/{schedule}', 'update')->name('schedule.update');
+            });
+
+            Route::controller(ShippingProviderController::class)->group(function () {
+                Route::get('/provider', 'index')->name('provider.index');
+                Route::get('/provider/create', 'create')->name('provider.create');
+                Route::post('/provider/store', 'store')->name('provider.store');
+                Route::get('/provider/{provider}/show', 'show')->name('provider.show');
+                Route::get('/provider/{provider}/edit', 'edit')->name('provider.edit');
+                Route::patch('/provider/{provider}', 'update')->name('provider.update');
+                Route::delete('/provider/{provider}', 'destroy')->name('provider.destroy');
             });
         });
     });

@@ -37,20 +37,27 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label for="order_item" class="form-label">Order Item</label>
-                                <select name="order_item" id="order_item" class="form-control">
+                                <select name="tea_id" id="tea_id" class="form-control">
                                         <option value="#">Select Tea</option>
                                     @foreach ($teas as $tea )
                                         <option value="{{ $tea->id }}">{{ $tea->tea_name }}</option>
                                     @endforeach
                                 </select>
-                                <x-error field="order_item" />
+                                <x-error field="tea_id" />
                             </div>
 
                             <div class="mb-3 col-md-6">
-                                    <label for="quantity" class="form-label">Quantity (Kg)</label>
-                                    <input type="number" step="0.01" class="form-control" id="quantity" name="quantity" value="{{ old('quantity')}}">
-                                    <x-error field="quantity" />
-                                </div>
+                                <label for="quantity" class="form-label">Quantity (Kg)</label>
+                                <input type="number" step="0.01" class="form-control" id="quantity" name="quantity" value="{{ old('quantity')}}">
+                                <x-error field="quantity" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-md-12">
+                                <label for="packing_instractions" class="form-label">Packing Instructions</label>
+                                <textarea name="packing_instractions" id="packing_instractions" class="form-control"></textarea>
+                                <x-error field="packing_instractions" />
+                            </div>
                         </div>
 
                         <a href="{{ route('marketing.customer.index') }}" class="btn btn-danger mt-2">Close</a>
@@ -80,3 +87,5 @@
     </div>
 
 </x-app-layout>
+
+

@@ -26,4 +26,20 @@ class Order extends Model
     public function orderItem(){
         return $this->hasOne(OrderItem::class);
     }
+
+    public function productionPlan(){
+        return $this->hasOne(ProductionPlan::class);
+    }
+
+    public function productionMaterial(){
+        return $this->hasOne(ProductionMaterial::class);
+    }
+
+    public function shippingSchedule(){
+        return $this->hasOne(ShippingSchedule::class);
+    }
+
+    public function proformaInvoice(){
+        return $this->hasOne(ProformaInvoice::class);
+    }
 }

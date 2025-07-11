@@ -53,8 +53,14 @@
                                     <td class="d-none d-xl-table-cell">{{ $purchase->price_per_kg}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->created_at->toDateString() }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->user->first_name . ' ' . $purchase->user->last_name}}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->payment_request->handler ?  $purchase->payment_request->handler->first_name .' '. $purchase->payment_request->handler->last_name : '' }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->payment_request->supplier_payment ? $purchase->payment_request->supplier_payment->paid_at : '' }}</td>
+                                    {{-- {{dd($purchase )}} --}}
+                                    @if ($purchase->payment_request->handler !== null)
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->payment_request->handler->first_name .' '. $purchase->payment_request->handler->last_name }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $purchase->payment_request->supplier_payment->paid_at }}</td>
+                                    @else
+                                    <td class="d-none d-xl-table-cell"></td>
+                                    <td class="d-none d-xl-table-cell"></td>
+                                    @endif
 
 
                                     <td class="d-none d-xl-table-cell">
@@ -62,7 +68,7 @@
                                         </td>
 
                                     <td class="d-none d-xl-table-cell">
-                                        
+
                                     </td>
                                 </tr>
                             @endforeach

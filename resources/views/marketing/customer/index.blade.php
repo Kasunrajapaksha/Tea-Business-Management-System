@@ -47,14 +47,14 @@
                                     <td class="d-none d-xl-table-cell">{{ $customer->email}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $customer->number}}</td>
                                     <td class="d-none d-xl-table-cell" style="width: 200px">{{ $customer->address}}</td>
-                                    <td></td>
+                                    <td class="d-none d-xl-table-cell">{{ $customer->order->count()}}</td>
 
                                     <td class="d-none d-xl-table-cell">
                                         @can('create', App\Models\Order::class)
-                                            <a href="{{route('order.create',$customer)}}" class="btn btn-sm btn-primary">Order</a>
+                                        <a href="{{route('order.create',$customer)}}" class="btn btn-sm btn-primary">Order</a>
                                         @endcan
                                         @can('update', $customer)
-                                            <a href="{{route('marketing.customer.edit',$customer)}}" class="btn btn-sm btn-primary">Edit</a>
+                                        <a href="{{route('marketing.customer.edit',$customer)}}" class="btn btn-sm btn-primary">Edit</a>
                                         @endcan
                                     </td>
                                 </tr>

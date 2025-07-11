@@ -22,4 +22,8 @@ class Material extends Model
     public function inventory_transaction(){
         return $this->hasMany(InventoryTransaction::class);
     }
+
+    public function productionMaterial(){
+        return $this->hasMany(ProductionMaterial::class);
+    }
 }

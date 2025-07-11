@@ -19,7 +19,7 @@
             <div class="card flex-fill">
                 <div class="card-body">
 
-                    <table class="table table-hover table-striped my-0" id="myTable">
+                    <table class="table table-hover table-striped my-0">
 
                         <thead>
                             <tr>
@@ -27,7 +27,7 @@
                                 <th class="d-none d-xl-table-cell">Customer Name</th>
                                 <th class="d-none d-xl-table-cell">Order Item</th>
                                 <th class="d-none d-xl-table-cell">Quantity (Kg)</th>
-                                <th class="d-none d-xl-table-cell">Total Amount</th>
+                                <th class="d-none d-xl-table-cell">Total Amount (USD)</th>
                                 <th class="d-none d-xl-table-cell">Order Date</th>
                                 <th class="d-none d-xl-table-cell">Status</th>
                                 <th class="d-none d-md-table-cell">Action</th>
@@ -57,35 +57,12 @@
                                 </tr>
                             @endforeach
 
-
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-12 px-3">
-            {{ $orders->links() }}
-        </div>
 
 </x-app-layout>
-
-<script>
-    $(document).ready(function() {
-        $('#myTable').DataTable({
-            responsive: true,
-            paging: true,
-            searching: true,
-            ordering: true,
-            pageLength: 10,
-            lengthMenu: [10, 25, 50, 100],
-            language: {
-                search: "Search records:",
-                lengthMenu: "Show _MENU_ records per page",
-                info: "Showing _START_ to _END_ of _TOTAL_ entries"
-            }
-        });
-    });
-</script>
 

@@ -65,6 +65,7 @@
                                         @endcan
                                         <a class=" my-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#user"
 										aria-controls="offcanvasRight"><i class="align-middle ms-2" data-feather="eye"></i></a>
+
                                     </td>
                                 </tr>
                             @endforeach

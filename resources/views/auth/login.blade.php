@@ -12,7 +12,7 @@
                             <div class="row g-0">
 
                                 <div class="col-md-7">
-                                    <img src="{{ asset('admin_asset/img/photos/image-2.jpg')}}" class="img-fluid rounded-start" style="max-height:600px" >
+                                    <img src="{{ asset('admin_asset/img/photos/image.png')}}" class="img-fluid rounded-start" style="max-height:600px" >
                                 </div>
 
                                 <div class="col-md-5 py-3 px-2">

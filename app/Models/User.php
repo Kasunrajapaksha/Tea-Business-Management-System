@@ -66,6 +66,30 @@ class User extends Authenticatable implements CanResetPassword {
         return $this->hasMany(Order::class);
     }
 
+    public function shippingProvider(){
+        return $this->hasMany(ShippingProvider::class);
+    }
+
+    public function shippingSchadule(){
+        return $this->hasMany(ShippingSchedule::class);
+    }
+
+    public function proformaInvoice(){
+        return $this->hasMany(ProformaInvoice::class);
+    }
+
+    public function customerPayment(){
+        return $this->hasMany(CustomerPayment::class);
+    }
+
+    public function productionPlan(){
+        return $this->hasMany(ProductionPlan::class);
+    }
+
+    public function productionMaterial(){
+        return $this->hasMany(ProductionMaterial::class);
+    }
+
 
 
     protected function casts(): array

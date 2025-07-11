@@ -42,7 +42,7 @@
                                             <td class="d-none d-xl-table-cell">{{ $payment->payment_no }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $payment->payment_request->request_no }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $payment->supplier->name }}</td>
-                                            <td class="d-none d-xl-table-cell">{{ $payment->amount }}</td>
+                                            <td class="d-none d-xl-table-cell">{{ number_format($payment->amount) }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $payment->paid_at }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $payment->user->first_name . ' ' . $payment->user->last_name }}</td>
                                             <td></td>
