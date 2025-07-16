@@ -59,9 +59,30 @@
                                 <x-error field="bank_details" />
                             </div>
                         </div>
-                        
-                        <a href="{{ route('supplier.index') }}" class="btn btn-danger mt-2">Close</a>
-                        <button type="submit" class="btn btn-primary mt-2">Update Supplier</button>
+
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="{{ route('supplier.show', $supplier) }}" class="btn btn-secondary mt-2">Close</a>
+                            @can('update', $supplier)
+                            <a class="btn btn-primary mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#updateSupplier">Update Supplier</a>
+                            @endcan
+                        </div>
+
+                        <div class="modal fade" id="updateSupplier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-3" id="staticBackdropLabel">Confirm!</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>Are you sure you want to update the supplier details?</h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <a class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
+                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Yes</button>
+                                </div>
+                            </div>
+                        </div>
 
                     </form>
                 </div>

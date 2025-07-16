@@ -17,7 +17,7 @@
         @endcan
 
         <div class="mb-3">
-            <h1 class="d-inline align-middle">All Shipping Provider</h1>
+            <h1 class="d-inline align-middle">All Production Plans</h1>
         </div>
 
         <div class="col-12 d-flex">
@@ -33,7 +33,7 @@
                                 <th class="d-none d-xl-table-cell">Materials</th>
                                 <th class="d-none d-xl-table-cell">Production start</th>
                                 <th class="d-none d-xl-table-cell">Production end</th>
-                                <th class="d-none d-xl-table-cell">Created by</th>
+                                <th class="d-none d-xl-table-cell">Updated by</th>
                                 <th class="d-none d-xl-table-cell">Order status</th>
                                 <th class="d-none d-md-table-cell">Action</th>
                             </tr>

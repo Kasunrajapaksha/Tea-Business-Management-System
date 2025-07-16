@@ -52,7 +52,7 @@ class TeaPurchaseRequestNotification extends Notification
             'color' => 'danger',
             'title' => 'PAYMENT REQUEAST!',
             'message' => 'A payment request [' . $this->request->request_no . '] for tea purchasing has been sent by '. $this->request->requester->first_name . ' ' . $this->request->requester->last_name . '.',
-            'route' => route('tea.purchase.index'),
+            'route' => route('finance.request.show', $this->request->id),
         ];
     }
 }

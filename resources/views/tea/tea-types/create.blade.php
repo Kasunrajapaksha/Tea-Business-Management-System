@@ -40,9 +40,13 @@
                             </div>
                         </div>
 
-                        <a href="{{ route('tea.teaType.index' ) }}" class="btn btn-danger mt-2">Close</a>
-                        <button type="submit" class="btn btn-primary mt-2">Add New Tea</button>
-
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="{{ route('tea.teaType.index' ) }}" class="btn btn-secondary mt-2">Close</a>
+                            @can('create', App\Models\Tea::class)
+                            <button type="submit" class="btn btn-primary mt-2">Add New Tea</button>
+                            @endcan
+                        </div>
+                        
                     </form>
                 </div>
             </div>

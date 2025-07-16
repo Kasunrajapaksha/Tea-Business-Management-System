@@ -19,7 +19,10 @@ return new class extends Migration
             $table->string('vessel_name');
             $table->date('departure_date');
             $table->date('arrival_date');
+            $table->date('actual_departure_date')->nullable();
+            $table->date('actual_arrival_date')->nullable();
             $table->decimal('shipping_cost')->nullable();
+            $table->string('tracking_number')->nullable();
             $table->string('departure_port');
             $table->string('arrival_port');
             $table->string('shipping_note')->nullable();

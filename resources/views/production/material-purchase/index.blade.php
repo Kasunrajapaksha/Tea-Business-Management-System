@@ -9,6 +9,7 @@
 </nav>
 
 <x-success-alert />
+<x-danger-alert />
 
     <div class="container-fluid p-0">
 
@@ -33,10 +34,8 @@
                                 <th class="d-none d-xl-table-cell">Supplier</th>
                                 <th class="d-none d-xl-table-cell">Units</th>
                                 <th class="d-none d-xl-table-cell">Unit Price (LKR)</th>
-                                <th class="d-none d-xl-table-cell">Requested at</th>
+                                <th class="d-none d-xl-table-cell">Requested on</th>
                                 <th class="d-none d-xl-table-cell">Requested by</th>
-                                <th class="d-none d-xl-table-cell">Review by</th>
-                                <th class="d-none d-xl-table-cell">Paid at</th>
                                 <th class="d-none d-xl-table-cell">Status</th>
                                 <th class="d-none d-md-table-cell">Action</th>
                             </tr>
@@ -53,15 +52,15 @@
                                     <td class="d-none d-xl-table-cell">{{ $purchase->unit_price}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->created_at->toDateString() }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->user->first_name . ' ' . $purchase->user->last_name}}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->payment_request->handler ?  $purchase->payment_request->handler->first_name .' '. $purchase->payment_request->handler->last_name : '' }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->payment_request->supplier_payment ? $purchase->payment_request->supplier_payment->paid_at : '' }}</td>
-
 
                                     <td class="d-none d-xl-table-cell">
                                         <x-status :status=' $purchase->payment_request->handler ? $purchase->payment_request->status : 0 ' />
                                         </td>
 
                                     <td class="d-none d-xl-table-cell">
+                                        @can('view', App\Models\MaterialPurchase::class)
+                                        <a href="{{ route('production.material.purchase.show', $purchase) }}" class="btn btn-sm btn-primary">Review</a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach
@@ -71,6 +70,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="col-12 px-3">
+        {{ $purchases->links() }}
     </div>
 
 </x-app-layout>

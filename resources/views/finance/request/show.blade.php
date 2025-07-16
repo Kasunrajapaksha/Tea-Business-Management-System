@@ -82,17 +82,13 @@
 
                         </div>
                         <div class="d-flex align-items-center justify-content-between">
-                            <a href="{{ route('finance.request.index') }}" class="btn btn-dark mt-2">Back</a>
+                            <a href="{{ route('finance.request.index') }}" class="btn btn-secondary mt-2">Close</a>
                             @can('update', $request)
-                            @if ($request->status < 3)
                             <div class="d-flex align-items-center">
-                                <div>Update status :</div>
-                                <button type="button" class="btn btn-lg btn-primary mt-2 ms-1" data-bs-toggle="modal" data-bs-target="#onHold">On Hold</button>
-                                <button type="button" class="btn btn-lg btn-secondary mt-2 ms-1" data-bs-toggle="modal" data-bs-target="#canceled">Canceled</button>
-                                <button type="button" class="btn btn-lg btn-danger mt-2 ms-1" data-bs-toggle="modal" data-bs-target="#notApproved">Not Approved</button>
-                                <a href="{{ route('finance.supplier.payment.create', $request) }}" class="btn btn-lg btn-success mt-2 ms-1">Complete Supplier Payment</a>
+                                <button type="button" class="btn btn-danger mt-2 ms-1" data-bs-toggle="modal" data-bs-target="#canceled">Cancel Payment</button>
+                                <a href="{{ route('finance.supplier.payment.create', $request) }}" class="btn btn-success mt-2 ms-1">Complete Supplier Payment</a>
                             </div>
-                            @endif
+
                             @endcan
 
                         </div>
@@ -109,23 +105,6 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="onHold" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-3" id="staticBackdropLabel">Confirm!</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <h4>Are you sure do you want to hold the payment request?</h4>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <a href="{{ route('finance.request.update', [$request, 'status'=>2]) }}" class="btn btn-primary">Yes Hold</a>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="modal fade" id="canceled" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -139,25 +118,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <a href="{{ route('finance.request.update', [$request, 'status'=>3]) }}" class="btn btn-dark">Yes Cancel</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="notApproved" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-3" id="staticBackdropLabel">Confirm!</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <h4>Are you sure do you want to reject the payment request?</h4>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <a href="{{ route('finance.request.update', [$request, 'status'=>4]) }}" class="btn btn-danger">Yes Reject</a>
+        <a href="{{ route('finance.request.cancel', $request) }}" class="btn btn-danger">Yes</a>
       </div>
     </div>
   </div>

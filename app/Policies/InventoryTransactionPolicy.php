@@ -21,8 +21,14 @@ class InventoryTransactionPolicy
 
     public function update(User $user, InventoryTransaction $inventoryTransaction): bool
     {
-        if($inventoryTransaction->status != 6 && $user->role->permissions->contains('permission_name', 'update-inventory')){
-            return true;
+        if($inventoryTransaction->transaction_type == 1){
+            if($inventoryTransaction->status != 6 && $user->role->permissions->contains('permission_name', 'update-inventory')){
+                return true;
+            }
+        } elseif($inventoryTransaction->transaction_type == 2){
+            if($inventoryTransaction->status != 9 && $user->role->permissions->contains('permission_name', 'update-inventory')){
+                return true;
+            }
         }
         return false;
     }

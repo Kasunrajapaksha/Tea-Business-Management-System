@@ -9,11 +9,12 @@
 </nav>
 
 <x-success-alert />
+<x-danger-alert />
 
 <div class="container-fluid p-0">
 
         @can('create', App\Models\Tea::class)
-            <a href="{{ route('tea.teaType.create' )}}" class="btn btn-primary float-end mt-n1 d-flex align-items-center"><i class="align-middle me-2" data-feather="plus"></i> Add Tea</a>
+            <a href="{{ route('tea.teaType.create' )}}" class="btn btn-primary float-end mt-n1 d-flex align-items-center"><i class="align-middle me-2" data-feather="plus"></i> Add New Tea</a>
         @endcan
 
         <div class="mb-3">
@@ -56,8 +57,10 @@
 
                                     <td class="d-none d-xl-table-cell">
                                         @can('update', $tea)
-                                            <a href="{{ route('tea.teaType.edit.price.list', $tea) }}"><i class="align-middle" data-feather="dollar-sign"></i></a>
-                                            <a href="{{ route('tea.teaType.edit', $tea) }}"><i class="align-middle ms-2" data-feather="edit"></i></a>
+                                        <a class="btn btn-sm btn-success mb-1" href="{{ route('tea.teaType.edit.price.list', $tea) }}">Tea Price</a>
+                                        @endcan
+                                        @can('view', $tea)
+                                        <a class="btn btn-sm btn-primary mb-1" href="{{ route('tea.teaType.show', $tea) }}">Review</a>
                                         @endcan
                                     </td>
                                 </tr>

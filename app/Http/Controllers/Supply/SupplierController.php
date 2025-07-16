@@ -32,6 +32,12 @@ class SupplierController extends Controller
         return view('supply.create');
     }
 
+    public function show(Supplier $supplier){
+        Gate::authorize('view', Supplier::class);
+
+        return view('supply.show',compact('supplier'));
+    }
+
     public function store() {
         Gate::authorize('create', Supplier::class);
 
@@ -45,8 +51,8 @@ class SupplierController extends Controller
             'type' => ['required','numeric','digits:2'],
             'email' => ['required','email','lowercase'],
             'number' => ['required','numeric','digits:10'],
-            'address' => ['required','string'],
-            'bank_details' => ['required','string'],
+            'address' => ['required', 'string', 'min:10', 'max:255', 'regex:/^[a-zA-Z0-9\s,.-]+$/'],
+            'bank_details' => ['required', 'string', 'min:10', 'max:255'],
         ]);
 
         $supplier = Supplier::create($validateData);
@@ -73,13 +79,13 @@ class SupplierController extends Controller
     }
 
     public function edit(Supplier $supplier) {
-        Gate::authorize('update', Supplier::class);
+        Gate::authorize('update', $supplier);
 
         return view('supply.edit', compact('supplier'));
     }
 
     public function update(Supplier $supplier){
-        Gate::authorize('create', Supplier::class);
+        Gate::authorize('update', $supplier);
 
         request()->merge([
             'name' => ucwords(strtolower(request()->input('name'))),
@@ -89,12 +95,23 @@ class SupplierController extends Controller
             'name' => ['required','string','max:255'],
             'email' => ['required','email','lowercase'],
             'number' => ['required','numeric','digits:10'],
-            'address' => ['required','string'],
-            'bank_details' => ['required','string'],
+            'address' => ['required', 'string', 'min:10', 'max:255', 'regex:/^[a-zA-Z0-9\s,.-]+$/'],
+            'bank_details' => ['required', 'string', 'min:10', 'max:255'],
         ]);
 
         $supplier->update($validateData);
 
-        return redirect()->route('supplier.index')->with('success','Supplier updated successfully!');
+        return redirect()->route('supplier.show',$supplier)->with('success','Supplier updated successfully!');
+    }
+
+    public function destroy(Supplier $supplier){
+        Gate::authorize('delete',$supplier);
+
+        try {
+            $supplier->delete();
+            return redirect()->route('supplier.index')->with('success', 'Supplier deleted!');
+        } catch (\Exception $e) {
+            return redirect()->route('supplier.show', $supplier)->with('danger', 'Faild to delete supplier.');
+        }
     }
 }

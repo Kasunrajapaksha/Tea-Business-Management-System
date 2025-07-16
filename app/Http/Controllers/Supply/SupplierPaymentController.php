@@ -18,7 +18,7 @@ class SupplierPaymentController extends Controller{
         public function index(){
         Gate::authorize('view',SupplierPayment::class);
 
-        $payments = SupplierPayment::all();
+        $payments = SupplierPayment::latest()->paginate(8);
         return view('finance.supplier-payment.index',compact('payments'));
     }
 
@@ -26,6 +26,16 @@ class SupplierPaymentController extends Controller{
         Gate::authorize('create',SupplierPayment::class);
 
         return view('finance.supplier-payment.create',compact('request'));
+    }
+
+    public function show(SupplierPayment $payment){
+        Gate::authorize('view',SupplierPayment::class);
+        return view('finance.supplier-payment.show',compact('payment'));
+    }
+
+    public function edit(SupplierPayment $payment){
+        Gate::authorize('update',$payment);
+        return view('finance.supplier-payment.edit',compact('payment'));
     }
 
     public function store(PaymentRequest $request){
@@ -87,6 +97,19 @@ class SupplierPaymentController extends Controller{
 
         //return view
         return redirect()->route('finance.supplier.payment.index')->with('success','Supplier payment completed!');
+    }
+
+    public function update(SupplierPayment $payment){
+        Gate::authorize('update',$payment);
+
+        $validateData = request()->validate([
+            'transaction_reference' => ['required','max:255'],
+            'paid_at' => ['required','date'],
+        ]);
+
+        $payment->update($validateData);
+
+        return redirect()->route('finance.supplier.payment.show',$payment)->with('success','Supplier payment updated successfuly!');
     }
 
 }

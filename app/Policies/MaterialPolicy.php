@@ -21,7 +21,7 @@ class MaterialPolicy
     }
 
 
-    public function update(User $user): bool
+    public function update(User $user, Material $material): bool
     {
         return $user->role->permissions->contains('permission_name', 'update-material');
     }
@@ -29,7 +29,7 @@ class MaterialPolicy
 
     public function delete(User $user, Material $material): bool
     {
-        return false;
+        return $user->role->permissions->contains('permission_name', 'delete-material');
     }
 
 

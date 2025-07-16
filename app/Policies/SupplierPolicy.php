@@ -22,7 +22,7 @@ class SupplierPolicy
     }
 
 
-    public function update(User $user): bool
+    public function update(User $user, Supplier $supplier): bool
     {
         return $user->role->permissions->contains('permission_name', 'update-supplier');
     }
@@ -30,7 +30,7 @@ class SupplierPolicy
 
     public function delete(User $user, Supplier $supplier): bool
     {
-        return false;
+        return $user->role->permissions->contains('permission_name', 'delete-supplier');
     }
 
 

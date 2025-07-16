@@ -53,17 +53,17 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label  class="form-label">Supplier No</label>
-                                <input type="text" class="form-control" value="{{$transaction->supplier->supplier_no}}" disabled>
+                                <input type="text" class="form-control" value="{{$transaction->supplier ? $transaction->supplier->name : '' }}" disabled>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label  class="form-label">Supplier Name</label>
-                                <input type="text" class="form-control" value="{{$transaction->supplier->name}}" disabled>
+                                <input type="text" class="form-control" value="{{$transaction->supplier ? $transaction->supplier->name : ''}}" disabled>
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="mb-3 col-md-3">
-                                <label  class="form-label">Requested at</label>
+                                <label  class="form-label">Requested on</label>
                                 <input type="text" class="form-control" value="{{ $transaction->created_at->toDateString()}}" disabled>
                             </div>
                             <div class="mb-3 col-md-3">
@@ -75,7 +75,7 @@
                                 @endif
                             </div>
                             <div class="mb-3 col-md-3">
-                                <label  class="form-label">Paid at</label>
+                                <label  class="form-label">Paid on</label>
                                 @if ($transaction->tea_purchase)
                                 <input type="text" class="form-control" value="{{$transaction->tea_purchase->payment_request->created_at->toDateString()}}" disabled>
                                 @elseif ($transaction->material_purchase)
@@ -91,9 +91,22 @@
                                 @endif
                             </div>
                         </div>
+                        @if ($transaction->status == 6)
+                        <hr>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label  class="form-label">Dispatch on</label>
+                                <input type="text" class="form-control" value="{{ $transaction->updated_at->format('Y-m-d') }}" disabled>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label  class="form-label">Dispatch by</label>
+                                <input type="text" class="form-control" value="{{ $transaction->user->first_name . ' ' . $transaction->user->last_name }}" disabled>
+                            </div>
+                        </div>
+                        @endif
 
                         <div class="d-flex align-items-center justify-content-between">
-                            <a href="{{ route('warehouse.inventory.index') }}" class="btn btn-dark mt-3">Back</a>
+                            <a href="{{ route('warehouse.inventory.index') }}" class="btn btn-secondary mt-3">Close</a>
                             <div class="d-flex align-items-center mt-3">
                                 @can('update', $transaction)
                                 <a type="button" class="btn btn-lg btn-success mt-2 ms-1" data-bs-toggle="modal" data-bs-target="#oredrReceive">Oredr Received</a>

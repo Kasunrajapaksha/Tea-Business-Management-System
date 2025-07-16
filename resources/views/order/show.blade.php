@@ -44,7 +44,7 @@
                         </div>
                         <div class="mb-3 col-md-4">
                             <label  class="form-label">Total Amount</label>
-                            <input type="text" class="form-control" value="USD {{ $order->total_amount }}" disabled>
+                            <input type="text" class="form-control" value="USD {{ number_format($order->total_amount,2) }}" disabled>
                         </div>
                     </div>
                     <div class="row">
@@ -70,48 +70,67 @@
                             <textarea class="form-control" disabled>{{ $order->customer->address }}</textarea>
                         </div>
                     </div>
+                    @if ($order->status >= 12 )
                     <hr>
                     <div class="row">
-                        <div class="mb-3 col-md-3">
+                        <div class="mb-3 col-md-6">
                             <label  class="form-label">Production Start</label>
-                            <input type="text" class="form-control" value="{{ $order->productionPlan ? $order->productionPlan->production_start : ''}}" disabled>
+                            <input type="text" class="form-control" value="{{ $order->status >= 12 ? $order->productionPlan->production_start : ''}}" disabled>
                         </div>
-                        <div class="mb-3 col-md-3">
+                        <div class="mb-3 col-md-6">
                             <label  class="form-label">Production End</label>
-                            <input type="text" class="form-control" value="{{ $order->productionPlan ? $order->productionPlan->production_end : ''}}" disabled>
-                        </div>
-                        <div class="mb-3 col-md-3">
-                            <label  class="form-label">Materials</label>
-                            <input type="text" class="form-control" value="{{ $order->productionMaterial ? $order->productionMaterial->material->material_name : ''}}" disabled>
-                        </div>
-                        <div class="mb-3 col-md-3">
-                            <label  class="form-label">Units</label>
-                            <input type="text" class="form-control" value="{{ $order->productionMaterial ? $order->productionMaterial->units : ''}}" disabled>
+                            <input type="text" class="form-control" value="{{ $order->status >= 12 ? $order->productionPlan->production_end : ''}}" disabled>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-4">
+                            <label  class="form-label">Materials</label>
+                            <input type="text" class="form-control" value="{{ $order->status >= 12 ? $order->productionMaterial->material->material_name : ''}}" disabled>
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label  class="form-label">Units</label>
+                            <input type="text" class="form-control" value="{{ $order->status >= 12 ? $order->productionMaterial->units : ''}}" disabled>
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label  class="form-label">Updated by</label>
+                            <input type="text" class="form-control" value="{{ $order->status >= 12 ? $order->productionPlan->user->first_name . ' '. $order->productionPlan->user->first_name : ''}}" disabled>
+                        </div>
+                    </div>
+                    @endif
+                    @if ($order->status >= 13 )
                     <hr>
                     <div class="row">
                         <div class="mb-3 col-md-4">
                             <label  class="form-label">Date of Shipping</label>
-                            <input type="text" class="form-control" value="{{ $order->shippingSchedule ? 'During the month of ' . \Carbon\Carbon::parse($order->shippingSchedule->departure_date)->format('F Y') : ''}}" disabled>
+                            <input type="text" class="form-control" value="{{ $order->status >= 13 ? 'During the month of ' . \Carbon\Carbon::parse($order->shippingSchedule->departure_date)->format('F Y') : ''}}" disabled>
                         </div>
                         <div class="mb-3 col-md-4">
                             <label  class="form-label">Shipping Provider</label>
-                            <input type="text" class="form-control" value="{{ $order->shippingSchedule ? $order->shippingSchedule->shippingProvider->provider_name : ''}}" disabled>
+                            <input type="text" class="form-control" value="{{ $order->status >= 13 ? $order->shippingSchedule->shippingProvider->provider_name : ''}}" disabled>
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label  class="form-label">Updated by</label>
+                            <input type="text" class="form-control" value="{{ $order->status >= 13 ? $order->shippingSchedule->user->first_name . ' ' . $order->shippingSchedule->user->last_name : ''}}" disabled>
                         </div>
                     </div>
+                    @endif
+                    @if ($order->status >= 15)
                     <hr>
                     <div class="row">
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3 col-md-4">
                             <label  class="form-label">Customer Payment No</label>
-                            <input type="text" class="form-control" value="" disabled>
+                            <input type="text" class="form-control" value="{{ $order->status >= 15 ? $order->proformaInvoice->customerPayment->customer_payment_no : '' }}" disabled>
                         </div>
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3 col-md-4">
                             <label  class="form-label">Customer Paid On</label>
-                            <input type="text" class="form-control" value="" disabled>
+                            <input type="text" class="form-control" value="{{ $order->status >= 15 ? $order->proformaInvoice->customerPayment->paid_at : '' }}" disabled>
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label  class="form-label">Updated by</label>
+                            <input type="text" class="form-control" value="{{ $order->status >= 15 ? $order->proformaInvoice->customerPayment->user->first_name . ' ' . $order->proformaInvoice->customerPayment->user->last_name : '' }}" disabled>
                         </div>
                     </div>
-                    {{-- {{dd($plan)}} --}}
+                    @endif
 
                     <div class="d-flex align-items-center justify-content-between">
                         <a href="{{ route('order.index') }}" class="btn btn-secondary mt-2">Close</a>
@@ -132,6 +151,11 @@
                             @can('create', App\Models\ProformaInvoice::class)
                                 @if ($order->status == 13 )
                                 <a href="{{ route('marketing.invoice.create', $order) }}" class="btn btn-primary mt-2 ms-2">Create Proforma Invoice</a>
+                                @endif
+                            @endcan
+                            @can('create', App\Models\CustomerPayment::class)
+                                @if ($order->status == 14 )
+                                <a href="{{ route('finance.customer.payment.create', $order) }}" class="btn btn-primary mt-2 ms-2">Update Customer Payment</a>
                                 @endif
                             @endcan
                         </div>

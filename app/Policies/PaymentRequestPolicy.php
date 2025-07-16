@@ -21,15 +21,18 @@ class PaymentRequestPolicy
     }
 
 
-    public function update(User $user): bool
+    public function update(User $user, PaymentRequest $paymentRequest): bool
     {
-        return $user->role->permissions->contains('permission_name', 'update-payment-request');
+        if($paymentRequest->status == 1 && $user->role->permissions->contains('permission_name', 'update-payment-request')){
+            return true;
+        }
+        return false;
     }
 
 
     public function delete(User $user, PaymentRequest $paymentRequest): bool
     {
-        return false;
+        return $user->role->permissions->contains('permission_name', 'delete-payment-request');
     }
 
 

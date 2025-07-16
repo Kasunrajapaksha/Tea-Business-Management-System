@@ -9,6 +9,7 @@
 </nav>
 
 <x-success-alert />
+<x-danger-alert />
 
 <div class="container-fluid p-0">
 
@@ -30,7 +31,7 @@
                             <tr>
                                 <th class="d-none d-xl-table-cell">Material No</th>
                                 <th class="d-none d-xl-table-cell">Material Name</th>
-                                <th class="d-none d-xl-table-cell">Unit price (LKR)</th>
+                                <th class="d-none d-xl-table-cell">Unit price (USD)</th>
                                 <th class="d-none d-xl-table-cell">Stock Level</th>
                                 <th class="d-none d-md-table-cell">Action</th>
                             </tr>
@@ -46,17 +47,9 @@
                                     <td class="d-none d-xl-table-cell">{{ $material->stock_level}}</td>
 
                                     <td class="d-none d-xl-table-cell">
-                                        @can('update', $material)
-                                            <a href="{{ route('production.material.edit', $material) }}"><i class="align-middle ms-2" data-feather="edit"></i></a>
+                                        @can('view', App\Models\Material::class)
+                                        <a class="btn btn-sm btn-primary" href="{{ route('production.material.show', $material) }}">Review</a>
                                         @endcan
-
-
-
-                                    <a class=" my-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#material"
-										aria-controls="offcanvasRight"><i class="align-middle ms-2" data-feather="eye"></i></a>
-
-
-
                                     </td>
                                 </tr>
                             @endforeach
@@ -68,42 +61,27 @@
         </div>
     </div>
 
+</x-app-layout>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="material" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h3 id="offcanvasRightLabel">Customer Details</h3>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+<div class="modal fade" id="deleteMaterial" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-3" id="staticBackdropLabel">Confirm!</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
-
-            <div class="card">
-
-                <div class="card-header">
-                    <div class="card-actions">
-                        <h5 class="card-title mb-0">Name</h5>
-                    </div>
-                </div>
-
-                <div class="card-body">
-
-                    <div class="">
-                        <div class="">
-                            <div class="mb-2"><strong>No : </strong></div>
-                            <div class="mb-2"><strong>Created : </strong></div>
-                            <div class="mb-2"><strong>Email : </strong></div>
-                            <div class="mb-2"><strong>Telephone : </strong></div>
-                            <div class="mb-2"><strong>Address : </strong></div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
+        <div class="modal-body">
+            <h4 id="modal-message">Are you sure you want to delete this material?</h4>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <form action="" method="POST" id="materila-form">
+            @csrf
+            @method('DELETE')
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Yes</button>
+            </form>
         </div>
     </div>
+</div>
 
 
-
-</x-app-layout>

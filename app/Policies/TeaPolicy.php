@@ -27,7 +27,7 @@ class TeaPolicy
 
     public function delete(User $user, Tea $tea): bool
     {
-        return false;
+        return $user->role->permissions->contains('permission_name', 'delete-tea');
     }
 
 }

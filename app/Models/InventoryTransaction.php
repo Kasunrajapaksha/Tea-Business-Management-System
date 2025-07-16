@@ -30,6 +30,10 @@ class InventoryTransaction extends Model
         return $this->belongsTo(MaterialPurchase::class);
     }
 
+    public function production_plan(){
+        return $this->belongsTo(ProductionPlan::class);
+    }
+
     public function supplier(){
         return $this->belongsTo(Supplier::class);
     }

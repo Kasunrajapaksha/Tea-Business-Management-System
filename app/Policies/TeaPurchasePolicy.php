@@ -21,12 +21,18 @@ class TeaPurchasePolicy
 
     public function update(User $user, TeaPurchase $teaPurchase): bool
     {
+        if($teaPurchase->payment_request->status == 0 && $user->role->permissions->contains('permission_name', 'update-tea-purchase')){
+            return true;
+        }
         return false;
     }
 
 
     public function delete(User $user, TeaPurchase $teaPurchase): bool
     {
+        if($teaPurchase->payment_request->status == 0 && $user->role->permissions->contains('permission_name', 'delete-tea-purchase')){
+            return true;
+        }
         return false;
     }
 

@@ -21,11 +21,17 @@ class MaterialPurchasePolicy
 
     public function update(User $user, MaterialPurchase $materialPurchase): bool
     {
+        if($materialPurchase->payment_request->status == 0 && $user->role->permissions->contains('permission_name', 'update-material-purchase')){
+            return true;
+        }
         return false;
     }
 
     public function delete(User $user, MaterialPurchase $materialPurchase): bool
     {
+        if($materialPurchase->payment_request->status == 0 && $user->role->permissions->contains('permission_name', 'delete-material-purchase')){
+            return true;
+        }
         return false;
     }
 

@@ -52,7 +52,7 @@ class SupplierPaymentCompletedNotification extends Notification
             'color' => 'success',
             'title' => 'PAYMENT REQUEAST COMPLETED!',
             'message' => 'A payment request [' . $this->payment->payment_request->request_no . '] has been completed by '. $this->payment->user->first_name . ' ' . $this->payment->user->last_name . '.',
-            'route' => route('finance.supplier.payment.index'),
+            'route' => route('finance.supplier.payment.show', $this->payment),
         ];
     }
 }

@@ -6,7 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\ShippingProvider;
 use App\Models\ShippingSchedule;
+use App\Models\User;
+use App\Notifications\OrderDeliveredNotification;
+use App\Notifications\ReadyToShipNotification;
+use App\Notifications\ShippedToCustomerNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class ShippingScheduleController extends Controller
@@ -84,8 +89,10 @@ class ShippingScheduleController extends Controller
             'departure_port' => ['required'],
             'arrival_port' => ['required'],
             'user_id' => ['exists:users,id'],
-            'shipping_cost' => ['required','numeric'],
-            'shipping_note' => ['required'],
+            'shipping_cost' => ['nullable','numeric', 'min:0'],
+            'shipping_note' => ['nullable','string'],
+            'tracking_number' => ['nullable','string'],
+
         ]);
 
         $schedule->update($validateData);
@@ -94,9 +101,67 @@ class ShippingScheduleController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function updateStatus(ShippingSchedule $schedule){
+        Gate::authorize('update', $schedule);
+
+        $order = Order::findOrFail($schedule->order->id);
+
+        if($schedule->order->status == 17){
+            $order->update([
+                'status' => 18 //Shipped to Customer
+            ]);
+
+            $users = User::whereHas('department', function($query){
+                $query->whereIn('department_name',['Admin','Management','Marketing']);
+            })->get();
+            foreach ($users as $key => $user) {
+                $user->notify(new ReadyToShipNotification($schedule));
+                $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
+            }
+
+        } elseif ($schedule->order->status == 18){
+
+            $order->update([
+                'status' => 19 //Shipped to Customer
+            ]);
+
+            $schedule->update([
+                'actual_departure_date' => now()->format('Y-m-d'),
+                'user_id' => Auth::user()->id,
+            ]);
+
+            $users = User::whereHas('department', function($query){
+                $query->whereIn('department_name',['Admin','Management','Marketing']);
+            })->get();
+            foreach ($users as $key => $user) {
+                $user->notify(new ShippedToCustomerNotification($schedule));
+                $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
+            }
+
+        } elseif($schedule->order->status == 19){
+            $order->update([
+                'status' => 20 //Order Delivered
+            ]);
+
+            $schedule->update([
+                'actual_arrival_date' => now()->format('Y-m-d'),
+                'user_id' => Auth::user()->id,
+            ]);
+
+            $users = User::whereHas('department', function($query){
+                $query->whereIn('department_name',['Admin','Management','Marketing']);
+            })->get();
+            foreach ($users as $key => $user) {
+                $user->notify(new OrderDeliveredNotification($schedule));
+                $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
+            }
+
+        }
+
+        return redirect()->route('shipping.schedule.show', $schedule)->with('success','Shipping schedule updated successfully!');
+    }
+
+
     public function destroy(ShippingSchedule $shippingSchedule)
     {
         //

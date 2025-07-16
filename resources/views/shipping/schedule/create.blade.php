@@ -45,11 +45,11 @@
                         </div>
                     </div>
                      <div class="row">
-                        <div class="mb-3 col-md-3">
+                        <div class="mb-3 col-md-6">
                             <label  class="form-label">Production Start</label>
                             <input type="text" class="form-control" value="{{ $order->productionPlan ? $order->productionPlan->production_start : ''}}" disabled>
                         </div>
-                        <div class="mb-3 col-md-3">
+                        <div class="mb-3 col-md-6">
                             <label  class="form-label">Production End</label>
                             <input type="text" class="form-control" value="{{ $order->productionPlan ? $order->productionPlan->production_end : ''}}" disabled>
                         </div>
@@ -58,12 +58,12 @@
                     <div class="row">
                         <div class="mb-3 col-md-4">
                             <label  class="form-label" for="departure_date">Departure Date</label>
-                            <input type="date" class="form-control" name="departure_date" form="shipping-form">
+                            <input type="date" class="form-control" name="departure_date" form="shipping-form" min="{{ $order->productionPlan->production_end }}">
                             <x-error field="departure_date" />
                         </div>
                         <div class="mb-3 col-md-4">
                             <label  class="form-label" for="arrival_date">Arrival Date</label>
-                            <input type="date" class="form-control" name="arrival_date" form="shipping-form">
+                            <input type="date" class="form-control" name="arrival_date" form="shipping-form" min="{{ $order->productionPlan->production_end }}">
                             <x-error field="arrival_date" />
                         </div>
                         <div class="mb-3 col-md-4">
@@ -96,8 +96,8 @@
                     <input type="hidden" name="order_id" value="{{ $order->id }}" form="shipping-form">
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" form="shipping-form">
 
-                    <div class="d-flex align-items-center justify-content-end">
-                        <a href="{{ route('order.show', $order) }}" class="btn btn-danger mt-2">Close</a>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <a href="{{ route('order.show', $order) }}" class="btn btn-secondary mt-2">Close</a>
                         @can('create',App\Models\ShippingSchedule::class)
                         <a class="btn btn-primary mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#updateOrder">Update Order</a>
                         @endcan

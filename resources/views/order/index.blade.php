@@ -40,8 +40,8 @@
                                     <td class="d-none d-xl-table-cell">{{ $order->order_no}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $order->customer->first_name . ' ' . $order->customer->last_name}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $order->orderItem->tea->tea_name }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $order->orderItem->quantity }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $order->total_amount }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ number_format($order->orderItem->quantity) }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ number_format($order->total_amount,2) }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $order->order_date->format('Y-m-d') }}</td>
 
                                     <td class="d-none d-xl-table-cell">
@@ -62,6 +62,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="col-12 px-3">
+            {{ $orders->links() }}
     </div>
 
 </x-app-layout>

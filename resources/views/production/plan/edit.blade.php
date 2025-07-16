@@ -18,12 +18,12 @@
                     <div class="row">
                         <div class="mb-3 col-md-6">
                             <label  class="form-label" for="production_start">Production Start</label>
-                            <input type="date" class="form-control" name="production_start" value="{{ $plan->production_start }}" form="production-form">
+                            <input type="date" class="form-control" name="production_start" value="{{ $plan->production_start }}" min="{{ date('Y-m-d') }}" form="production-form">
                             <x-error field="production_start" />
                         </div>
                         <div class="mb-3 col-md-6">
                             <label  class="form-label" for="production_end">Production End</label>
-                            <input type="date" class="form-control" name="production_end" value="{{ $plan->production_end }}" form="production-form">
+                            <input type="date" class="form-control" name="production_end" value="{{ $plan->production_end }}" min="{{ date('Y-m-d') }}" form="production-form">
                             <x-error field="production_end" />
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                     <input type="hidden" name="id" value="{{ $order->productionMaterial->id }}" form="production-form">
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" form="production-form">
 
-                    <div class="d-flex align-items-center justify-content-end">
+                    <div class="d-flex align-items-center justify-content-between">
                         <a href="{{ route('production.plan.show', $plan) }}" class="btn btn-secondary mt-2">Close</a>
                         @can('update',$plan)
                         <a class="btn btn-primary mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#updateOrder">Update Plan</a>

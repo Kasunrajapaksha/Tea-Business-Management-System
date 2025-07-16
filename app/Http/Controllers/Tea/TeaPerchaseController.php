@@ -17,7 +17,7 @@ class TeaPerchaseController extends Controller
     public function index(){
         Gate::authorize('view', TeaPurchase::class);
 
-        $purchases = TeaPurchase::all();
+        $purchases = TeaPurchase::latest()->paginate(8);
 
         return view('tea.purchase.index', compact('purchases'));
     }
@@ -30,6 +30,19 @@ class TeaPerchaseController extends Controller
         $suppliers = Supplier::where('type',01)->get();
 
         return view('tea.purchase.create', compact(['teas','suppliers']));
+    }
+
+    public function show(TeaPurchase $purchase){
+        Gate::authorize('view', TeaPurchase::class);
+        return view('tea.purchase.show', compact(['purchase']));
+    }
+
+    public function edit(TeaPurchase $purchase){
+        Gate::authorize('update', $purchase);
+        $teas = Tea::all();
+        $suppliers = Supplier::where('type',01)->get();
+
+        return view('tea.purchase.edit', compact(['teas','suppliers','purchase']));
     }
 
     public function store(){
@@ -89,6 +102,44 @@ class TeaPerchaseController extends Controller
 
         //return view
         return redirect()->route('tea.purchase.index')->with('success','Tea purchase request sent successfully!');
+    }
+
+    public function update(TeaPurchase $purchase){
+        Gate::authorize('update', $purchase);
+        $request = PaymentRequest::findOrFail($purchase->payment_request_id);
+        Gate::authorize('update', $request);
+
+        $validateData = request()->validate([
+            'user_id' => ['exists:users,id'],
+            'tea_id' => ['exists:teas,id'],
+            'supplier_id' => ['exists:suppliers,id'],
+            'quantity' => ['required','numeric',],
+            'price_per_kg' => ['required','numeric',],
+        ]);
+
+        $purchase->update($validateData);
+
+        $request->update([
+            'amount' => $purchase->quantity * $purchase->price_per_kg,
+            'supplier_id' => $purchase->supplier_id,
+            'requester_id' => $purchase->user_id,
+        ]);
+
+        return redirect()->route('tea.purchase.show', $purchase)->with('success','Tea purchase updated successfully!');
+    }
+
+    public function destroy(TeaPurchase $purchase){
+        Gate::authorize('delete',$purchase);
+        $request = PaymentRequest::findOrFail($purchase->payment_request_id);
+        Gate::authorize('delete', $request);
+
+        try {
+            $purchase->delete();
+            $request->delete();
+            return redirect()->route('tea.purchase.index')->with('success', 'Tea purchase canceled!');
+        } catch (\Exception $e) {
+            return redirect()->route('tea.purchase.show', $purchase)->with('danger', 'Faild to cancel Tea purchase.');
+        }
     }
 
 }

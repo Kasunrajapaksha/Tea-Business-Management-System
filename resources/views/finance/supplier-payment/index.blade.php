@@ -45,7 +45,12 @@
                                             <td class="d-none d-xl-table-cell">{{ number_format($payment->amount) }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $payment->paid_at }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $payment->user->first_name . ' ' . $payment->user->last_name }}</td>
-                                            <td></td>
+                                            <td class="d-none d-xl-table-cell">
+                                                @can('view', App\Models\SupplierPayment::class)
+                                                <a href="{{ route('finance.supplier.payment.show', $payment) }}" class="btn btn-sm btn-primary">Review</a>
+                                                @endcan
+                                            </td>
+
                                         </tr>
                                     @endforeach
 
@@ -57,6 +62,8 @@
             </div>
         </div>
 
-
+<div class="col-12 px-3">
+        {{ $payments->links() }}
+    </div>
 
 </x-app-layout>

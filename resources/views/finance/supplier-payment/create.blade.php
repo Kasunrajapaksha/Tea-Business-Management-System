@@ -61,16 +61,33 @@
                                 </div>
                                 <div class="row mt-3">
                                     <label for="paid_at" class="form-label"><sup class="text-danger">*</sup>Select Paid Date</label>
-                                    <input type="date" class="form-control" name="paid_at">
+                                    <input type="date" class="form-control" name="paid_at" max="{{ date('Y-m-d')}}">
                                     <x-error field="paid_at" />
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <a href="{{ route('finance.request.show', $request) }}" class="btn btn-dark mt-2">Back</a>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="{{ route('finance.request.show', $request) }}" class="btn btn-secondary mt-2">Colse</a>
                             @can('update', $request)
-                            <button type="submit" class="btn btn-success mt-2">Confirm Supplier Payment</button>
+                            <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#supplierPayment">Confirm Supplier Payment</a>
                             @endcan
+                        </div>
+
+                        <div class="modal fade" id="supplierPayment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-3" id="staticBackdropLabel">Confirm!</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>Are you sure you want to update the supplier payment?</h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Yes</button>
+                                </div>
+                            </div>
                         </div>
                     </form>
 

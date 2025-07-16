@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\Response;
 class SupplierPaymentPolicy
 {
 
-    
+
     public function view(User $user): bool
     {
         return $user->role->permissions->contains('permission_name', 'view-supplier-payment');
@@ -24,13 +24,13 @@ class SupplierPaymentPolicy
 
     public function update(User $user, SupplierPayment $supplierPayment): bool
     {
-        return false;
+        return $user->role->permissions->contains('permission_name', 'update-supplier-payment');
     }
 
 
     public function delete(User $user, SupplierPayment $supplierPayment): bool
     {
-        return false;
+        return $user->role->permissions->contains('permission_name', 'delete-supplier-payment');
     }
 
 }

@@ -27,23 +27,21 @@
                         </div>
 
                         <div class="row">
-                            <div class="mb-3 col-md-4">
+                            <div class="mb-3 col-md-6">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" class="form-control" id="email" name="email" value="{{ old('email')}}">
                                 <x-error field="email" />
                             </div>
 
-                            <div class="mb-3 col-md-4">
+                            <div class="mb-3 col-md-6">
                                 <label for="number" class="form-label">Phone Number</label>
                                 <input type="text" class="form-control" id="number" name="number" value="{{ old('number')}}">
                                 <x-error field="number" />
                             </div>
-                            <div class="mb-3 col-md-4">
-                                <label for="type" class="form-label">Supply Type</label>
-                                <select class="form-control" id="type" name="type">
+                            <div>
+                                <select class="form-control" id="type" name="type" hidden>
                                     <option value="{{ Auth::user()->department->department_name == 'Tea' ? '01' : '02' }}">{{ Auth::user()->department->department_name == 'Tea' ? 'Tea' : 'Material' }}</option>
                                 </select>
-                                <x-error field="type" />
                             </div>
                         </div>
 
@@ -59,9 +57,10 @@
                                 <x-error field="bank_details" />
                             </div>
                         </div>
-
-                        <a href="{{ route('supplier.index') }}" class="btn btn-danger mt-2">Close</a>
-                        <button type="submit" class="btn btn-primary mt-2">Add Supplier</button>
+                         <div class="d-flex align-items-center justify-content-between">
+                             <a href="{{ route('supplier.index') }}" class="btn btn-secondary mt-2">Close</a>
+                             <button type="submit" class="btn btn-primary mt-2">Add Supplier</button>
+                         </div>
 
                     </form>
                 </div>

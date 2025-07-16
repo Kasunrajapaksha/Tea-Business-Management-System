@@ -92,6 +92,7 @@ class ShippingProviderController extends Controller
 
         try {
             $provider->delete();
+            
             return redirect()->route('shipping.provider.index')->with('success', 'Shipping provider deleted!');
         } catch (\Exception $e) {
             return redirect()->route('shipping.provider.show', $provider)->with('danger', 'Faild to delete shippimg provider.');

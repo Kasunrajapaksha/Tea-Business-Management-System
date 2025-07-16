@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Finance\CustomerPaymentController;
 use App\Http\Controllers\Finance\FinanceController;
 use App\Http\Controllers\Finance\PaymentRequestController;
 use App\Http\Controllers\Management\ManagementController;
@@ -121,8 +122,10 @@ Route::middleware(['auth','department:Admin,Production,Tea,Management'])->group(
         Route::get('/supplier', 'index')->name('supplier.index');
         Route::get('/supplier/create', 'create')->name('supplier.create');
         Route::post('/supplier', 'store')->name('supplier.store');
-        Route::get('/supplier/{supplier}', 'edit')->name('supplier.edit');
+        Route::get('/supplier/{supplier}/edit', 'edit')->name('supplier.edit');
+        Route::get('/supplier/{supplier}', 'show')->name('supplier.show');
         Route::patch('/supplier/{supplier}', 'update')->name('supplier.update');
+        Route::delete('/supplier/{supplier}', 'destroy')->name('supplier.destroy');
     });
 });
 
@@ -146,6 +149,7 @@ Route::middleware(['auth','department:Marketing,Admin,Management'])->group(funct
 
             Route::controller(ProformaInvoiceController::class)->group(function () {
                 Route::get('/invoice',  'index')->name('invoice.index');
+                Route::get('/invoice/{invoice}/generate',  'generate')->name('invoice.generate');
                 Route::get('/invoice/{order}/create',  'create')->name('invoice.create');
                 Route::post('/invoice/{order}',  'store')->name('invoice.store');
                 Route::get('/invoice/{invoice}',  'show')->name('invoice.show');
@@ -182,17 +186,32 @@ Route::middleware(['auth','department:Finance,Admin,Management'])->group(functio
             Route::controller(PaymentRequestController::class)->group(function () {
                 Route::get('/request', action: 'index')->name('request.index');
                 Route::get('/request/{request}/show', 'show')->name('request.show');
-                Route::get('/request/{request}/{status}/update', 'update')->name('request.update');
+                Route::get('/request/{request}/cancel', 'cancel')->name('request.cancel');
             });
 
             Route::controller(SupplierPaymentController::class)->group(function () {
                 Route::prefix('supplier')->group(function () {
                     Route::name('supplier.')->group(function () {
-
                         Route::get('/payment', action: 'index')->name('payment.index');
                         Route::get('/payment/{request}/create', action: 'create')->name('payment.create');
                         Route::post('/payment/{request}', action: 'store')->name('payment.store');
+                        Route::get('/payment/{payment}', action: 'show')->name('payment.show');
+                        Route::get('/payment/{payment}/edit', action: 'edit')->name('payment.edit');
+                        Route::patch('/payment/{payment}', action: 'update')->name('payment.update');
 
+                    });
+                });
+            });
+
+            Route::controller(CustomerPaymentController::class)->group(function () {
+                Route::prefix('customer')->group(function () {
+                    Route::name('customer.')->group(function () {
+                        Route::get('/payment', 'index')->name('payment.index');
+                        Route::get('/payment/{order}/create', 'create')->name('payment.create');
+                        Route::post('/payment/store', 'store')->name('payment.store');
+                        Route::get('/payment/{payment}/show', 'show')->name('payment.show');
+                        Route::get('/payment/{payment}/edit', 'edit')->name('payment.edit');
+                        Route::patch('/payment/{payment}/update', 'update')->name('payment.update');
                     });
                 });
             });
@@ -214,9 +233,11 @@ Route::middleware(['auth','department:Production,Admin,Management'])->group(func
             Route::controller(MaterialController::class)->group(function () {
                 Route::get('/material', 'index')->name('material.index');
                 Route::get('/material/create', 'create')->name('material.create');
+                Route::get('/material/{material}/show', 'show')->name('material.show');
                 Route::post('/material', 'store')->name('material.store');
                 Route::get('/material/{material}/edit', 'edit')->name('material.edit');
                 Route::patch('/material/{material}', 'update')->name('material.update');
+                Route::delete('/material/{material}', 'destroy')->name('material.destroy');
             });
 
             Route::prefix('material')->group(function () {
@@ -224,7 +245,11 @@ Route::middleware(['auth','department:Production,Admin,Management'])->group(func
                     Route::controller(MaterialPurchaseController::class)->group(function () {
                         Route::get('/purchase', 'index')->name('purchase.index');
                         Route::get('/purchase/create', 'create')->name('purchase.create');
+                        Route::get('/purchase/{purchase}', 'show')->name('purchase.show');
+                        Route::get('/purchase/{purchase}/edit', 'edit')->name('purchase.edit');
                         Route::post('/purchase', 'store')->name('purchase.store');
+                        Route::patch('/purchase/{purchase}', 'update')->name('purchase.update');
+                        Route::delete('/purchase/{purchase}', 'destroy')->name('purchase.destroy');
                     });
                 });
             });
@@ -236,6 +261,7 @@ Route::middleware(['auth','department:Production,Admin,Management'])->group(func
                 Route::get('/plan/{plan}/show', 'show')->name('plan.show');
                 Route::get('/plan/{plan}/edit', 'edit')->name('plan.edit');
                 Route::patch('/plan/{plan}', 'update')->name('plan.update');
+                Route::patch('/plan/{plan}/update/plan/dates', 'planDates')->name('plan.update.plan.dates');
             });
 
         });
@@ -257,15 +283,21 @@ Route::middleware(['auth','department:Tea,Admin,Marketing,Management'])->group(f
                 Route::get('/teaType/create', 'create')->name('teaType.create');
                 Route::post('/teaType', 'store')->name('teaType.store');
                 Route::get('/teaType/{tea}/edit', 'edit')->name('teaType.edit');
+                Route::get('/teaType/{tea}', 'show')->name('teaType.show');
                 Route::patch('/teaType/{tea}/edit', 'update')->name('teaType.update');
                 Route::get('/teaType/{tea}/edit/priceList', 'editPriceList')->name('teaType.edit.price.list');
                 Route::patch('/teaType/{tea}/edit/priceList', 'updatePriceList')->name('teaType.update.price.list');
+                Route::delete('/teaType/{tea}', 'destroy')->name('teaType.destroy');
             });
 
             Route::controller(TeaPerchaseController::class)->group(function () {
                 Route::get('/purchase', 'index')->name('purchase.index');
                 Route::get('/purchase/create', 'create')->name('purchase.create');
                 Route::post('/purchase', 'store')->name('purchase.store');
+                Route::get('/purchase/{purchase}', 'show')->name('purchase.show');
+                Route::get('/purchase/{purchase}/edit', 'edit')->name('purchase.edit');
+                Route::patch('/purchase/{purchase}', 'update')->name('purchase.update');
+                Route::delete('/purchase/{purchase}', 'destroy')->name('purchase.destroy');
             });
 
         });
@@ -302,6 +334,7 @@ Route::middleware(['auth','department:Shipping,Admin,Management'])->group(functi
                 Route::get('/schedule/{schedule}/show', 'show')->name('schedule.show');
                 Route::get('/schedule/{schedule}/edit', 'edit')->name('schedule.edit');
                 Route::patch('/schedule/{schedule}', 'update')->name('schedule.update');
+                Route::patch('/schedule/{schedule}/update/status', 'updateStatus')->name('schedule.update.status');
             });
 
             Route::controller(ShippingProviderController::class)->group(function () {
@@ -327,8 +360,9 @@ Route::middleware(['auth','department:Admin,Warehouse'])->group(function () {
 
             Route::controller(InventoryTransactionsController::class)->group(function () {
                 Route::get('/inventory', 'index')->name('inventory.index');
-                Route::get('/inventory/{transactionId}/show', 'show')->name('inventory.show');
-                Route::patch('/inventory/{transactionId}/update', 'update')->name('inventory.update');
+                Route::get('/inventory/{transaction}/show', 'show')->name('inventory.show');
+                Route::get('/inventory/{transaction}/show/outgoing', 'showOutgoing')->name('inventory.show.outgoing');
+                Route::patch('/inventory/{transaction}/update', 'update')->name('inventory.update');
             });
         });
     });

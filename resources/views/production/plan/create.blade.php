@@ -51,14 +51,14 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="mb-3 col-md-4">
+                        <div class="mb-3 col-md-6">
                             <label  class="form-label" for="production_start">Production Start</label>
-                            <input type="date" class="form-control" name="production_start" form="production-form">
+                            <input type="date" class="form-control" name="production_start" form="production-form" 	min="{{ date('Y-m-d') }}">
                             <x-error field="production_start" />
                         </div>
-                        <div class="mb-3 col-md-4">
+                        <div class="mb-3 col-md-6">
                             <label  class="form-label" for="production_end">Production End</label>
-                            <input type="date" class="form-control" name="production_end" form="production-form">
+                            <input type="date" class="form-control" name="production_end" form="production-form" min="{{ date('Y-m-d') }}">
                             <x-error field="production_end" />
                         </div>
                     </div>
@@ -88,8 +88,8 @@
                     <input type="hidden" name="order_id" value="{{ $order->id }}" form="production-form">
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" form="production-form">
 
-                    <div class="d-flex align-items-center justify-content-end">
-                        <a href="{{ route('order.show', $order) }}" class="btn btn-danger mt-2">Close</a>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <a href="{{ route('order.show', $order) }}" class="btn btn-secondary mt-2">Close</a>
                         @can('create',App\Models\ProductionPlan::class)
                         <a class="btn btn-primary mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#updateOrder">Update Order</a>
                         @endcan

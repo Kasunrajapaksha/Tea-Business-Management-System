@@ -13,18 +13,20 @@ use Illuminate\Support\Facades\Gate;
 
 class TeaTypeController extends Controller
 {
-    public function index(){ 
+    public function index(){
         Gate::authorize('view', Tea::class);
-
         $teas = Tea::all();
-
-
         return view('tea.tea-types.index', compact('teas'));
     }
 
     public function create(){
         Gate::authorize('create', Tea::class);
         return view('tea.tea-types.create');
+    }
+
+    public function show(Tea $tea){
+        Gate::authorize('view', Tea::class);
+        return view('tea.tea-types.show', compact('tea'));
     }
 
     public function store(){
@@ -109,5 +111,15 @@ class TeaTypeController extends Controller
         }
 
         return redirect()->route('tea.teaType.index')->with('success','Price list updated successfully!');
+    }
+
+    public function destroy(Tea $tea){
+        Gate::authorize('delete', $tea);
+        try {
+            $tea->delete();
+            return redirect()->route('tea.teaType.index')->with('success', 'Tea deleted!');
+        } catch (\Exception $e) {
+            return redirect()->route('tea.purchase.index')->with('danger', 'Faild to delete Tea.');
+        }
     }
 }

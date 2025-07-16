@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\ProformaInvoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+ use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProformaInvoiceController extends Controller{
 
@@ -50,12 +51,18 @@ class ProformaInvoiceController extends Controller{
 
     public function show(ProformaInvoice $invoice){
         Gate::authorize('view', ProformaInvoice::class);
-        return view('marketing.invoice.show', compact('invoice'));
+        return view('marketing.invoice.pdf', compact('invoice'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    public function generate(ProformaInvoice $invoice){
+        Gate::authorize('view', ProformaInvoice::class);
+        $data = [
+            'invoice' => $invoice
+        ];
+        $pdf = Pdf::loadView('marketing.invoice.pdf', $data);
+        return $pdf->download($invoice->invoice_no . '.pdf');
+    }
+
     public function edit(ProformaInvoice $proformaInvoice)
     {
         //

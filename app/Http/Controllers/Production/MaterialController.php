@@ -9,12 +9,17 @@ use App\Notifications\AddNewMaterialNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
-class MaterialController extends Controller
-{
+class MaterialController extends Controller{
     public function index(){
         Gate::authorize('view', Material::class);
         $materials = Material::all();
         return view('production.material.index', compact('materials'));
+    }
+
+    public function show(Material $material){
+        Gate::authorize('view', Material::class);
+
+        return view('production.material.show', compact('material'));
     }
 
     public function create(){
@@ -54,15 +59,16 @@ class MaterialController extends Controller
     }
 
     public function edit(Material $material){
-        Gate::authorize('update', Material::class);
+        Gate::authorize('update', $material);
 
         return view('production.material.edit', compact('material'));
     }
 
     public function update(Material $material){
-        Gate::authorize('update', Material::class);
+        Gate::authorize('update', $material);
 
         $validateData = request()->validate([
+            'user_id' => ['exists:users,id'],
             'material_name' => ['required','string','max:255'],
             'unit_price' => ['required','numeric'],
         ]);
@@ -70,5 +76,15 @@ class MaterialController extends Controller
         $material->update($validateData);
 
         return redirect()->route('production.material.index')->with('success','Material updated successfully!');
+    }
+
+    public function destroy(Material $material){
+        Gate::authorize('delete', $material);
+        try {
+            $material->delete();
+            return redirect()->route('production.material.index')->with('success', 'Material deleted!');
+        } catch (\Exception $e) {
+            return redirect()->route('production.material.index')->with('danger', 'Faild to delete material.');
+        }
     }
 }

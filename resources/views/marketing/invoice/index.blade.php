@@ -40,8 +40,8 @@
                                     <td class="d-none d-xl-table-cell">{{ $invoice->invoice_no }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $invoice->order->order_no }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $invoice->order->orderItem->tea->tea_name }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $invoice->order->customer->first_name . ' ' . $invoice->order->customer->first_name }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ number_format(($invoice->order->productionMaterial->units * $invoice->order->productionMaterial->unit_price) + $invoice->order->total_amount ) }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $invoice->order->customer->first_name . ' ' . $invoice->order->customer->last_name }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ number_format(($invoice->order->productionMaterial->units * $invoice->order->productionMaterial->unit_price) + $invoice->order->total_amount ,2) }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $invoice->issued_at }}</td>
 
 
@@ -49,9 +49,10 @@
                                         <x-status :status='$invoice->order->status' />
                                     </td>
 
-                                    <td class="d-none d-xl-table-cell">
+                                    <td class="d-none d-xl-table-cell" style="width: 150px">
                                         @can('view', App\Models\ProformaInvoice::class)
-                                        <a href="{{ route('marketing.invoice.show', $invoice) }}" class="btn btn-sm btn-primary">Review</a>
+                                        <a href="{{ route('marketing.invoice.show', $invoice) }}" class="btn btn-sm btn-primary" target="_blank">Review</a>
+                                        <a href="{{ route('marketing.invoice.generate', $invoice) }}" class="btn btn-sm btn-dark ms-1"><i class="align-middle" data-feather="download"></i></a>
                                         @endcan
                                     </td>
 

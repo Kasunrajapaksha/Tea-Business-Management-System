@@ -3,6 +3,7 @@
 use App\Models\Material;
 use App\Models\MaterialPurchase;
 use App\Models\PaymentRequest;
+use App\Models\ProductionPlan;
 use App\Models\Supplier;
 use App\Models\Tea;
 use App\Models\TeaPurchase;
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->foreignIdFor(Material::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(MaterialPurchase::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(TeaPurchase::class)->nullable()->constrained()->onDelete('set null');
+            $table->foreignIdFor(ProductionPlan::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(Supplier::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();

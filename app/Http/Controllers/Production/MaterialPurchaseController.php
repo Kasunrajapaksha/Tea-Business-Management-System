@@ -16,18 +16,24 @@ class MaterialPurchaseController extends Controller
     public function index(){
         Gate::authorize('view', MaterialPurchase::class);
 
-        $purchases = MaterialPurchase::all();
+        $purchases = MaterialPurchase::latest()->paginate(8);
 
         return view('production.material-purchase.index',compact('purchases'));
     }
 
     public function create(){
-        Gate::authorize('view', MaterialPurchase::class);
+        Gate::authorize('create', MaterialPurchase::class);
 
         $materials = Material::all();
         $suppliers = Supplier::where('type',02)->get();
 
         return view('production.material-purchase.create', compact(['materials','suppliers']));
+    }
+
+    public function show(MaterialPurchase $purchase){
+        Gate::authorize('view', MaterialPurchase::class);
+
+        return view('production.material-purchase.show', compact(['purchase']));
     }
 
     public function store(){
@@ -38,7 +44,7 @@ class MaterialPurchaseController extends Controller
         //validation
         $validateData = request()->validate([
             'user_id' => ['exists:users,id'],
-            'material_id' => ['exists:teas,id'],
+            'material_id' => ['exists:materials,id'],
             'supplier_id' => ['exists:suppliers,id'],
             'units' => ['required','numeric',],
             'unit_price' => ['required','numeric',],
@@ -87,5 +93,53 @@ class MaterialPurchaseController extends Controller
 
         //return view
         return redirect()->route('production.material.purchase.index')->with('success','Sent material purchase request successfully!');
+    }
+
+    public function edit(MaterialPurchase $purchase){
+        Gate::authorize('update', $purchase);
+
+        $materials = Material::all();
+        $suppliers = Supplier::where('type',02)->get();
+
+        return view('production.material-purchase.edit', compact(['purchase','materials','suppliers']));
+    }
+
+    public function update(MaterialPurchase $purchase){
+        Gate::authorize('update', $purchase);
+        $request = PaymentRequest::findOrFail($purchase->payment_request_id);
+        Gate::authorize('update', $request);
+
+        $validateData = request()->validate([
+            'user_id' => ['exists:users,id'],
+            'material_id' => ['exists:materials,id'],
+            'supplier_id' => ['exists:suppliers,id'],
+            'units' => ['required','numeric',],
+            'unit_price' => ['required','numeric',],
+        ]);
+
+        $purchase->update($validateData);
+
+
+        $request->update([
+            'amount' => $purchase->units * $purchase->unit_price,
+            'supplier_id' => $purchase->supplier_id,
+            'requester_id' => $purchase->user_id,
+        ]);
+
+        return redirect()->route('production.material.purchase.show', $purchase)->with('success','Material purchase details updated successfully!');
+    }
+
+    public function destroy(MaterialPurchase $purchase){
+        Gate::authorize('delete',$purchase);
+        $request = PaymentRequest::findOrFail($purchase->payment_request_id);
+        Gate::authorize('delete', $request);
+
+        try {
+            $purchase->delete();
+            $request->delete();
+            return redirect()->route('production.material.purchase.index')->with('success', 'Material purchase canceled!');
+        } catch (\Exception $e) {
+            return redirect()->route('shipping.provider.show', $purchase)->with('danger', 'Faild to cancel material purchase.');
+        }
     }
 }

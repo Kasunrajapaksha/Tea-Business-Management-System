@@ -60,8 +60,10 @@
                             </div>
                         </div>
 
-                        <a href="{{ route('marketing.customer.index') }}" class="btn btn-danger mt-2">Close</a>
-                        <a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#addOrder">Add Order</a>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="{{ route('marketing.customer.index') }}" class="btn btn-secondary mt-2">Close</a>
+                            <a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#addOrder">Add Order</a>
+                        </div>
 
                         <div class="modal fade" id="addOrder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">

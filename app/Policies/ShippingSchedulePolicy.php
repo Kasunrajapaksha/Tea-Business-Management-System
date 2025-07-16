@@ -20,7 +20,7 @@ class ShippingSchedulePolicy{
 
     public function update(User $user, ShippingSchedule $schedule): bool{
 
-        if($schedule->order->status == 13 && $user->role->permissions->contains('permission_name', 'update-shipping-schedule')){
+        if(($schedule->order->status == 13 || $schedule->order->status >= 17) && $user->role->permissions->contains('permission_name', 'update-shipping-schedule')){
             return true;
         }
         return false;

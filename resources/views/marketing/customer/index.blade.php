@@ -49,9 +49,9 @@
                                     <td class="d-none d-xl-table-cell" style="width: 200px">{{ $customer->address}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $customer->order->count()}}</td>
 
-                                    <td class="d-none d-xl-table-cell">
+                                    <td class="d-none d-xl-table-cell" style="width: 150px">
                                         @can('create', App\Models\Order::class)
-                                        <a href="{{route('order.create',$customer)}}" class="btn btn-sm btn-primary">Order</a>
+                                        <a href="{{route('order.create',$customer)}}" class="btn btn-sm btn-success">New Order</a>
                                         @endcan
                                         @can('update', $customer)
                                         <a href="{{route('marketing.customer.edit',$customer)}}" class="btn btn-sm btn-primary">Edit</a>

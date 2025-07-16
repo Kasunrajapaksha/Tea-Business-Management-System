@@ -29,7 +29,7 @@ class ProductionPlanPolicy{
 
     public function update(User $user, ProductionPlan $plan): bool
     {
-        if($plan->order->status == 12 && $user->role->permissions->contains('permission_name', 'update-production-plan')){
+        if($user->role->permissions->contains('permission_name', 'update-production-plan')){
             return true;
         }
         return false;

@@ -19,39 +19,45 @@
 
                         <input type="text" name="user_id" value="{{ Auth::user()->id }}" hidden>
 
-                        <div class="mb-3 col-md-12">
-                            <label for="tea_id" class="form-label">Tea</label>
-                            <select class="form-control" id="tea_id" name="tea_id">
-                                <option value="">Choose a tea</option>
-                                @foreach ($teas as $tea)
-                                <option value="{{ $tea->id }}">{{ $tea->tea_name }}</option>
-                                @endforeach
-                            </select>
-                            <x-error field="tea_id" />
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="tea_id" class="form-label">Tea</label>
+                                <select class="form-control" id="tea_id" name="tea_id">
+                                    <option value="">Choose a tea</option>
+                                    @foreach ($teas as $tea)
+                                    <option value="{{ $tea->id }}">{{ $tea->tea_name }}</option>
+                                    @endforeach
+                                </select>
+                                <x-error field="tea_id" />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="supplier_id" class="form-label">Supplier</label>
+                                <select class="form-control" id="supplier_id" name="supplier_id">
+                                    <option value="">Choose a supplier</option>
+                                    @foreach ($suppliers as $supplier)
+                                    <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                    @endforeach
+                                </select>
+                                <x-error field="supplier_id" />
+                            </div>
                         </div>
-                        <div class="mb-3 col-md-12">
-                            <label for="supplier_id" class="form-label">Supplier</label>
-                            <select class="form-control" id="supplier_id" name="supplier_id">
-                                <option value="">Choose a supplier</option>
-                                @foreach ($suppliers as $supplier)
-                                <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-error field="supplier_id" />
-                        </div>
-                        <div class="mb-3 col-md-12">
-                            <label for="quantity" class="form-label">Quantity (Kg)</label>
-                            <input type="text" class="form-control" id="quantity" name="quantity" value="{{ old('quantity')}}">
-                            <x-error field="quantity" />
-                        </div>
-                        <div class="mb-3 col-md-12">
-                            <label for="price_per_kg" class="form-label">Price Per Kg</label>
-                            <input type="text" class="form-control" id="price_per_kg" name="price_per_kg" value="{{ old('price_per_kg')}}">
-                            <x-error field="price_per_kg" />
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="quantity" class="form-label">Quantity (Kg)</label>
+                                <input type="text" class="form-control" id="quantity" name="quantity" value="{{ old('quantity')}}">
+                                <x-error field="quantity" />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="price_per_kg" class="form-label">Price Per Kg</label>
+                                <input type="text" class="form-control" id="price_per_kg" name="price_per_kg" value="{{ old('price_per_kg')}}">
+                                <x-error field="price_per_kg" />
+                            </div>
                         </div>
 
-                        <a href="{{ route('tea.purchase.index' ) }}" class="btn btn-danger mt-2">Close</a>
-                        <button type="submit" class="btn btn-primary mt-2">Add New Tea</button>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="{{ route('tea.purchase.index' ) }}" class="btn btn-secondary mt-2">Close</a>
+                            <button type="submit" class="btn btn-primary mt-2">Add New Tea</button>
+                        </div>
 
                     </form>
                 </div>

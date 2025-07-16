@@ -106,6 +106,14 @@
                 </a>
             </li>
             @endcan
+            @can('view', App\Models\CustomerPayment::class)
+            <li class="sidebar-item {{ request()->routeIs('finance.customer.payment.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('finance.customer.payment.index') }}">
+                    <i class="align-middle" data-feather="user"></i>
+                    <span class="align-middle">Customer Payments</span>
+                </a>
+            </li>
+            @endcan
 
             @can('view', App\Models\PaymentRequest::class)
             <li class="sidebar-header">Finance Department</li>

@@ -74,9 +74,6 @@ class OrderController extends Controller
             str_pad($order->id,2,'0', STR_PAD_LEFT) .
             str_pad($orderItem->id,4,'0', STR_PAD_LEFT),
         ]);
-        $tea->update([
-            'stock_level' => $tea->stock_level - $validateData['quantity'],
-        ]);
 
         //send notification
         $users = User::whereHas('department', function($query){
@@ -93,7 +90,7 @@ class OrderController extends Controller
 
     public function show(Order $order){
         Gate::authorize('view', Order::class);
-        
+
         $productionMaterials = ProductionMaterial::all();
 
         return view('order.show', compact(['order']));
