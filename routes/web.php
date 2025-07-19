@@ -65,6 +65,7 @@ Route::middleware(['auth','department:Admin,Management'])->group(function () {
                 Route::get('/user/create', 'create')->name('user.create');
                 Route::post('/user', 'store')->name('user.store');
                 Route::get('/user/{user}/edit', 'edit')->name('user.edit');
+                Route::get('/user/{user}', 'show')->name('user.show');
                 Route::patch('/user/{user}', 'update')->name('user.update');
             });
 
@@ -144,7 +145,9 @@ Route::middleware(['auth','department:Marketing,Admin,Management'])->group(funct
                 Route::get('/customer/create', 'create')->name('customer.create');
                 Route::post('/customer', 'store')->name('customer.store');
                 Route::get('/customer/{customer}/edit', 'edit')->name('customer.edit');
+                Route::get('/customer/{customer}', 'show')->name('customer.show');
                 Route::patch('/customer/{customer}', 'update')->name('customer.update');
+                Route::delete('/customer/{customer}', 'destroy')->name('customer.destroy');
             });
 
             Route::controller(ProformaInvoiceController::class)->group(function () {
@@ -351,7 +354,7 @@ Route::middleware(['auth','department:Shipping,Admin,Management'])->group(functi
 });
 
 //For Warehouse
-Route::middleware(['auth','department:Admin,Warehouse'])->group(function () {
+Route::middleware(['auth','department:Admin,Warehouse,Management'])->group(function () {
     Route::prefix('warehouse')->group(function () {
         Route::name('warehouse.')->group(function () {
             Route::controller(WarehouseController::class)->group(function () {
@@ -360,6 +363,7 @@ Route::middleware(['auth','department:Admin,Warehouse'])->group(function () {
 
             Route::controller(InventoryTransactionsController::class)->group(function () {
                 Route::get('/inventory', 'index')->name('inventory.index');
+                Route::get('/inventory/outgoing', 'indexOutgoing')->name('inventory.index.outgoing');
                 Route::get('/inventory/{transaction}/show', 'show')->name('inventory.show');
                 Route::get('/inventory/{transaction}/show/outgoing', 'showOutgoing')->name('inventory.show.outgoing');
                 Route::patch('/inventory/{transaction}/update', 'update')->name('inventory.update');
@@ -367,6 +371,8 @@ Route::middleware(['auth','department:Admin,Warehouse'])->group(function () {
         });
     });
 });
+
+Route::get('/get-roles/{departmentId}', [RoleController::class, 'getRolesByDepartment']);
 
 
 

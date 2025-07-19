@@ -61,7 +61,7 @@
                         <hr>
                         <div class="row">
                             <div class="mb-3 col-md-6">
-                                <label for="unit_price" class="form-label">Review by</label>
+                                <label for="unit_price" class="form-label">Paid by</label>
                                 <input type="text" class="form-control" id="unit_price" name="unit_price" value="{{ $purchase->payment_request->handler->first_name .' '. $purchase->payment_request->handler->last_name }}" disabled>
                                 <x-error field="unit_price" />
                             </div>

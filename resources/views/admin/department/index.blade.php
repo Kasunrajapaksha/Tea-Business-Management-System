@@ -29,7 +29,9 @@
 
                             <div class="d-flex ms-auto align-items-center">
                                 <p class="py-0 px-1 float-end d-flex align-items-center mb-0"><i class="align-middle me-2" data-feather="user"></i> {{ $users->where('department_id', $department->id)->count() }}</p>
+                                @can('create', App\Models\Role::class)
                                 <a href="{{ route('admin.role.create', $department) }}" class="btn btn-sm btn-primary py-1 px-2 float-end d-flex align-items-center ms-2"><i class="align-middle me-2" data-feather="plus"></i> Add Role</a>
+                                @endcan
                             </div>
 
                         </div>
@@ -89,8 +91,12 @@
                                 </div>
 
                                 <div class="d-flex align-items-center w-25">
+                                    @can('update',$role)
                                     <a href="{{ route('admin.role.edit', $role) }}" class="btn btn-sm btn-info float-end  d-flex align-items-center ms-auto"><i class="align-middle me-2" data-feather="edit-2"></i>Edit</a>
+                                    @endcan
+                                    @can('update', App\Models\Permission::class)
                                     <a href="{{ route('admin.permission.index', $role) }}" class="btn btn-sm btn-dark float-end d-flex align-items-center ms-2"><i class="align-middle me-2" data-feather="eye"></i>Permissions</a>
+                                    @endcan
                                 </div>
 
                             </li>

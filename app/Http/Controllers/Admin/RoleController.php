@@ -61,4 +61,9 @@ class RoleController extends Controller
         //return view
         return redirect()->route('admin.department.index')->with('success','Department updated successfully!');
     }
+
+     public function getRolesByDepartment($departmentId){
+        $roles = Role::where('department_id', $departmentId)->get(['id', 'role_name']);
+        return response()->json(['roles' => $roles]);
+    }
 }

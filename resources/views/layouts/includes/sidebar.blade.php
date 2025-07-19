@@ -200,11 +200,17 @@
 
 
             @can('view',App\Models\InventoryTransaction::class)
-            <li class="sidebar-header">Warehouse</li>
+            <li class="sidebar-header">Inventory</li>
             <li class="sidebar-item {{ request()->routeIs('warehouse.inventory.index') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('warehouse.inventory.index') }}">
-                    <i class="align-middle" data-feather="home"></i>
-                    <span class="align-middle">Stocks</span>
+                    <i class="align-middle" data-feather="arrow-down-left"></i>
+                    <span class="align-middle">Awaiting Stocks</span>
+                </a>
+            </li>
+            <li class="sidebar-item {{ request()->routeIs('warehouse.inventory.index.outgoing') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('warehouse.inventory.index.outgoing') }}">
+                    <i class="align-middle" data-feather="arrow-up-right"></i>
+                    <span class="align-middle">Pending Stocks</span>
                 </a>
             </li>
             @endcan

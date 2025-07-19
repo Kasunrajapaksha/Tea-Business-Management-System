@@ -11,22 +11,19 @@ use Illuminate\Support\Facades\Gate;
 
 class CustomerController extends Controller {
     public function index(){
-
         Gate::authorize('view', Customer::class);
-
-        $user = Auth::user();
-        $customers = ($user->role->role_name == 'Admin')
-            ? Customer::all()
-            : Customer::where('user_id', $user->id)->get();
-
+        $customers = Customer::where('status','active')->latest()->paginate(8);
         return view('marketing.customer.index', compact('customers'));
     }
 
     public function create(){
         Gate::authorize('create', Customer::class);
-
         return view('marketing.customer.create');
+    }
 
+    public function show(Customer $customer){
+        Gate::authorize('view', Customer::class);
+        return view('marketing.customer.show', compact('customer'));
     }
 
     public function store(){
@@ -76,7 +73,7 @@ class CustomerController extends Controller {
 
     public function edit(Customer $customer){
         // authorization
-        Gate::authorize("update", Customer::class);
+        Gate::authorize("update", $customer);
 
         //return view
         return view('marketing.customer.edit', compact('customer'));
@@ -84,7 +81,7 @@ class CustomerController extends Controller {
 
     public function update(Customer $customer){
         // authorization
-        Gate::authorize("update", Customer::class);
+        Gate::authorize("update", $customer);
 
         //capitalize
         request()->merge([
@@ -105,9 +102,19 @@ class CustomerController extends Controller {
         $customer->update($validateData);
 
         //return view
-        return redirect()->route('marketing.customer.index')->with('success','Customer updated successfully!');
+        return redirect()->route('marketing.customer.show', $customer)->with('success','Customer updated successfully!');
 
     }
+
+    public function destroy(Customer $customer){
+        Gate::authorize("delete", $customer);
+
+        $customer->update([
+            'status' => 'inactive'
+        ]);
+
+        return redirect()->route('marketing.customer.index')->with('success','Customer deleted successfully!');
+    } 
 
 
 }

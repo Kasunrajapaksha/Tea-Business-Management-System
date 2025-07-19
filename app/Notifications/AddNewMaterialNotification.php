@@ -53,7 +53,7 @@ class AddNewMaterialNotification extends Notification
             'color' => 'info',
             'title' => 'NEW MATERIAL!',
             'message' => 'A new material [' . $this->material->material_no . '] has been added by ' . $this->material->user->first_name . ' ' . $this->material->user->last_name . '.',
-            'route' => route('production.material.index'),
+            'route' => route('production.material.show',$this->material),
         ];
     }
 }

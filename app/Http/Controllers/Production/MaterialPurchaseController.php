@@ -24,8 +24,8 @@ class MaterialPurchaseController extends Controller
     public function create(){
         Gate::authorize('create', MaterialPurchase::class);
 
-        $materials = Material::all();
-        $suppliers = Supplier::where('type',02)->get();
+        $materials = Material::where('status','active')->get();
+        $suppliers = Supplier::where('type',02)->where('status','active')->get();
 
         return view('production.material-purchase.create', compact(['materials','suppliers']));
     }
@@ -98,7 +98,7 @@ class MaterialPurchaseController extends Controller
     public function edit(MaterialPurchase $purchase){
         Gate::authorize('update', $purchase);
 
-        $materials = Material::all();
+        $materials = Material::where('status','active')->get();
         $suppliers = Supplier::where('type',02)->get();
 
         return view('production.material-purchase.edit', compact(['purchase','materials','suppliers']));

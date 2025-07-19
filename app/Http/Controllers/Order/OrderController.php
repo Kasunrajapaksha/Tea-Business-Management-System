@@ -137,6 +137,7 @@ class OrderController extends Controller
 
     public function updateStatus(Order $order, $status){
         Gate::authorize('update', $order);
+        
         $order->update([
             'status' => (int)$status
         ]);

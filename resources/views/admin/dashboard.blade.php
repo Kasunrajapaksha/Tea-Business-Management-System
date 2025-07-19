@@ -39,7 +39,7 @@
         </div>
 
         <div class="col-3">
-            <div class="card">
+            <div class="card"> 
                 <div class="card-body">
                     <div class="row">
                         <div class="col mt-0">

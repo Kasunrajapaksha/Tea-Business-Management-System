@@ -18,9 +18,9 @@ class SupplierController extends Controller
          if(in_array($user->department->department_name, ['Admin','Management'])){
             $suppliers = Supplier::all();
          } elseif($user->department->department_name == 'Tea'){
-            $suppliers = Supplier::where('type',01)->get();
+            $suppliers = Supplier::where('type',01)->where('status','active')->latest()->paginate(8);
          } elseif($user->department->department_name == 'Production'){
-            $suppliers = Supplier::where('type',02)->get();
+            $suppliers = Supplier::where('type',02)->where('status','active')->latest()->paginate(8);
          }
 
         return view('supply.index',compact('suppliers'));
@@ -107,11 +107,10 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier){
         Gate::authorize('delete',$supplier);
 
-        try {
-            $supplier->delete();
-            return redirect()->route('supplier.index')->with('success', 'Supplier deleted!');
-        } catch (\Exception $e) {
-            return redirect()->route('supplier.show', $supplier)->with('danger', 'Faild to delete supplier.');
-        }
+        $supplier->update([
+            'status' => 'inactive'
+        ]);
+
+        return redirect()->route('supplier.index')->with('success', 'Supplier deleted!');
     }
 }

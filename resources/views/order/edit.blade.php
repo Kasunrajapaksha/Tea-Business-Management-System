@@ -65,7 +65,6 @@
                             <a href="{{ route('order.show',$order) }}" class="btn btn-secondary mt-2">Close</a>
                             <div class="d-flex">
                                 @can('update', $order)
-                                <a class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#canceled">Cancel the Order</a>
                                 <a class="btn btn-primary ms-1" data-bs-toggle="modal" data-bs-target="#updateOrder">Update Order Details</a>
                                 @endcan
                             </div>
@@ -97,27 +96,7 @@
 
 
 
-<div class="modal fade" id="canceled" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-3" id="staticBackdropLabel">Confirm!</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <h4>Are you sure do you want to cancel the order?</h4>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <form action="{{ route('order.status.update', [$order,'status'=>3]) }}" method="post">
-            @csrf
-            @method('patch')
-            <button type="submit" class="btn btn-primary">Yes</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 
 

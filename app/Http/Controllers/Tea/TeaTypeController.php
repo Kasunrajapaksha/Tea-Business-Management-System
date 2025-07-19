@@ -15,7 +15,7 @@ class TeaTypeController extends Controller
 {
     public function index(){
         Gate::authorize('view', Tea::class);
-        $teas = Tea::all();
+        $teas = Tea::where('status','active')->latest()->paginate(8);
         return view('tea.tea-types.index', compact('teas'));
     }
 
@@ -115,11 +115,11 @@ class TeaTypeController extends Controller
 
     public function destroy(Tea $tea){
         Gate::authorize('delete', $tea);
-        try {
-            $tea->delete();
-            return redirect()->route('tea.teaType.index')->with('success', 'Tea deleted!');
-        } catch (\Exception $e) {
-            return redirect()->route('tea.purchase.index')->with('danger', 'Faild to delete Tea.');
-        }
+
+        $tea->update([
+            'status' => 'inactive'
+        ]);
+
+        return redirect()->route('tea.teaType.index')->with('success', 'Tea deleted!');
     }
 }

@@ -135,8 +135,11 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <a href="{{ route('order.index') }}" class="btn btn-secondary mt-2">Close</a>
                         <div class="d-flex">
+                            @can('delete', $order)
+                            <a class="btn btn-danger ms-1 mt-2" data-bs-toggle="modal" data-bs-target="#canceled">Cancel the Order</a>
+                            @endcan
                             @can('update', $order)
-                            <a href="{{ route('order.edit', $order) }}" class="btn btn-primary ms-2">Update Order</a>
+                            <a href="{{ route('order.edit', $order) }}" class="btn btn-primary ms-2 mt-2">Update Order</a>
                             @endcan
                             @can('create', App\Models\ProductionPlan::class)
                                 @if ($order->status == 11)
@@ -169,3 +172,24 @@
 </x-app-layout>
 
 
+<div class="modal fade" id="canceled" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-3" id="staticBackdropLabel">Confirm!</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h4>Are you sure do you want to cancel the order?</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form action="{{ route('order.status.update', [$order,'status'=>3]) }}" method="post">
+            @csrf
+            @method('patch')
+            <button type="submit" class="btn btn-danger">Yes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

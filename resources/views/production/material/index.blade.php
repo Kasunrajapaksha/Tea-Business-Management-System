@@ -31,7 +31,7 @@
                             <tr>
                                 <th class="d-none d-xl-table-cell">Material No</th>
                                 <th class="d-none d-xl-table-cell">Material Name</th>
-                                <th class="d-none d-xl-table-cell">Unit price (USD)</th>
+                                <th class="d-none d-xl-table-cell">Unit price (LKR)</th>
                                 <th class="d-none d-xl-table-cell">Stock Level</th>
                                 <th class="d-none d-md-table-cell">Action</th>
                             </tr>
@@ -59,6 +59,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="col-12 px-3">
+            {{ $materials->links() }}
     </div>
 
 </x-app-layout>

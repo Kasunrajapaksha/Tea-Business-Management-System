@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="mb-3 col-md-4">
+                        <div class="mb-3 col-md-6">
                             <label  class="form-label" for="material_id">Material</label>
                             <select name="material_id" id="material_id" class="form-select" form="production-form">
                                 <option value="#">Select materials</option>
@@ -73,15 +73,10 @@
                             </select>
                             <x-error field="material_id" />
                         </div>
-                        <div class="mb-3 col-md-4">
+                        <div class="mb-3 col-md-6">
                             <label  class="form-label" for="units">Units</label>
                             <input type="number" step="1"  name="units" id="units" class="form-control" form="production-form">
                             <x-error field="units" />
-                        </div>
-                        <div class="mb-3 col-md-4">
-                            <label  class="form-label" for="unit_price">Unit price (USD)</label>
-                            <input type="number" step="0.01"  name="unit_price" id="unit_price" class="form-control" form="production-form">
-                            <x-error field="unit_price" />
                         </div>
                     </div>
 

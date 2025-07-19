@@ -16,7 +16,7 @@ class ShippingProviderController extends Controller
     public function index(){
         Gate::authorize('view',ShippingProvider::class);
 
-        $providers = ShippingProvider::latest()->paginate(8);
+        $providers = ShippingProvider::where('status','active')->latest()->paginate(8);
 
         return view('shipping.provider.index',compact('providers'));
     }
@@ -90,12 +90,10 @@ class ShippingProviderController extends Controller
     public function destroy(ShippingProvider $provider){
         Gate::authorize('delete',$provider);
 
-        try {
-            $provider->delete();
-            
-            return redirect()->route('shipping.provider.index')->with('success', 'Shipping provider deleted!');
-        } catch (\Exception $e) {
-            return redirect()->route('shipping.provider.show', $provider)->with('danger', 'Faild to delete shippimg provider.');
-        }
+        $provider->update([
+            'status' => 'inactive'
+        ]);
+
+        return redirect()->route('shipping.provider.index')->with('success', 'Shipping provider deleted!');
     }
 }

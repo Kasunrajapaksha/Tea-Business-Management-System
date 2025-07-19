@@ -31,7 +31,7 @@
                                 <th class="d-none d-xl-table-cell">Tea Purchase No</th>
                                 <th class="d-none d-xl-table-cell">Tea_name</th>
                                 <th class="d-none d-xl-table-cell">Supplier</th>
-                                <th class="d-none d-xl-table-cell">Quantity</th>
+                                <th class="d-none d-xl-table-cell">Quantity (Kg)</th>
                                 <th class="d-none d-xl-table-cell">Price Per Kg (LKR)</th>
                                 <th class="d-none d-xl-table-cell">Requested at</th>
                                 <th class="d-none d-xl-table-cell">Requested by</th>
@@ -48,7 +48,7 @@
                                     <td class="d-none d-xl-table-cell">{{ $purchase->tea->tea_name }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->supplier->name }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->quantity}}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $purchase->price_per_kg}}</td>
+                                    <td class="d-none d-xl-table-cell">{{ number_format($purchase->price_per_kg,2)}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->created_at->toDateString() }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $purchase->user->first_name . ' ' . $purchase->user->last_name}}</td>
 

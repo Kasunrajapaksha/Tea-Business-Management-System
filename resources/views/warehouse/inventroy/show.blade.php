@@ -53,7 +53,7 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label  class="form-label">Supplier No</label>
-                                <input type="text" class="form-control" value="{{$transaction->supplier ? $transaction->supplier->name : '' }}" disabled>
+                                <input type="text" class="form-control" value="{{$transaction->supplier ? $transaction->supplier->supplier_no : '' }}" disabled>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label  class="form-label">Supplier Name</label>

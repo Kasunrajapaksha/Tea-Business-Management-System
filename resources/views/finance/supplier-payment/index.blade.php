@@ -26,8 +26,8 @@
                                 <thead>
                                     <tr>
                                         <th class="d-none d-xl-table-cell">Payment No</th>
-                                        <th class="d-none d-xl-table-cell">Request No</th>
                                         <th class="d-none d-xl-table-cell">Supplier</th>
+                                        <th class="d-none d-xl-table-cell">Itam</th>
                                         <th class="d-none d-xl-table-cell">Amount (LKR)</th>
                                         <th class="d-none d-md-table-cell">Paid at</th>
                                         <th class="d-none d-md-table-cell">Paid by</th>
@@ -40,8 +40,8 @@
                                     @foreach ($payments as $payment)
                                         <tr>
                                             <td class="d-none d-xl-table-cell">{{ $payment->payment_no }}</td>
-                                            <td class="d-none d-xl-table-cell">{{ $payment->payment_request->request_no }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $payment->supplier->name }}</td>
+                                            <td class="d-none d-xl-table-cell">{{ $payment->payment_request->material_perchese ? $payment->payment_request->material_perchese->material->material_name : $payment->payment_request->tea_perchese->tea->tea_name }}</td>
                                             <td class="d-none d-xl-table-cell">{{ number_format($payment->amount) }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $payment->paid_at }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $payment->user->first_name . ' ' . $payment->user->last_name }}</td>

@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Customer;
 use App\Models\User;
 
 class CustomerPolicy{
@@ -22,7 +23,7 @@ class CustomerPolicy{
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    public function update(User $user, Customer $customer): bool
     {
         return $user->role->permissions->contains('permission_name', 'update-customer');
     }
@@ -30,9 +31,9 @@ class CustomerPolicy{
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Customer $customer): bool
     {
-        return false;
+        return $user->role->permissions->contains('permission_name', 'delete-customer');
     }
 
 

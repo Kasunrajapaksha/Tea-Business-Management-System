@@ -49,15 +49,9 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-2 col-form-label">Packing Cost (USD) : </label>
-                            <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{ number_format($invoice->order->productionMaterial->units * $invoice->order->productionMaterial->unit_price) }}">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
                             <label for="staticEmail" class="col-sm-2 col-form-label">Total Value (USD) : </label>
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{ number_format(($invoice->order->productionMaterial->units * $invoice->order->productionMaterial->unit_price) + $invoice->order->total_amount ) }}">
+                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{ number_format($invoice->order->total_amount ,2) }}">
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -74,7 +68,7 @@
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between">
-                            <a href="" class="btn btn-secondary mt-2">Close</a>
+                            <a href="{{ route('marketing.invoice.index') }}" class="btn btn-secondary mt-2">Close</a>
                             <a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#addOrder">Create Proforma Invoice</a>
                         </div>
 

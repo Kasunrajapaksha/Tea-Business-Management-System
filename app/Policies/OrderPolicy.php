@@ -28,6 +28,9 @@ class OrderPolicy
 
     public function delete(User $user, Order $order): bool
     {
+        if(($order->status >= 11 && $order->status <= 14) && $user->role->permissions->contains('permission_name', 'update-order')){
+            return true;
+        }
         return false;
     }
 

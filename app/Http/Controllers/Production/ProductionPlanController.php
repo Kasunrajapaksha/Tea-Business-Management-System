@@ -56,7 +56,6 @@ class ProductionPlanController extends Controller
             'order_id' => ['exists:orders,id'],
             'material_id' => ['required','exists:materials,id'],
             'units' => ['required','numeric'],
-            'unit_price' => ['required','numeric'],
         ]);
 
         $material = Material::findOrFail($validateProductionMaterialData['material_id']);
@@ -109,7 +108,6 @@ class ProductionPlanController extends Controller
             'user_id' => ['exists:users,id'],
             'material_id' => ['required','exists:materials,id'],
             'units' => ['required','numeric'],
-            'unit_price' => ['required','numeric'],
         ]);
 
         $material = Material::findOrFail($validateProductionMaterialData['material_id']);

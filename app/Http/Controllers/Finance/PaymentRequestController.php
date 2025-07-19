@@ -44,6 +44,6 @@ class PaymentRequestController extends Controller
             'status' => 2, //cancel
         ]);
 
-        return view('finance.request.show', compact('request'));
+        return redirect()->route('finance.request.show',$request)->with('success','Payment request canceled!');
     }
 }

@@ -12,7 +12,7 @@
         <span class="badge bg-danger">Canceled</span>
         @break
     @case(5)
-        <span class="badge bg-primary">Paid</span> 
+        <span class="badge bg-primary">Paid</span>
         @break
     @case(6)
         <span class="badge bg-success">Received</span>

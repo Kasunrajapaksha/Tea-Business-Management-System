@@ -23,53 +23,22 @@
 
                         <input type="text" name="user_id" value="{{ Auth::user()->id }}" hidden>
 
-                        <div class="row">
-                            <div class="mb-3 col-md-3">
-                                <label  class="form-label">Request Number</label>
-                                <input type="text" class="form-control" value="{{ $request->request_no}}" disabled>
-                            </div>
-                            <div class="mb-3 col-md-3">
-                                <label  class="form-label">Supplier No</label>
-                                <input type="text" class="form-control" value="{{ $request->supplier->supplier_no}}" disabled>
-                            </div>
-                            <div class="mb-3 col-md-3">
-                                <label  class="form-label">Handle By</label>
-                                <input type="text" class="form-control" value="{{ $request->handler ? $request->handler->first_name . ' ' . $request->handler->last_name : '' }}" disabled>
-                            </div>
-                            <div class="mb-3 col-md-3">
-                                <label  class="form-label">Amount (LKR)</label>
-                                <input type="text" class="form-control" value="{{ $request->amount }}" disabled>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row g-5 p-2">
-                            <div class="mb-3 col-md-6">
-                                <div class="row mb-3">
-                                    <label  class="form-label">Supplier No</label>
-                                    <input type="text" class="form-control" value="{{ $request->supplier->name}}" disabled>
-                                </div>
-                                <div class="row">
-                                    <label  class="form-label">Supplier Bank Details</label>
-                                    <textarea class="form-control" rows="5" disabled>{{ $request->supplier->bank_details}}</textarea>
-                                </div>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <div class="row">
-                                    <label for="transaction_reference"  class="form-label"><sup class="text-danger">*</sup> Transaction Reference No</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="transaction_reference"  class="form-label"></sup> Transaction Reference No</label>
                                     <input type="text" class="form-control" name="transaction_reference">
                                     <x-error field="transaction_reference" />
                                 </div>
-                                <div class="row mt-3">
-                                    <label for="paid_at" class="form-label"><sup class="text-danger">*</sup>Select Paid Date</label>
+                                <div class="col-6">
+                                    <label for="paid_at" class="form-label">Select Paid Date</label>
                                     <input type="date" class="form-control" name="paid_at" max="{{ date('Y-m-d')}}">
                                     <x-error field="paid_at" />
                                 </div>
                             </div>
-                        </div>
                         <div class="d-flex align-items-center justify-content-between">
                             <a href="{{ route('finance.request.show', $request) }}" class="btn btn-secondary mt-2">Colse</a>
                             @can('update', $request)
-                            <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#supplierPayment">Confirm Supplier Payment</a>
+                            <a class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#supplierPayment">Confirm Supplier Payment</a>
                             @endcan
                         </div>
 

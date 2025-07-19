@@ -87,7 +87,6 @@
                 <th>PACKING DESCRIPTION</th>
                 <th>TOTAL KGS</th>
                 <th>PER KG PRICE (USD)</th>
-                <th>PACKING COST (USD)</th>
                 <th>TOTAL VALUE (USD)</th>
             </tr>
         </thead>
@@ -97,8 +96,7 @@
                     <td>{{ $invoice->order->packing_instractions }}</td>
                     <td>{{ number_format($invoice->order->orderItem->quantity) }}</td>
                     <td>{{ number_format($invoice->order->orderItem->tea->price_per_Kg,2) }}</td>
-                    <td>{{ number_format($invoice->order->productionMaterial->units * $invoice->order->productionMaterial->unit_price,2) }}</td>
-                    <th>{{ number_format(($invoice->order->productionMaterial->units * $invoice->order->productionMaterial->unit_price) + $invoice->order->total_amount,2) }}</th>
+                    <th>{{ number_format($invoice->order->total_amount,2) }}</th>
                 </tr>
         </tbody>
     </table>

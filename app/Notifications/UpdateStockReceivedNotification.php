@@ -49,7 +49,7 @@ class UpdateStockReceivedNotification extends Notification
         return [
             'icon' => 'truck',
             'color' => 'success',
-            'title' => $this->stock->tea ? $this->stock->tea->tea_name . 'RECEIVED!' : $this->stock->material->material_name . ' RECEIVED!',
+            'title' => $this->stock->tea ? $this->stock->tea->tea_name . ' RECEIVED!' : $this->stock->material->material_name . ' RECEIVED!',
             'message' => 'The stock [' . ($this->stock->tea_purchase ? $this->stock->tea_purchase->tea_purchase_no  : $this->stock->material_purchase->material_purchase_no)  . '] has been collected by ' . $this->stock->user->first_name . ' ' . $this->stock->user->last_name . '.',
             'route' => $this->stock->tea ? route('tea.purchase.show', $this->stock->tea_purchase_id) : route('production.material.purchase.show', $this->stock->material_purchase_id ),
         ];

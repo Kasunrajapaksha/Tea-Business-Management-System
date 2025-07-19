@@ -44,21 +44,9 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-2 col-form-label">Per Kg Price (USD) : </label>
-                            <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{ number_format($order->orderItem->tea->price_per_Kg,2) }}">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-2 col-form-label">Packing Cost (USD) : </label>
-                            <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{ number_format($order->productionMaterial->units * $order->productionMaterial->unit_price,2) }}">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
                             <label for="staticEmail" class="col-sm-2 col-form-label">Total Value (USD) : </label>
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{ number_format(($order->productionMaterial->units * $order->productionMaterial->unit_price) + $order->total_amount,2) }}">
+                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{ number_format($order->total_amount,2) }}">
                             </div>
                         </div>
                         <div class="mb-3 row">

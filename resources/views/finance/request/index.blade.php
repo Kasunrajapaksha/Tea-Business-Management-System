@@ -25,9 +25,10 @@
                                 <thead>
                                     <tr>
                                         <th class="d-none d-xl-table-cell">Request No</th>
-                                        <th class="d-none d-xl-table-cell">Requested by</th>
-                                        <th class="d-none d-xl-table-cell">Requested at</th>
+                                        <th class="d-none d-xl-table-cell">Item name</th>
                                         <th class="d-none d-xl-table-cell">Amount (LKR)</th>
+                                        <th class="d-none d-xl-table-cell">Requested by</th>
+                                        <th class="d-none d-xl-table-cell">Requested on</th>
                                         <th class="d-none d-xl-table-cell">Status</th>
                                         <th class="d-none d-md-table-cell">Action</th>
                                     </tr>
@@ -38,9 +39,10 @@
                                     @foreach ($requests as $request)
                                         <tr>
                                             <td class="d-none d-xl-table-cell">{{ $request->request_no }}</td>
+                                            <td class="d-none d-xl-table-cell">{{ $request->material_perchese ? $request->material_perchese->material->material_name : $request->tea_perchese->tea->tea_name }}</td>
+                                            <td class="d-none d-xl-table-cell">{{ number_format($request->amount,2) }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $request->requester->first_name . ' ' . $request->requester->last_name }}</td>
                                             <td class="d-none d-xl-table-cell">{{ $request->created_at->toDateString() }}</td>
-                                            <td class="d-none d-xl-table-cell">{{ number_format($request->amount) }}</td>
 
                                             <td class="d-none d-xl-table-cell">
                                                 <x-status :status='$request->status' />

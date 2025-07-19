@@ -48,6 +48,7 @@ class PermissionController extends Controller
     }
 
     public function update(Role $role){
+
         //validation
         $validatedData = request()->validate([
             'permissions' => ['array'],

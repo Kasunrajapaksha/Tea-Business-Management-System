@@ -24,9 +24,15 @@ class InventoryTransactionsController extends Controller
         Gate::authorize('view',InventoryTransaction::class);
 
         $transactions = InventoryTransaction::where('transaction_type', '=', 1)->latest()->paginate(8);
-        $outgoingTransactions = InventoryTransaction::where('transaction_type', '=', 2)->latest()->paginate(8);
         return view('warehouse.inventroy.index', compact([
             'transactions',
+        ]));
+    }
+
+    public function indexOutgoing(){
+        Gate::authorize('view',InventoryTransaction::class);
+        $outgoingTransactions = InventoryTransaction::where('transaction_type', '=', 2)->latest()->paginate(8);
+        return view('warehouse.inventroy.index-outgoing', compact([
             'outgoingTransactions'
         ]));
     }

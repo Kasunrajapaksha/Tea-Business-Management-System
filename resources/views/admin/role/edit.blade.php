@@ -42,8 +42,32 @@
                         </div>
 
                         <div>
-                            <a href="{{ route('admin.department.index') }}" class="btn btn-danger mt-2">cancel</a>
-                            <button type="submit" class="btn btn-primary mt-2">Update Role</button>
+                            <a href="{{ route('admin.department.index') }}" class="btn btn-secondary mt-2">Close</a>
+                            @can('update', $role)
+                                <a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#updateRole">Update Role</a>
+                            @endcan
+                        </div>
+
+                        <div class="modal fade" id="updateRole" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-3" id="staticBackdropLabel">Confirm!</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>Are you sure you want to update the role?</h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary"
+                                            data-bs-dismiss="modal">Yes</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </form>

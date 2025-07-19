@@ -10,7 +10,9 @@ use App\Models\Supplier;
 use App\Models\SupplierPayment;
 use App\Models\TeaPurchase;
 use App\Models\User;
+use App\Notifications\PurchaseCompletedNotification;
 use App\Notifications\SupplierPaymentCompletedNotification;
+use App\Notifications\UpdateInventoryNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -61,7 +63,7 @@ class SupplierPaymentController extends Controller{
         ]);
 
         //create inventory transaction
-        InventoryTransaction::create([
+        $inventory = InventoryTransaction::create([
             'transaction_type' => 1, //add
             'item_type' => $request->supplier->type,
             'material_purchase_id' => $request->material_perchese ? $request->material_perchese->id : null,
@@ -88,15 +90,42 @@ class SupplierPaymentController extends Controller{
         //notify users
         $notifypayment = SupplierPayment::findOrFail($payment->id);
         $users = User::whereHas('department', function($query){
-            $query->whereIn('department_name',['Admin','Management','Tea','Warehouse']);
+            $query->whereIn('department_name',['Admin','Management']);
         })->get();
         foreach ($users as $key => $user) {
             $user->notify(new SupplierPaymentCompletedNotification($notifypayment));
             $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
         }
 
+        $users = User::whereHas('department', function($query){
+                $query->whereIn('department_name',['Warehouse']);
+            })->get();
+            foreach ($users as $key => $user) {
+                $user->notify(new UpdateInventoryNotification($inventory));
+                $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
+            }
+
+        if($payment->supplier->type == 2){
+            $users = User::whereHas('department', function($query){
+                $query->whereIn('department_name',['Admin','Management','Production']);
+            })->get();
+            foreach ($users as $key => $user) {
+                $user->notify(new PurchaseCompletedNotification($inventory));
+                $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
+            }
+        } elseif($payment->supplier->type == 1){
+            $users = User::whereHas('department', function($query){
+                $query->whereIn('department_name',['Admin','Management','Tea']);
+            })->get();
+            foreach ($users as $key => $user) {
+                $user->notify(new PurchaseCompletedNotification($inventory));
+                $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
+            }
+        }
+
+
         //return view
-        return redirect()->route('finance.supplier.payment.index')->with('success','Supplier payment completed!');
+        return redirect()->route('finance.supplier.payment.show', $payment)->with('success','Supplier payment completed!');
     }
 
     public function update(SupplierPayment $payment){

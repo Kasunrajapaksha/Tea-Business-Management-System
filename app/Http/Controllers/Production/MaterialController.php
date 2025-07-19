@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Gate;
 class MaterialController extends Controller{
     public function index(){
         Gate::authorize('view', Material::class);
-        $materials = Material::all();
+        $materials = Material::where('status','active')->paginate(8);
         return view('production.material.index', compact('materials'));
     }
 
@@ -80,11 +80,11 @@ class MaterialController extends Controller{
 
     public function destroy(Material $material){
         Gate::authorize('delete', $material);
-        try {
-            $material->delete();
-            return redirect()->route('production.material.index')->with('success', 'Material deleted!');
-        } catch (\Exception $e) {
-            return redirect()->route('production.material.index')->with('danger', 'Faild to delete material.');
-        }
+
+        $material->update([
+            'status' => 'inactive'
+        ]);
+
+        return redirect()->route('production.material.index')->with('success', 'Material deleted!');
     }
 }

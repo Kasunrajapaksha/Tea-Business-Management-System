@@ -34,6 +34,11 @@ class UserController extends Controller
         return view('admin.user.create',compact(['roles','departments']));
     }
 
+    public function show(User $user){
+        Gate::authorize("view", User::class);
+        return view('admin.user.show',compact(['user']));
+    }
+
     public function store(){
         //capitalize
         request()->merge([
@@ -72,8 +77,8 @@ class UserController extends Controller
 
     public function edit(User $user){
         //get active roles and departments
-        $roles = Role::where('status',1)->get();
-        $departments = Department::where('status',1)->get();
+        $roles = Role::all();
+        $departments = Department::all();
 
         // authorization
         Gate::authorize("update", $user);
@@ -103,20 +108,19 @@ class UserController extends Controller
         // authorization
         Gate::authorize("update", $user);
 
-        //check if the department is active
-        if($user->department->status == 0 && $validateData['department_id'] == 1){
-            throw ValidationException::withMessages(['status'=>'The department is inactive. You cannot activate this user.']);
+        if($user->department->department_name == 'Admin' && $validateData['status'] == 0){
+            return redirect()->route('admin.user.edit',$user)->with('danger','Can not change admin status!');
         }
 
         //check if the role is active
-        if($user->role->status == 0 && $validateData['role_id'] == 1){
-            throw ValidationException::withMessages(['status'=>'The role is inactive. You cannot activate this user.']);
+        if($user->role->status == 0 && $validateData['status'] == 1){
+            return redirect()->route('admin.user.edit',$user)->with('danger',$user->role->role_name . ' role is inactive. You cannot activate this user!');
         }
 
         //update user
         $user->update($validateData);
 
         //return view
-        return redirect()->route('admin.user.index')->with('success','User updated successfully!');
+        return redirect()->route('admin.user.show',$user)->with('success','User updated successfully!');
     }
 }

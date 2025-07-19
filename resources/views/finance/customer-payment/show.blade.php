@@ -26,7 +26,7 @@
                         </div>
                         <div class="mb-3 col-md-3">
                             <label  class="form-label">Total Amount (USD)</label>
-                            <input type="text" class="form-control" value="{{ number_format(($payment->proformaInvoice->order->productionMaterial->units * $payment->proformaInvoice->order->productionMaterial->unit_price) + $payment->proformaInvoice->order->total_amount,2)  }}" disabled>
+                            <input type="text" class="form-control" value="{{ number_format($payment->proformaInvoice->order->total_amount,2)  }}" disabled>
                         </div>
                         <div class="mb-3 col-md-3">
                             <label  class="form-label">Issued at</label>

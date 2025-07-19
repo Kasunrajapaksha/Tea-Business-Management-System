@@ -32,7 +32,7 @@ class AdminController extends Controller
         $total_material_purchases = MaterialPurchase::sum(DB::raw('units * unit_price'));
 
 
-        $currentWeekStart = Carbon::now()->startOfMonth();
+        $currentWeekStart = Carbon::now()->startOfMonth(); 
         $currentWeekEnd = Carbon::now()->endOfMonth();
 
         $customersAddedThisMonth = Customer::whereBetween('created_at', [$currentWeekStart, $currentWeekEnd])->count();

@@ -26,8 +26,8 @@ class TeaPerchaseController extends Controller
         Gate::authorize('create', TeaPurchase::class);
         Gate::authorize('create', PaymentRequest::class);
 
-        $teas = Tea::all();
-        $suppliers = Supplier::where('type',01)->get();
+        $teas = Tea::where('status','active')->get();
+        $suppliers = Supplier::where('type',01)->where('status','active')->get();
 
         return view('tea.purchase.create', compact(['teas','suppliers']));
     }
@@ -39,8 +39,8 @@ class TeaPerchaseController extends Controller
 
     public function edit(TeaPurchase $purchase){
         Gate::authorize('update', $purchase);
-        $teas = Tea::all();
-        $suppliers = Supplier::where('type',01)->get();
+        $teas = Tea::where('status','active')->get();
+        $suppliers = Supplier::where('type',01)->where('status','active')->get();
 
         return view('tea.purchase.edit', compact(['teas','suppliers','purchase']));
     }

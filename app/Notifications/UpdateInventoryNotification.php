@@ -7,16 +7,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MaterialPurchaseRequestNotification extends Notification
+class UpdateInventoryNotification extends Notification
 {
     use Queueable;
-    private $request;
+    private $stock;
     /**
      * Create a new notification instance.
      */
-    public function __construct($request)
+    public function __construct($stock)
     {
-        $this->request = $request;
+        $this->stock = $stock;
     }
 
     /**
@@ -48,11 +48,11 @@ class MaterialPurchaseRequestNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'icon' => 'alert-circle',
+            'icon' => $this->stock->tea ? 'coffee' : 'shopping-bag',
             'color' => 'success',
-            'title' => 'PAYMENT REQUEAST!',
-            'message' => 'A payment request [' . $this->request->request_no . '] for material purchasing has been sent by '. $this->request->requester->first_name . ' ' . $this->request->requester->last_name . '.',
-            'route' => route('finance.request.show', $this->request),
+            'title' => $this->stock->tea ? 'TEA PURCHASE COMPLETED!' : 'MATERIAL PURCHASE COMPLETED!',
+            'message' => 'The ' . ($this->stock->tea_purchase ? 'tea' : 'material') . ' purchase [' . ($this->stock->tea_purchase ? $this->stock->tea_purchase->tea_purchase_no  : $this->stock->material_purchase->material_purchase_no)  . '] has been successfully completed!',
+            'route' => route('warehouse.inventory.show', $this->stock->id),
         ];
     }
 }

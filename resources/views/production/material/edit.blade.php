@@ -22,7 +22,7 @@
                             <x-error field="material_name" />
                             </div>
                             <div class="mb-3 col-md-6">
-                                <label for="unit_price" class="form-label">Unit Price (USD)</label>
+                                <label for="unit_price" class="form-label">Unit Price (LKR)</label>
                                 <input type="text" class="form-control" id="unit_price" name="unit_price" value="{{ $material->unit_price }}" form="materila-form">
                                 <x-error field="unit_price" />
                             </div>

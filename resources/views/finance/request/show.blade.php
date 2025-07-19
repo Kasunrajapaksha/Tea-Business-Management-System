@@ -19,43 +19,48 @@
 
                     <form>
                         <div class="row">
-                            <div class="mb-3 col-md-3">
+                            <div class="mb-3 col-md-4">
                                 <label  class="form-label">Request Number</label>
                                 <input type="text" class="form-control" value="{{ $request->request_no}}" disabled>
 
                             </div>
-                            <div class="mb-3 col-md-3">
-                                <label  class="form-label">Requested Date</label>
+                            <div class="mb-3 col-md-4">
+                                <label  class="form-label">Requested on</label>
                                 <input type="text" class="form-control" value="{{ $request->created_at->toDateString() }}" disabled>
                             </div>
-                            <div class="mb-3 col-md-3">
-                                <label  class="form-label">Requested User</label>
+                            <div class="mb-3 col-md-4">
+                                <label  class="form-label">Requested by</label>
                                 <input type="text" class="form-control" value="{{ $request->requester->first_name . ' ' . $request->requester->last_name }}" disabled>
                             </div>
-                            <div class="mb-3 col-md-3">
-                                <label  class="form-label">Handle By</label>
-                                <input type="text" class="form-control" value="{{ $request->handler ? $request->handler->first_name . ' ' . $request->handler->last_name : '' }}" disabled>
+                            <div class="mb-3 col-md-4">
+                                <label  class="form-label">Item</label>
+                                <input type="text" class="form-control" value="{{ $request->material_perchese ? $request->material_perchese->material->material_name : $request->tea_perchese->tea->tea_name }}" disabled>
+                            </div>
+                            <div class="mb-3 col-md-4">
+                                <label  class="form-label">Quantity</label>
+                                <input type="text" class="form-control" value="{{ $request->material_perchese ? $request->material_perchese->units : $request->tea_perchese->quantity }}" disabled>
+                            </div>
+                            <div class="mb-3 col-md-4">
+                                <label  class="form-label">Amount (LKR)</label>
+                                <input type="text" class="form-control" value="{{ number_format($request->amount,2) }}" disabled>
                             </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="mb-3 col-md-4">
+                            <div class="mb-3 col-md-6">
                                 <label  class="form-label">Supplier No</label>
                                 <input type="text" class="form-control" value="{{ $request->supplier->supplier_no}}" disabled>
                             </div>
 
-                            <div class="mb-3 col-md-4">
+                            <div class="mb-3 col-md-6">
                                 <label  class="form-label">Supplier Type</label>
                                 <input type="text" class="form-control" value="{{ $request->supplier->type == 1 ? 'Tea' : 'Material' }}" disabled>
                             </div>
-                            <div class="mb-3 col-md-4">
-                                <label  class="form-label">Amount (USD)</label>
-                                <input type="text" class="form-control" value="{{ $request->amount }}" disabled>
-                            </div>
+
                         </div>
                         <div class="row">
                             <div class="mb-3 col-md-6">
-                                <label  class="form-label">Supplier No</label>
+                                <label  class="form-label">Supplier Name</label>
                                 <input type="text" class="form-control" value="{{ $request->supplier->name}}" disabled>
                             </div>
                             <div class="mb-3 col-md-3">
@@ -77,9 +82,16 @@
                                 <textarea class="form-control" rows="5" disabled>{{ $request->supplier->bank_details}}</textarea>
                             </div>
                         </div>
-
+                        <hr>
                         <div class="row">
-
+                            <div class="mb-3 col-md-6">
+                                <label  class="form-label">Updated by</label>
+                                <input type="text" class="form-control" value="{{ $request->handler ? $request->handler->first_name . ' ' . $request->handler->last_name : '' }}" disabled>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label  class="form-label">Updated on</label>
+                                <input type="text" class="form-control" value="{{ $request->updated_at->format('Y-m-d') }}" disabled>
+                            </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-between">
                             <a href="{{ route('finance.request.index') }}" class="btn btn-secondary mt-2">Close</a>
