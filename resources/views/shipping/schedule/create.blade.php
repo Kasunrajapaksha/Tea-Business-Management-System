@@ -58,12 +58,12 @@
                     <div class="row">
                         <div class="mb-3 col-md-4">
                             <label  class="form-label" for="departure_date">Departure Date</label>
-                            <input type="date" class="form-control" name="departure_date" form="shipping-form" min="{{ $order->productionPlan->production_end }}">
+                            <input type="date" class="form-control" name="departure_date" form="shipping-form" value="{{ old('departure_date') }}" min="{{ $order->productionPlan->production_end }}">
                             <x-error field="departure_date" />
                         </div>
                         <div class="mb-3 col-md-4">
                             <label  class="form-label" for="arrival_date">Arrival Date</label>
-                            <input type="date" class="form-control" name="arrival_date" form="shipping-form" min="{{ $order->productionPlan->production_end }}">
+                            <input type="date" class="form-control" name="arrival_date" form="shipping-form" value="{{ old('arrival_date') }}" min="{{ $order->productionPlan->production_end }}">
                             <x-error field="arrival_date" />
                         </div>
                         <div class="mb-3 col-md-4">
@@ -71,27 +71,44 @@
                             <select class="form-select" name="shipping_provider_id" form="shipping-form">
                                 <option value="#">Select Shipping Provider</option>
                                 @foreach ($providers as $provider)
-                                <option value="{{ $provider->id }}">{{ $provider->provider_name }}</option>
+                                <option value="{{ $provider->id }}" {{ old('shipping_provider_id') == $provider->id ? 'selected' : '' }}>{{ $provider->provider_name }}</option>
                                 @endforeach
                             </select>
                             <x-error field="shipping_provider_id" />
                         </div>
                         <div class="mb-3 col-md-4">
-                            <label  class="form-label" for="vessel_name">Vessel Name</label>
-                            <input type="text" class="form-control" name="vessel_name" form="shipping-form">
-                            <x-error field="vessel_name" />
+                            <label class="form-label" for="vessel_id">Vessel Name</label>
+                            <select class="form-select" name="vessel_id" id="vessel_name_shedule_create" form="shipping-form">
+                                <option value="#">Select Vessel</option>
+                                @foreach ($vessels as $vessel)
+                                    <option value="{{ $vessel->id }}">{{ $vessel->vessel_name }}</option>
+                                @endforeach
+                            </select>
+                            <x-error field="vessel_id" />
                         </div>
+
                         <div class="mb-3 col-md-4">
-                            <label  class="form-label" for="departure_port">Departure Port</label>
-                            <input type="text" class="form-control" name="departure_port" form="shipping-form">
+                            <label class="form-label" for="departure_port">Departure Port</label>
+                            <select class="form-select" name="departure_port" id="departure_port" form="shipping-form">
+                                <option value="#">Select port</option>
+                                @foreach ($departurePorts as $port)
+                                    <option value="{{ $port->port_name }}" >{{ $port->port_name }}</option>
+                                @endforeach
+                            </select>
                             <x-error field="departure_port" />
                         </div>
+
                         <div class="mb-3 col-md-4">
-                            <label  class="form-label" for="arrival_port">Arrival Port</label>
-                            <input type="text" class="form-control" name="arrival_port" form="shipping-form">
+                            <label class="form-label" for="arrival_port">Arrival Port</label>
+                            <select class="form-select" name="arrival_port" id="arrival_port_shedule_create" form="shipping-form">
+                                <option value="#">Select port</option>
+                                @foreach ($ports as $port)
+                                    <option value="{{ $port->port_name }}" >{{ $port->port_name }}</option>
+                                @endforeach
+                            </select>
                             <x-error field="arrival_port" />
                         </div>
-                    </div>
+
 
                     <input type="hidden" name="order_id" value="{{ $order->id }}" form="shipping-form">
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" form="shipping-form">
@@ -128,5 +145,39 @@
         </div>
     </div>
 </div>
+
+<script>
+document.getElementById('vessel_name_shedule_create').addEventListener('change', function() {
+    var vesselId = this.value;
+    if (vesselId !== '#') {
+        fetch('{{ route('shipping.getPortsByVessel') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',  // CSRF token
+            },
+            body: JSON.stringify({
+                vessel_id: vesselId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            var arrivalPortSelect = document.getElementById('arrival_port_shedule_create');
+            arrivalPortSelect.innerHTML = '<option value="#">Select port</option>';
+            data.forEach(port => {
+
+                var optionArrival = document.createElement('option');
+                optionArrival.value = port.port_name;
+                optionArrival.textContent = port.port_name;
+                arrivalPortSelect.appendChild(optionArrival);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+});
+</script>
+
 
 

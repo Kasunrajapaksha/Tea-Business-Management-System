@@ -140,6 +140,6 @@ class MaterialPurchaseController extends Controller
             return redirect()->route('production.material.purchase.index')->with('success', 'Material purchase canceled!');
         } catch (\Exception $e) {
             return redirect()->route('shipping.provider.show', $purchase)->with('danger', 'Faild to cancel material purchase.');
-        }
+        } 
     }
 }

@@ -14,15 +14,20 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3 col-md-4">
                             <label  class="form-label" for="paid_at">Paid at</label>
                             <input type="date" class="form-control" name="paid_at" value="{{ $payment->paid_at }}" form="payment-form" min="{{ $payment->proformaInvoice->order->proformaInvoice->issued_at }}">
                             <x-error field="paid_at" />
                         </div>
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3 col-md-4">
                             <label  class="form-label" for="transaction_reference">Transaction Reference</label>
                             <input type="text" class="form-control" name="transaction_reference" value="{{ $payment->transaction_reference }}" form="payment-form">
                             <x-error field="transaction_reference" />
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label  class="form-label" for="payment_document">Payment Document</label>
+                            <input type="file" class="form-control" name="payment_document" form="payment-form">
+                            <x-error field="payment_document" />
                         </div>
                     </div>
 
@@ -55,7 +60,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <form action="{{ route('finance.customer.payment.update', $payment) }}" method="POST" id="payment-form">
+            <form action="{{ route('finance.customer.payment.update', $payment) }}" method="POST" id="payment-form" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
                 <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Yes</button>

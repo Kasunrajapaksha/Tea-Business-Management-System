@@ -18,7 +18,7 @@ class DepartmentManager
 
         $user = Auth::user();
         if(!$user || !$user->department || !in_array($user->department->department_name, $department)) {
-            return redirect()->route("login");
+            abort(401);
         }
         return $next($request);
     }

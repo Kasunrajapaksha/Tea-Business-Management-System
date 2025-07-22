@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Marketing;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\ProformaInvoice;
+use App\Models\User;
+use App\Notifications\UpdateProductionPlanNotification;
+use App\Notifications\UpdateProformaInvoiceNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
  use Barryvdh\DomPDF\Facade\Pdf;
@@ -13,7 +16,7 @@ class ProformaInvoiceController extends Controller{
 
     public function index(){
         Gate::authorize('view', ProformaInvoice::class);
-        $invoices = ProformaInvoice::all();
+        $invoices = ProformaInvoice::latest()->paginate(5);
         return view('marketing.invoice.index', compact('invoices'));
     }
 
@@ -46,16 +49,26 @@ class ProformaInvoiceController extends Controller{
             'status' => 14,
         ]);
 
+        $users = User::whereHas('department', function($query){
+        $query->whereIn('department_name',['Admin','Management','Finance']);
+        })->get();
+        foreach ($users as $key => $user) {
+            $user->notify(new UpdateProformaInvoiceNotification($order));
+            $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
+        }
+
         return redirect()->route('marketing.invoice.index')->with('success', 'The proforma nvoice created successfuly!');
     }
 
     public function show(ProformaInvoice $invoice){
         Gate::authorize('view', ProformaInvoice::class);
-        return view('marketing.invoice.pdf', compact('invoice'));
+        $order = Order::findOrFail(35);
+        return view('marketing.invoice.pdf', compact('invoice','order'));
     }
 
     public function generate(ProformaInvoice $invoice){
         Gate::authorize('view', ProformaInvoice::class);
+
         $data = [
             'invoice' => $invoice
         ];

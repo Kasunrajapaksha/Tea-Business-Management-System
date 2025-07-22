@@ -16,7 +16,7 @@ class SupplierController extends Controller
 
         $user = Auth::user();
          if(in_array($user->department->department_name, ['Admin','Management'])){
-            $suppliers = Supplier::all();
+            $suppliers = Supplier::where('status','active')->latest()->paginate(5);
          } elseif($user->department->department_name == 'Tea'){
             $suppliers = Supplier::where('type',01)->where('status','active')->latest()->paginate(8);
          } elseif($user->department->department_name == 'Production'){

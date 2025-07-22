@@ -66,5 +66,9 @@
         </div>
     </div>
 
+    <div class="col-12 px-3">
+            {{ $invoices->links() }}
+    </div>
+
 </x-app-layout>
 

@@ -49,7 +49,9 @@ class DispatchItemsNotification extends Notification
             'icon' => 'home',
             'color' => 'success',
             'title' => 'ITEM RELEASED!',
-            'message' => $this->transaction->tea_id ? $this->transaction->production_plan->order->orderItem->tea->tea_name .' '. $this->transaction->production_plan->order->orderItem->quantity.' Kg ] has been released for production.' :  $this->transaction->production_plan->order->productionMaterial->material->material_name . ' ' . $this->transaction->production_plan->order->productionMaterial->units. ' Units ] has been released for production.',
+            'message' => $this->transaction->tea_id
+            ? $this->transaction->production_plan->order->orderItem->tea->tea_name .' '. $this->transaction->production_plan->order->orderItem->quantity.' Kg ] has been released for production.'
+            :  $this->transaction->material->material_name . ' ' . $this->transaction->units. ' Units ] has been released for production.',
             'route' => route('production.plan.show', $this->transaction->production_plan->id),
         ];
     }

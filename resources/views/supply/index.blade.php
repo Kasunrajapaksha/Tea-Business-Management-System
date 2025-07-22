@@ -64,4 +64,8 @@
         </div>
     </div>
 
+     <div class="col-12 px-3">
+            {{ $suppliers->links() }}
+    </div>
+
 </x-app-layout>

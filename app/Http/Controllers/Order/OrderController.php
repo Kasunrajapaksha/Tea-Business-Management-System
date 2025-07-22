@@ -13,6 +13,7 @@ use App\Models\ProductionPlan;
 use App\Models\Tea;
 use App\Models\User;
 use App\Notifications\AddNewOrderNotification;
+use App\Notifications\AlertLowTeaStockNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -42,15 +43,30 @@ class OrderController extends Controller
             'user_id' => ['exists:users,id'],
             'customer_id' => ['exists:customers,id'],
             'tea_id' => ['exists:teas,id'],
-            'quantity' => ['required','numeric',],
+            'quantity' => ['required', 'numeric', 'min:10'],
             'packing_instractions' => ['required'],
         ]);
 
         $tea = Tea::findOrFail($validateData['tea_id']);
         if($tea->stock_level < $validateData['quantity']){
             throw ValidationException::withMessages(
-                ['quantity'=>'Sorry, there is insufficient stock to create the order.']);
+                ['quantity'=>'Sorry, there is insufficient stock to create the order. Availabel: '.number_format($tea->stock_level,1).' kg']);
         }
+
+        $tea->update([
+            'stock_level' => $tea->stock_level - $validateData['quantity'],
+        ]);
+
+        if($tea->stock_level < 1000 ){
+            $users = User::whereHas('department', function($query){
+            $query->whereIn('department_name',['Admin','Management','Production',]);
+            })->get();
+            foreach ($users as $key => $user) {
+                $user->notify(new AlertLowTeaStockNotification($tea));
+                $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
+            }
+        }
+
 
         //create order , order item & tea stock
         $order = Order::create([
@@ -109,15 +125,37 @@ class OrderController extends Controller
             'user_id' => ['exists:users,id'],
             'tea_id' => ['exists:teas,id'],
             'order_item' => ['exists:order_items,id'],
-            'quantity' => ['required','numeric',],
+            'quantity' =>  ['required', 'numeric', 'min:10'],
             'packing_instractions' => ['required'],
         ]);
 
         $tea = Tea::findOrFail($validateData['tea_id']);
         if($tea->stock_level < $validateData['quantity']){
             throw ValidationException::withMessages(
-            ['quantity'=>'Sorry, there is insufficient stock to create the order.']);
+            ['quantity'=>'Sorry, there is insufficient stock to create the order. Availabel: '.number_format($tea->stock_level,1).' kg']);
         }
+
+        $tea->update([
+            'stock_level' => $tea->stock_level + $order->orderItem->quantity,
+        ]);
+
+        $tea->update([
+            'stock_level' => $tea->stock_level - $validateData['quantity'],
+        ]);
+
+        if($tea->stock_level < 1000 ){
+            $users = User::whereHas('department', function($query){
+            $query->whereIn('department_name',['Admin','Management','Production',]);
+            })->get();
+            foreach ($users as $key => $user) {
+                $user->notify(new AlertLowTeaStockNotification($tea));
+                $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
+            }
+        }
+
+        $orderItem = OrderItem::findOrFail($validateData['order_item']);
+        $hasOrderChanged = $order->total_amount != $validateData['quantity'] * $tea->price_per_Kg || $order->packing_instractions !== $validateData['packing_instractions'];
+        $hasItemChanged = $orderItem->tea_id != $validateData['tea_id'] || $orderItem->quantity != $validateData['quantity'];
 
         $order->update([
             'total_amount' => $validateData['quantity'] * $tea->price_per_Kg,
@@ -125,21 +163,27 @@ class OrderController extends Controller
             'packing_instractions' => $validateData['packing_instractions'],
         ]);
 
-
-        $orderItem = OrderItem::findOrFail($validateData['order_item']);
         $orderItem->update([
             'tea_id' => $validateData['tea_id'],
             'quantity' => $validateData['quantity'],
         ]);
 
-        return redirect()->route('order.show', $order)->with('success','Order updated successfully!');
+        if ($hasOrderChanged || $hasItemChanged) {
+            return redirect()->route('order.show', $order)->with('success', 'Order updated successfully!');
+        } else {
+            return redirect()->route('order.edit', $order);
+        }
     }
 
-    public function updateStatus(Order $order, $status){
-        Gate::authorize('update', $order);
-        
+    public function destroy(Order $order){
+        Gate::authorize('delete', $order);
+
+        $tea = Tea::findOrFail($order->orderItem->tea->id);
+        $tea->update([
+            'stock_level' => $tea->stock_level + $order->orderItem->quantity,
+        ]);
         $order->update([
-            'status' => (int)$status
+            'status' => 2
         ]);
 
         return redirect()->route('order.show', $order)->with('success','Order updated successfully!');

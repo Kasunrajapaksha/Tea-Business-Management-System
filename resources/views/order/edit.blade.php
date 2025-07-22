@@ -49,7 +49,7 @@
 
                             <div class="mb-3 col-md-6">
                                 <label for="quantity" class="form-label">Quantity (Kg)</label>
-                                <input type="number" step="0.01" class="form-control" id="quantity" name="quantity" value="{{ $order->orderItem->quantity }}">
+                                <input type="number" step="0.01" class="form-control" id="quantity" name="quantity" value="{{ number_format($order->orderItem->quantity,1) }}">
                                 <x-error field="quantity" />
                             </div>
                         </div>

@@ -22,17 +22,19 @@
                 </div>
             </div>
             <div class="d-flex justify-content-between mb-0 mt-3">
-                <span class="text-muted">Last month</span>
-                <span class="badge bg-success-subtle text-success">{{ $last }}</span>
+                <span class="badge text-muted">Last month</span>
+                <span class="badge text-muted">{{ $last }}</span>
             </div>
             <div class="d-flex justify-content-between mb-0 mt-1">
-                <span class="text-muted">Total </span>
-                <span class="badge bg-success-subtle text-success">{{ $total }}</span>
+                <span class="badge text-muted">Total </span>
+                <span class="badge text-muted">{{ $total }}</span>
             </div>
-            <hr>
-            <div class="mb-0">
-                <span class="badge {{ $percentage < 0 ? 'bg-danger-subtle text-danger' : 'bg-success-subtle text-success'}}">{{ $percentage }}</span>
-                <span class="text-muted">Since last month</span>
+            <div class="mb-0 mt-3 ">
+                @if ($percentage <= 0)
+                <span class="badge bg-danger-subtle text-danger"><i class="align-middle me-2" data-feather="trending-down"></i>{{ $percentage }} Since last month</span>
+                @elseif($percentage > 0)
+                <span class="badge bg-success-subtle text-success"><i class="align-middle me-2" data-feather="trending-up"></i>{{ $percentage }} Since last month</span>
+                @endif
             </div>
         </div>
     </div>

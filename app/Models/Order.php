@@ -32,7 +32,7 @@ class Order extends Model
     }
 
     public function productionMaterial(){
-        return $this->hasOne(ProductionMaterial::class);
+        return $this->hasMany(ProductionMaterial::class);
     }
 
     public function shippingSchedule(){

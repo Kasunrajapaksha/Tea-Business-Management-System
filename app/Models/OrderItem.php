@@ -18,4 +18,8 @@ class OrderItem extends Model
     public function tea(){
         return $this->belongsTo(Tea::class);
     }
+
+    public function inventory_transaction(){
+        return $this->hasMany(InventoryTransaction::class);
+    }
 }

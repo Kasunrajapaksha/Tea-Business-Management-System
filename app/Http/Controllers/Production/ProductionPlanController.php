@@ -12,6 +12,8 @@ use App\Models\User;
 use App\Notifications\EndProductionNotification;
 use App\Notifications\RequestOutgingMaterialNotification;
 use App\Notifications\RequestOutgoingItemsNotification;
+use App\Notifications\UpdateProductionPlanNotification;
+use App\Notifications\UpdateProductionStartedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -43,37 +45,31 @@ class ProductionPlanController extends Controller
 
     public function store(){
         Gate::authorize('create', ProductionPlan::class);
-        $validateProductionPlaneData = request()->validate([
+        $validateData = request()->validate([
             'user_id' => ['exists:users,id'],
             'order_id' => ['exists:orders,id'],
             'production_start' => ['required','date_format:Y-m-d','after_or_equal:today'],
-            'production_end' => ['required','date_format:Y-m-d','after_or_equal:today'],
+            'production_end' => ['required','date_format:Y-m-d','after_or_equal:production_start'],
 
         ]);
 
-        $validateProductionMaterialData = request()->validate([
-            'user_id' => ['exists:users,id'],
-            'order_id' => ['exists:orders,id'],
-            'material_id' => ['required','exists:materials,id'],
-            'units' => ['required','numeric'],
-        ]);
+        ProductionPlan::create($validateData);
 
-        $material = Material::findOrFail($validateProductionMaterialData['material_id']);
-        if($material->stock_level < $validateProductionMaterialData['units']){
-            throw ValidationException::withMessages(
-                ['quantity'=>'Sorry, there is insufficient stock to create the order.']);
-        }
-
-
-        $order = Order::findOrFail($validateProductionPlaneData['order_id']);
+        $order = Order::findOrFail($validateData['order_id']);
         $order->update([
             'status' => 12  //Production Plan Created
         ]);
 
-        ProductionPlan::create($validateProductionPlaneData);
-        ProductionMaterial::create($validateProductionMaterialData);
+        $users = User::whereHas('department', function($query){
+        $query->whereIn('department_name',['Admin','Management','Shipping','Marketing']);
+        })->get();
+        foreach ($users as $key => $user) {
+            $user->notify(new UpdateProductionPlanNotification($order));
+            $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
+        }
 
-        return redirect()->route('order.show', $validateProductionPlaneData['order_id'])->with('success','Production plan updated successfully!');
+
+        return redirect()->route('order.show', $validateData['order_id'])->with('success','Production plan updated successfully!');
     }
 
 
@@ -100,35 +96,22 @@ class ProductionPlanController extends Controller
         $validateProductionPlaneData = request()->validate([
             'user_id' => ['exists:users,id'],
             'production_start' => ['required','date_format:Y-m-d','after_or_equal:today'],
-            'production_end' => ['required','date_format:Y-m-d','after_or_equal:today'],
+            'production_end' => ['required','date_format:Y-m-d','after_or_equal:production_start'],
         ]);
 
-        $validateProductionMaterialData = request()->validate([
-            'id' => ['exists:production_materials,id'],
-            'user_id' => ['exists:users,id'],
-            'material_id' => ['required','exists:materials,id'],
-            'units' => ['required','numeric'],
-        ]);
-
-        $material = Material::findOrFail($validateProductionMaterialData['material_id']);
-        if($material->stock_level < $validateProductionMaterialData['units']){
-            throw ValidationException::withMessages(
-                ['units'=>'Sorry, there is insufficient stock to create the order.']);
+        $plan->fill($validateProductionPlaneData);
+        if ($plan->isDirty()) {
+            $plan->save();
+            return redirect()->route('production.plan.show', $plan)->with('success', 'Production plan updated successfully!');
         }
-
-        $production_materials = ProductionMaterial::findOrFail($validateProductionMaterialData['id']);
-
-        $plan->update($validateProductionPlaneData);
-        $production_materials->update($validateProductionMaterialData);
-
-        return redirect()->route('production.plan.show', $plan)->with('success','Production plan updated successfully!');
+        return redirect()->route('production.plan.edit', $plan);
     }
 
     public function planDates(ProductionPlan $plan){
         Gate::authorize('update', $plan);
         $order = Order::findOrFail($plan->order->id);
 
-        if($order->status == 15){
+        if($order->status == 15){ //payment verified
             $plan->update([
                 'actual_aproduction_start' => now()->format('Y-m-d')
             ]);
@@ -140,6 +123,7 @@ class ProductionPlanController extends Controller
                 'transaction_type' => 2, //reduce
                 'item_type' => 1, //tea
                 'status' => 0, //pending
+                'units' => $order->orderItem->quantity,
                 'tea_id' => $order->orderItem->tea->id,
                 'production_plan_id' => $plan->id,
             ]);
@@ -152,19 +136,11 @@ class ProductionPlanController extends Controller
                 $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
             }
 
-            InventoryTransaction::create([
-                'transaction_type' => 2, //reduce
-                'item_type' => 2, //material
-                'status' => 0, //pending
-                'material_id' => $order->productionMaterial->material->id,
-                'production_plan_id' => $plan->id,
-            ]);
-
             $users = User::whereHas('department', function($query){
-                $query->whereIn('department_name',['Admin','Management','Warehouse']);
+            $query->whereIn('department_name',['Admin','Management','Marketing']);
             })->get();
             foreach ($users as $key => $user) {
-                $user->notify(new RequestOutgingMaterialNotification($plan));
+                $user->notify(new UpdateProductionStartedNotification($order));
                 $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
             }
 
@@ -175,6 +151,10 @@ class ProductionPlanController extends Controller
             ]);
             $order->update([
                 'status' => 17 //Production Completed
+            ]);
+
+            $plan->update([
+                'production_cost' => $plan->order->productionMaterial->sum('cost')
             ]);
 
             $users = User::whereHas('department', function($query){
@@ -192,8 +172,4 @@ class ProductionPlanController extends Controller
         return redirect()->route('production.plan.show', $plan)->with('success','Production plan updated successfully!');
     }
 
-    public function destroy(ProductionPlan $productionPlan)
-    {
-        //
-    }
 }

@@ -21,10 +21,13 @@ use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Production\MaterialPurchaseController;
 use App\Http\Controllers\Production\MaterialController;
 use App\Http\Controllers\Production\ProductionController;
+use App\Http\Controllers\Production\ProductionMaterialController;
 use App\Http\Controllers\Production\ProductionPlanController;
 use App\Http\Controllers\Shipping\ShippingController;
+use App\Http\Controllers\Shipping\ShippingPortsController;
 use App\Http\Controllers\Shipping\ShippingProviderController;
 use App\Http\Controllers\Shipping\ShippingScheduleController;
+use App\Http\Controllers\Shipping\ShippingVesselController;
 use App\Http\Controllers\Supply\SupplierPaymentController;
 use App\Http\Controllers\Supply\SupplierController;
 use App\Http\Controllers\Tea\TeaController;
@@ -173,7 +176,7 @@ Route::middleware(['auth','department:Admin,Management,Marketing,Shipping,Produc
         Route::get('/order/{order}/show', 'show')->name('order.show');
         Route::get('/order/{order}', 'edit')->name('order.edit');
         Route::patch('/order/{order}', 'update')->name('order.update');
-        Route::patch('/order/{order}/{status}', 'updateStatus')->name('order.status.update');
+        Route::patch('/order/{order}/cancel', 'destroy')->name('order.cancel');
     });
 });
 
@@ -215,6 +218,7 @@ Route::middleware(['auth','department:Finance,Admin,Management'])->group(functio
                         Route::get('/payment/{payment}/show', 'show')->name('payment.show');
                         Route::get('/payment/{payment}/edit', 'edit')->name('payment.edit');
                         Route::patch('/payment/{payment}/update', 'update')->name('payment.update');
+                        Route::get('/payment/{payment}/download', 'download')->name('payment.download');
                     });
                 });
             });
@@ -265,6 +269,16 @@ Route::middleware(['auth','department:Production,Admin,Management'])->group(func
                 Route::get('/plan/{plan}/edit', 'edit')->name('plan.edit');
                 Route::patch('/plan/{plan}', 'update')->name('plan.update');
                 Route::patch('/plan/{plan}/update/plan/dates', 'planDates')->name('plan.update.plan.dates');
+            });
+
+            Route::controller(ProductionMaterialController::class)->group(function () {
+                Route::get('/order/material/{order}/{plan}/index', 'index')->name('order.material.index');
+                Route::get('/order/material/{production_material}/show', 'show')->name('order.material.show');
+                Route::get('/order/material/{order}/create', 'create')->name('order.material.create');
+                Route::post('/order/material/{order}/store', 'store')->name('order.material.store');
+                Route::get('/order/material/{production_material}/edit', 'edit')->name('order.material.edit');
+                Route::patch('/plan/material/{production_material}/update', 'update')->name('order.material.update');
+                Route::delete('/plan/material/{production_material}', 'destroy')->name('order.material.destroy');
             });
 
         });
@@ -349,6 +363,24 @@ Route::middleware(['auth','department:Shipping,Admin,Management'])->group(functi
                 Route::patch('/provider/{provider}', 'update')->name('provider.update');
                 Route::delete('/provider/{provider}', 'destroy')->name('provider.destroy');
             });
+
+            Route::controller(ShippingPortsController::class)->group(function () {
+                Route::get('/port', 'index')->name('port.index');
+                Route::get('/port/create', 'create')->name('port.create');
+                Route::post('/port/store', 'store')->name('port.store');
+                Route::get('/port/{port}/show', 'show')->name('port.show');
+                Route::get('/port/{port}/edit', 'edit')->name('port.edit');
+                Route::post('/port/{port}/update', 'update')->name('port.update');
+            });
+
+            Route::controller(ShippingVesselController::class)->group(function () {
+                Route::get('/vessel', 'index')->name('vessel.index');
+                Route::get('/vessel/create', 'create')->name('vessel.create');
+                Route::post('/vessel/store', 'store')->name('vessel.store');
+                Route::get('/vessel/{vessel}/show', 'show')->name('vessel.show');
+                Route::get('/vessel/{vessel}/edit', 'edit')->name('vessel.edit');
+                Route::patch('/vessel/{vessel}/update', 'update')->name('vessel.update');
+            });
         });
     });
 });
@@ -373,6 +405,7 @@ Route::middleware(['auth','department:Admin,Warehouse,Management'])->group(funct
 });
 
 Route::get('/get-roles/{departmentId}', [RoleController::class, 'getRolesByDepartment']);
+Route::post('/get-ports-by-vessel', [ShippingScheduleController::class, 'getPortsByVessel'])->name('shipping.getPortsByVessel');
 
 
 

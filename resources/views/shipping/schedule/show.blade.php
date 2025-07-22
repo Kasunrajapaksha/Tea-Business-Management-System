@@ -57,7 +57,7 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label  class="form-label" >Vessel Name</label>
-                                <input type="text" class="form-control" value="{{ $schedule->vessel_name}}" disabled>
+                                <input type="text" class="form-control" value="{{ $schedule->vessel->vessel_name}}" disabled>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label  class="form-label" >Shipping Provider</label>

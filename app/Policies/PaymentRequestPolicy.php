@@ -32,7 +32,10 @@ class PaymentRequestPolicy
 
     public function delete(User $user, PaymentRequest $paymentRequest): bool
     {
-        return $user->role->permissions->contains('permission_name', 'delete-payment-request');
+        if($paymentRequest->status == 0 && $user->role->permissions->contains('permission_name', 'delete-payment-request')){
+            return true;
+        }
+        return false;
     }
 
 

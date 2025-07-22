@@ -8,6 +8,7 @@ use App\Models\CustomerPayment;
 use App\Models\Material;
 use App\Models\MaterialPurchase;
 use App\Models\Order;
+use App\Models\PaymentRequest;
 use App\Models\ShippingProvider;
 use App\Models\Supplier;
 use App\Models\SupplierPayment;
@@ -26,6 +27,7 @@ class ManagementController extends Controller{
         $orders = Order::all();
         $teaStocks = Tea::all();
         $materialStocks = Material::all();
+        $payment_requests = PaymentRequest::all();
 
         $thisMonthStart = Carbon::now()->startOfMonth();
         $thisMonthEnd = Carbon::now()->endOfMonth();
@@ -42,15 +44,26 @@ class ManagementController extends Controller{
             $costPercentage = $costThisMonth > 0 ? 100 : 0;
         }
 
+        $totalRevenue = CustomerPayment::sum('total_amount');
+        $revenueThisMonth = CustomerPayment::whereBetween('created_at', [$thisMonthStart, $thisMonthEnd])->sum('total_amount');
+        $revenueLastMonth = CustomerPayment::whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])->sum('total_amount');
+        if ($revenueLastMonth > 0) {
+            $revenuePercentage = (($revenueThisMonth - $revenueLastMonth) / $revenueLastMonth) * 100;
+        } else {
+            $revenuePercentage = $revenueThisMonth > 0 ? 100 : 0;
+        }
+
         //orders
         $totalOrders = Order::all()->count();
-        $ordersThisMonth = SupplierPayment::whereBetween('created_at', [$thisMonthStart, $thisMonthEnd])->count();
-        $ordersLastMonth = SupplierPayment::whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])->count();
+        $ordersThisMonth = Order::whereBetween('created_at', [$thisMonthStart, $thisMonthEnd])->count();
+        $ordersLastMonth = Order::whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])->count();
         if ($ordersLastMonth > 0) {
             $orderPercentage = (($ordersThisMonth - $ordersLastMonth) / $ordersLastMonth) * 100;
         } else {
             $orderPercentage = $ordersThisMonth > 0 ? 100 : 0;
         }
+
+
 
 
 
@@ -65,10 +78,15 @@ class ManagementController extends Controller{
             'orders',
             'teaStocks',
             'materialStocks',
+            'payment_requests',
             'totalCost',
             'costThisMonth',
             'costLastMonth',
             'costPercentage',
+            'totalRevenue',
+            'revenueThisMonth',
+            'revenueLastMonth',
+            'revenuePercentage',
             'totalOrders',
             'ordersThisMonth',
             'ordersLastMonth',

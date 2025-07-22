@@ -54,7 +54,6 @@ class InventoryTransactionsController extends Controller
 
         //updateing stock & purchase
         if($transaction->transaction_type === 1){ // check add
-
             //updateing inventroy transaction
             $transaction->update([
                 'user_id' => Auth::user()->id,
@@ -105,55 +104,20 @@ class InventoryTransactionsController extends Controller
 
         } elseif($transaction->transaction_type === 2){ //check reduce
 
-            //updateing inventroy transaction
             $transaction->update([
                 'user_id' => Auth::user()->id,
                 'status' => 9, //Dispatched
             ]);
 
-            if($transaction->tea_id){ // check tea
-                $tea = Tea::findOrFail($transaction->tea_id);
-
-                $tea->update([
-                    'stock_level' => $tea->stock_level - $transaction->production_plan->order->orderItem->quantity,
-                ]);
-
-                $users = User::whereHas('department', function($query){
-                    $query->whereIn('department_name',['Admin','Management','Production',]);
-                })->get();
-                foreach ($users as $key => $user) {
-                    $user->notify(new DispatchItemsNotification($transaction));
-                    $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
-                }
-
-
-            } elseif ($transaction->material_id){ // check material
-                $material = Material::findOrFail($transaction->material_id);
-
-                $material->update([
-                    'stock_level' => $material->stock_level - $transaction->production_plan->order->productionMaterial->units,
-                ]);
-
-                if($material->stock_level < 100 ){
-                    $users = User::whereHas('department', function($query){
-                    $query->whereIn('department_name',['Admin','Management','Production',]);
-                    })->get();
-                    foreach ($users as $key => $user) {
-                        $user->notify(new LowMaterialStockNotification($material));
-                        $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
-                    }
-                }
-
-                $users = User::whereHas('department', function($query){
-                    $query->whereIn('department_name',['Admin','Management','Production',]);
-                })->get();
-                foreach ($users as $key => $user) {
-                    $user->notify(new DispatchItemsNotification($transaction));
-                    $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
-                }
-
+            $users = User::whereHas('department', function($query){
+                $query->whereIn('department_name',['Admin','Management','Production',]);
+            })->get();
+            foreach ($users as $key => $user) {
+                $user->notify(new DispatchItemsNotification($transaction));
+                $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
             }
 
+            return redirect()->route('warehouse.inventory.show.outgoing' ,$transaction)->with('success','Order status updated successfuly!');
         }
 
         return redirect()->route('warehouse.inventory.index')->with('success','Order status updated successfuly!');

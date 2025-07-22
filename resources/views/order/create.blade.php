@@ -38,9 +38,9 @@
                             <div class="mb-3 col-md-6">
                                 <label for="order_item" class="form-label">Order Item</label>
                                 <select name="tea_id" id="tea_id" class="form-control">
-                                        <option value="#">Select Tea</option>
+                                        <option value="">Select Tea</option>
                                     @foreach ($teas as $tea )
-                                        <option value="{{ $tea->id }}">{{ $tea->tea_name }}</option>
+                                        <option value="{{ $tea->id }}" {{ old('tea_id') == $tea->id ? 'selected' : '' }}>{{ $tea->tea_name }}</option>
                                     @endforeach
                                 </select>
                                 <x-error field="tea_id" />
@@ -55,7 +55,7 @@
                         <div class="row">
                             <div class="mb-3 col-md-12">
                                 <label for="packing_instractions" class="form-label">Packing Instructions</label>
-                                <textarea name="packing_instractions" id="packing_instractions" class="form-control"></textarea>
+                                <textarea name="packing_instractions" id="packing_instractions" class="form-control">{{ old('packing_instractions')}}</textarea>
                                 <x-error field="packing_instractions" />
                             </div>
                         </div>

@@ -18,4 +18,5 @@ class ShippingProvider extends Model
     public function shippingSchadule(){
         return $this->hasMany(ShippingSchedule::class);
     }
+
 }

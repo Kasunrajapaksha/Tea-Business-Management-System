@@ -51,19 +51,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const departmentSelect = document.getElementById('user_department_id');
     const roleSelect = document.getElementById('user_role_id');
 
-    // Function to fetch roles based on the selected department
     const fetchRoles = (departmentId) => {
-        // Reset the role dropdown before fetching new data
-        roleSelect.innerHTML = '<option value="#">Choose a role</option>'; // Reset to default
-        roleSelect.disabled = false; // Enable the role dropdown
+        roleSelect.innerHTML = '<option value="#">Choose a role</option>';
+        roleSelect.disabled = false;
 
-        // If a valid department is selected, fetch roles
         if (departmentId !== '#') {
-            // Make the AJAX request to get roles based on the department ID
             fetch(`/get-roles/${departmentId}`)
                 .then(response => response.json())
                 .then(data => {
-                    // Populate the role dropdown with new options
                     data.roles.forEach(function(role) {
                         const option = document.createElement('option');
                         option.value = role.id;
@@ -71,34 +66,32 @@ document.addEventListener('DOMContentLoaded', function () {
                         roleSelect.appendChild(option);
                     });
 
-                    // Pre-select the role if the current user's role is part of the available roles
                     const preSelectedRoleId = roleSelect.dataset.selectedRoleId;
                     if (preSelectedRoleId) {
-                        roleSelect.value = preSelectedRoleId; // Set pre-selected role if available
+                        roleSelect.value = preSelectedRoleId;
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching roles:', error);
-                    // Optionally disable role dropdown if an error occurs
                     roleSelect.disabled = true;
                 });
         } else {
-            // If no department is selected, disable the role dropdown
             roleSelect.disabled = true;
-            roleSelect.innerHTML = '<option value="#">Choose a role</option>'; // Reset role dropdown to default
+            roleSelect.innerHTML = '<option value="#">Choose a role</option>';
         }
     };
 
-    // Event listener for department selection change
     departmentSelect.addEventListener('change', function() {
         const departmentId = this.value;
-        fetchRoles(departmentId);  // Fetch roles based on the selected department
+        fetchRoles(departmentId);
     });
 
-    // Initialize role dropdown based on the pre-selected department when the page loads
     const departmentId = departmentSelect.value;
-    fetchRoles(departmentId);  // Call the function to populate roles based on the selected department
+    fetchRoles(departmentId);
 });
+
+
+
 
 
 

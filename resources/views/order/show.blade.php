@@ -40,7 +40,7 @@
                         </div>
                         <div class="mb-3 col-md-4">
                             <label  class="form-label">Quantity</label>
-                            <input type="text" class="form-control" value="{{ $order->orderItem->quantity }} Kg" disabled>
+                            <input type="text" class="form-control" value="{{ number_format($order->orderItem->quantity,1) }} Kg" disabled>
                         </div>
                         <div class="mb-3 col-md-4">
                             <label  class="form-label">Total Amount</label>
@@ -73,28 +73,38 @@
                     @if ($order->status >= 12 )
                     <hr>
                     <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label  class="form-label">Production Start</label>
+                        <div class="mb-3 col-md-4">
+                            <label  class="form-label">Planned Production Start</label>
                             <input type="text" class="form-control" value="{{ $order->status >= 12 ? $order->productionPlan->production_start : ''}}" disabled>
                         </div>
-                        <div class="mb-3 col-md-6">
-                            <label  class="form-label">Production End</label>
+                        <div class="mb-3 col-md-4">
+                            <label  class="form-label">Planned Production End</label>
                             <input type="text" class="form-control" value="{{ $order->status >= 12 ? $order->productionPlan->production_end : ''}}" disabled>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="mb-3 col-md-4">
-                            <label  class="form-label">Materials</label>
-                            <input type="text" class="form-control" value="{{ $order->status >= 12 ? $order->productionMaterial->material->material_name : ''}}" disabled>
-                        </div>
-                        <div class="mb-3 col-md-4">
-                            <label  class="form-label">Units</label>
-                            <input type="text" class="form-control" value="{{ $order->status >= 12 ? $order->productionMaterial->units : ''}}" disabled>
                         </div>
                         <div class="mb-3 col-md-4">
                             <label  class="form-label">Updated by</label>
                             <input type="text" class="form-control" value="{{ $order->status >= 12 ? $order->productionPlan->user->first_name . ' '. $order->productionPlan->user->first_name : ''}}" disabled>
                         </div>
+                    </div>
+                    @endif
+                    @if ($order->productionPlan->order->status >= 16)
+                    <div class="row">
+                        <div class="mb-3 col-md-4">
+                            @php
+                                $diffIndays = \Carbon\Carbon::parse($order->productionPlan->production_start)->diffInDays(\Carbon\Carbon::parse($order->productionPlan->actual_aproduction_start))
+                            @endphp
+                            <x-label-badge title="Actual Production Start" :diffIndays="$diffIndays" />
+                            <input type="text" class="form-control" value="{{ $order->productionPlan->actual_aproduction_start }}" disabled>
+                        </div>
+                        @if ($order->productionPlan->order->status >= 17)
+                        <div class="mb-3 col-md-4">
+                            @php
+                                $diffIndays = \Carbon\Carbon::parse($order->productionPlan->production_end)->diffInDays(\Carbon\Carbon::parse($order->productionPlan->actual_aproduction_end))
+                            @endphp
+                            <x-label-badge title="Actual Production End" :diffIndays="$diffIndays" />
+                            <input type="text" class="form-control" value="{{ $order->productionPlan->actual_production_end }}" disabled>
+                        </div>
+                        @endif
                     </div>
                     @endif
                     @if ($order->status >= 13 )
@@ -184,7 +194,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <form action="{{ route('order.status.update', [$order,'status'=>3]) }}" method="post">
+        <form action="{{ route('order.cancel', $order) }}" method="post">
             @csrf
             @method('patch')
             <button type="submit" class="btn btn-danger">Yes</button>

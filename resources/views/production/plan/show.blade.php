@@ -40,7 +40,7 @@
                         </div>
                         <div class="mb-3 col-md-4">
                             <label  class="form-label">Quantity</label>
-                            <input type="text" class="form-control" value="{{ $order->orderItem->quantity }} Kg" disabled>
+                            <input type="text" class="form-control" value="{{ number_format($order->orderItem->quantity,1) }} Kg" disabled>
                         </div>
                         <div class="mb-3 col-md-4">
                             <label  class="form-label">Total Amount</label>
@@ -55,37 +55,39 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3 col-md-4">
                             <label  class="form-label">Planned Start Date</label>
                             <input type="text" class="form-control" value="{{ $plan->production_start }}" disabled>
                         </div>
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3 col-md-4">
                             <label  class="form-label">Planned End Date</label>
                             <input type="text" class="form-control" value="{{ $plan->production_end }}" disabled>
                         </div>
                     </div>
                     @if ($plan->order->status >= 16)
                     <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label  class="form-label">Actual Start Date</label>
+                        <div class="mb-3 col-md-4">
+                            @php
+                                $diffIndays = \Carbon\Carbon::parse($plan->production_start)->diffInDays(\Carbon\Carbon::parse($plan->actual_aproduction_start))
+                            @endphp
+                            <x-label-badge title="Actual Production Start" :diffIndays="$diffIndays" />
                             <input type="text" class="form-control" value="{{ $plan->actual_aproduction_start }}" disabled>
                         </div>
-                        <div class="mb-3 col-md-6">
-                            <label  class="form-label">Actual End Date</label>
+                        @if ($plan->order->status >= 17)
+                        <div class="mb-3 col-md-4">
+                            @php
+                                $diffIndays = \Carbon\Carbon::parse($plan->production_end)->diffInDays(\Carbon\Carbon::parse($plan->actual_aproduction_end))
+                            @endphp
+                            <x-label-badge title="Actual Production End" :diffIndays="$diffIndays" />
                             <input type="text" class="form-control" value="{{ $plan->actual_production_end }}" disabled>
                         </div>
+                        <div class="mb-3 col-md-4">
+                            <label  class="form-label">Production Cost (LKR)</label>
+                            <input type="text" class="form-control" value="{{ number_format($plan->production_cost,2) }}" disabled>
+                        </div>
+                        @endif
                     </div>
                     @endif
-                    <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label  class="form-label">Materials</label>
-                            <input type="text" class="form-control" value="{{ $order->productionMaterial->material->material_name }}" disabled>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label  class="form-label">Units</label>
-                            <input type="text" class="form-control" value="{{ $order->productionMaterial->units}}" disabled>
-                        </div>
-                    </div>
                     <hr>
                     <div class="row">
                         <div class="mb-3 col-md-6">
@@ -112,7 +114,10 @@
                                 @if ($plan->order->status == 15)
                                 <a class="btn btn-success mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#updatePlan">Start Production</a>
                                 @endif
-                                @if ($plan->order->status == 16 && $plan->inventory_transaction->where('production_plan_id', $plan->id)->whereIn('item_type', [1, 2])->where('status', 9)->isNotEmpty())
+                                @if ($plan->order->status == 16 )
+                                <a href="{{ route('production.order.material.index', ['order'=>$order,'plan'=>$plan]) }}" class="btn btn-primary mt-2 ms-2">Production Material</a>
+                                @endif
+                                @if ($plan->order->status == 16 && $plan->inventory_transaction->where('production_plan_id', $plan->id)->every(fn($transaction) => $transaction->status == 9))
                                 <a class="btn btn-danger mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#updatePlan">End Production</a>
                                 @endif
                             @endcan

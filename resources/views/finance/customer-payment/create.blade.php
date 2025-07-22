@@ -33,19 +33,25 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label  class="form-label" for="paid_at">Paid at</label>
-                            <input type="date" class="form-control" name="paid_at" form="payment-form" max="{{ $order->proformaInvoice->issued_at }}">
+                        <div class="mb-3 col-md-4">
+                            <label  class="form-label" for="paid_at">Paid on</label>
+                            <input type="date" class="form-control" name="paid_at" form="payment-form" value="{{ old('paid_at') }}" max="{{ $order->proformaInvoice->issued_at }}">
                             <x-error field="paid_at" />
                         </div>
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3 col-md-4">
                             <label  class="form-label" for="transaction_reference">Transaction Reference</label>
-                            <input type="text" class="form-control" name="transaction_reference" form="payment-form">
+                            <input type="text" class="form-control" name="transaction_reference" value="{{ old('transaction_reference') }}" form="payment-form">
                             <x-error field="transaction_reference" />
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label  class="form-label" for="payment_document">Payment Document</label>
+                            <input type="file" class="form-control" name="payment_document" form="payment-form">
+                            <x-error field="payment_document" />
                         </div>
                     </div>
 
                     <input type="hidden" name="proforma_invoice_id" value="{{ $order->proformaInvoice->id }}" form="payment-form">
+                    <input type="hidden" name="total_amount" value="{{ $order->total_amount }}" form="payment-form">
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" form="payment-form">
 
                     <div class="d-flex align-items-center justify-content-between">
@@ -73,7 +79,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <form action="{{ route('finance.customer.payment.store') }}" method="POST" id="payment-form">
+            <form action="{{ route('finance.customer.payment.store') }}" method="POST" id="payment-form" enctype="multipart/form-data">
             @csrf
                 <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Yes</button>
             </form>

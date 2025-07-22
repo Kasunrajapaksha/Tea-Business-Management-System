@@ -27,25 +27,8 @@
                             <x-error field="production_end" />
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label  class="form-label" for="material_id">Material</label>
-                            <select name="material_id" id="material_id" class="form-select" form="production-form">
-                                @foreach ($materials as $material )
-                                <option value="{{ $material->id }}" {{ $order->productionMaterial->material->id == $material->id ? 'selected' : '' }} >{{ $material->material_name }}</option>
-                                @endforeach
-                            </select>
-                            <x-error field="material_id" />
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label  class="form-label" for="units">Units</label>
-                            <input type="number" step="1"  name="units" id="units" class="form-control" value="{{ $order->productionMaterial->units}}" form="production-form">
-                            <x-error field="units" />
-                        </div>
-                    </div>
 
 
-                    <input type="hidden" name="id" value="{{ $order->productionMaterial->id }}" form="production-form">
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" form="production-form">
 
                     <div class="d-flex align-items-center justify-content-between">

@@ -72,4 +72,7 @@
             </div>
         </div>
     </div>
+    <div class="col-12 px-3">
+            {{ $teas->links() }}
+    </div>
 </x-app-layout>

@@ -30,7 +30,6 @@
                             <tr>
                                 <th class="d-none d-xl-table-cell">Order_no</th>
                                 <th class="d-none d-xl-table-cell">Order_item</th>
-                                <th class="d-none d-xl-table-cell">Materials</th>
                                 <th class="d-none d-xl-table-cell">Production start</th>
                                 <th class="d-none d-xl-table-cell">Production end</th>
                                 <th class="d-none d-xl-table-cell">Updated by</th>
@@ -44,7 +43,6 @@
                                 <tr>
                                     <td class="d-none d-xl-table-cell">{{ $plan->order->order_no }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $plan->order->orderItem->tea->tea_name .' '. $plan->order->orderItem->quantity .' Kg' }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $plan->order->productionMaterial->units . ' '. $plan->order->productionMaterial->material->material_name }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $plan->production_start }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $plan->production_end }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $plan->user->first_name . ' ' . $plan->user->last_name}}</td>

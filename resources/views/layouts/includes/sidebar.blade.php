@@ -196,6 +196,18 @@
                     <span class="align-middle">Shipping Provider</span>
                 </a>
             </li>
+            <li class="sidebar-item {{ request()->routeIs('shipping.port.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('shipping.port.index') }}">
+                    <i class="align-middle" data-feather="anchor"></i>
+                    <span class="align-middle">Ports</span>
+                </a>
+            </li>
+            <li class="sidebar-item {{ request()->routeIs('shipping.vessel.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('shipping.vessel.index') }}">
+                    <i class="align-middle" data-feather="anchor"></i>
+                    <span class="align-middle">Vessel</span>
+                </a>
+            </li>
             @endcan
 
 

@@ -45,6 +45,10 @@
                             <input type="text" class="form-control" name="transaction_reference" value="{{ $payment->transaction_reference }}" form="payment-form" disabled>
                             <x-error field="transaction_reference" />
                         </div>
+                        <div class="mb-3 col-md-12 mt-3 d-flex align-items-center justify-content-end">
+                            <label  class="form-label" for="transaction_reference">Payment Document : </label>
+                            <a href="{{ route('finance.customer.payment.download', $payment) }}" class="btn btn-sm btn-secondary mx-3"><i class="align-middle me-2" data-feather="download"></i>Document</a>
+                        </div>
                     </div>
                     <hr>
                     <div class="row">

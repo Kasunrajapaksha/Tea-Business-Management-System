@@ -36,11 +36,11 @@
                         </div>
                         <div class="mb-3 col-md-4">
                             <label  class="form-label">Quantity</label>
-                            <input type="text" class="form-control" value="{{ $order->orderItem->quantity }} Kg" disabled>
+                            <input type="text" class="form-control" value="{{ number_format($order->orderItem->quantity,1) }} Kg" disabled>
                         </div>
                         <div class="mb-3 col-md-4">
                             <label  class="form-label">Total Amount</label>
-                            <input type="text" class="form-control" value="USD {{ $order->total_amount }}" disabled>
+                            <input type="text" class="form-control" value="USD {{ number_format($order->total_amount,2) }}" disabled>
                         </div>
                     </div>
                     <div class="row">
@@ -53,30 +53,13 @@
                     <div class="row">
                         <div class="mb-3 col-md-6">
                             <label  class="form-label" for="production_start">Production Start</label>
-                            <input type="date" class="form-control" name="production_start" form="production-form" 	min="{{ date('Y-m-d') }}">
+                            <input type="date" class="form-control" name="production_start" form="production-form" value="{{ old('production_start')}}" min="{{ date('Y-m-d') }}">
                             <x-error field="production_start" />
                         </div>
                         <div class="mb-3 col-md-6">
                             <label  class="form-label" for="production_end">Production End</label>
-                            <input type="date" class="form-control" name="production_end" form="production-form" min="{{ date('Y-m-d') }}">
+                            <input type="date" class="form-control" name="production_end" form="production-form" value="{{ old('production_end')}}" min="{{ date('Y-m-d') }}">
                             <x-error field="production_end" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label  class="form-label" for="material_id">Material</label>
-                            <select name="material_id" id="material_id" class="form-select" form="production-form">
-                                <option value="#">Select materials</option>
-                                @foreach ($materials as $material)
-                                <option value="{{ $material->id}}">{{ $material->material_name}}</option>
-                                @endforeach
-                            </select>
-                            <x-error field="material_id" />
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label  class="form-label" for="units">Units</label>
-                            <input type="number" step="1"  name="units" id="units" class="form-control" form="production-form">
-                            <x-error field="units" />
                         </div>
                     </div>
 

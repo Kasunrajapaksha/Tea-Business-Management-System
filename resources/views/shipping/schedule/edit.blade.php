@@ -24,10 +24,14 @@
 
                         <div class="row">
                             <div class="mb-3 col-md-6">
-                                <label class="form-label" for="vessel_name">Vessel Name</label>
-                                <input type="text" class="form-control" name="vessel_name"
-                                    value="{{ $schedule->vessel_name }}">
-                                <x-error field="vessel_name" />
+                                <label class="form-label" for="vessel_id">Vessel Name</label>
+                                <select class="form-select" name="vessel_id" id="vessel_name_shedule_create">
+                                    <option value="#">Select Vessel</option>
+                                    @foreach ($vessels as $vessel)
+                                        <option value="{{ $vessel->id }}" {{ $vessel->id == $schedule->vessel_id ? 'selected' : '' }}>{{ $vessel->vessel_name }}</option>
+                                    @endforeach
+                                </select>
+                                <x-error field="vessel_id" />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label class="form-label" for="shipping_provider_id">Shipping Provider</label>
@@ -43,28 +47,36 @@
                         </div>
                         @if ($schedule->order->status == 13)
                         <div class="row">
-                            <div class="mb-3 col-md-3">
+                            <div class="mb-3 col-md-6">
                                 <label class="form-label" for="departure_date">Departure Date</label>
                                 <input type="date" class="form-control" name="departure_date"
                                     value="{{ $schedule->departure_date }}" min="{{ $schedule->order->productionPlan->production_end }}">
                                 <x-error field="departure_date" />
                             </div>
-                            <div class="mb-3 col-md-3">
+                            <div class="mb-3 col-md-6">
                                 <label class="form-label" for="departure_port">Departure Port</label>
-                                <input type="text" class="form-control" name="departure_port"
-                                    value="{{ $schedule->departure_port }}">
+                                <select class="form-select" name="departure_port" id="departure_port">
+                                    <option value="#">Select port</option>
+                                    @foreach ($departurePorts as $port)
+                                        <option value="{{ $port->port_name }}" {{ $port->port_name == $schedule->departure_port ? 'selected' : '' }}>{{ $port->port_name }}</option>
+                                    @endforeach
+                                </select>
                                 <x-error field="departure_port" />
                             </div>
-                            <div class="mb-3 col-md-3">
+                            <div class="mb-3 col-md-6">
                                 <label class="form-label" for="arrival_date">Arrival Date</label>
                                 <input type="date" class="form-control" name="arrival_date"
                                     value="{{ $schedule->arrival_date }}" min="{{ $schedule->order->productionPlan->production_end }}">
                                 <x-error field="arrival_date" />
                             </div>
-                            <div class="mb-3 col-md-3">
+                            <div class="mb-3 col-md-6">
                                 <label class="form-label" for="arrival_port">Arrival Port</label>
-                                <input type="text" class="form-control" name="arrival_port"
-                                    value="{{ $schedule->arrival_port }}">
+                                <select class="form-select" name="arrival_port" id="arrival_port_shedule_create">
+                                    <option value="#">Select port</option>
+                                    @foreach ($ports as $port)
+                                        <option value="{{ $port->port_name }}" {{ $port->port_name == $schedule->arrival_port ? 'selected' : '' }} >{{ $port->port_name }}</option>
+                                    @endforeach
+                                </select>
                                 <x-error field="arrival_port" />
                             </div>
                         </div>
@@ -125,3 +137,36 @@
     </div>
 
 </x-app-layout>
+
+<script>
+document.getElementById('vessel_name_shedule_create').addEventListener('change', function() {
+    var vesselId = this.value;
+    if (vesselId !== '#') {
+        fetch('{{ route('shipping.getPortsByVessel') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',  // CSRF token
+            },
+            body: JSON.stringify({
+                vessel_id: vesselId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            var arrivalPortSelect = document.getElementById('arrival_port_shedule_create');
+            arrivalPortSelect.innerHTML = '<option value="#">Select port</option>';
+            data.forEach(port => {
+
+                var optionArrival = document.createElement('option');
+                optionArrival.value = port.port_name;
+                optionArrival.textContent = port.port_name;
+                arrivalPortSelect.appendChild(optionArrival);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+});
+</script>

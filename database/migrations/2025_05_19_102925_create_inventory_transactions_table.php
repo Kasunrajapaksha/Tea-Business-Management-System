@@ -2,7 +2,9 @@
 
 use App\Models\Material;
 use App\Models\MaterialPurchase;
+use App\Models\OrderItem;
 use App\Models\PaymentRequest;
+use App\Models\ProductionMaterial;
 use App\Models\ProductionPlan;
 use App\Models\Supplier;
 use App\Models\Tea;
@@ -24,8 +26,11 @@ return new class extends Migration
             $table->boolean('transaction_type');
             $table->boolean('item_type');
             $table->integer('status')->default(0);
+            $table->integer('units')->nullable()->default(null);
             $table->foreignIdFor(Tea::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(Material::class)->nullable()->constrained()->onDelete('set null');
+            $table->foreignIdFor(ProductionMaterial::class)->nullable()->constrained()->onDelete('set null');
+            $table->foreignIdFor(OrderItem::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(MaterialPurchase::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(TeaPurchase::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(ProductionPlan::class)->nullable()->constrained()->onDelete('set null');

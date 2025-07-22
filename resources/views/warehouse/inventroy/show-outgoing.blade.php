@@ -12,6 +12,8 @@
     </ol>
 </nav>
 
+    <x-success-alert />
+
     <div class="d-flex align-items-center">
         <h1 class="me-3">Transaction</h1>
     </div>
@@ -31,7 +33,7 @@
                                 @if ($transaction->tea_id)
                                 <input type="text" class="form-control" value="{{ $transaction->production_plan->order->orderItem->tea->tea_name }}" disabled>
                                 @elseif ($transaction->material_id)
-                                <input type="text" class="form-control" value="{{ $transaction->production_plan->order->productionMaterial->material->material_name }}" disabled>
+                                <input type="text" class="form-control" value="{{ $transaction->material->material_name }}" disabled>
                                 @endif
                             </div>
                             <div class="mb-3 col-md-4">
@@ -39,7 +41,7 @@
                                 @if ($transaction->tea_id)
                                 <input type="text" class="form-control" value="{{ number_format($transaction->production_plan->order->orderItem->quantity).' Kg' }}" disabled>
                                 @elseif ($transaction->material_id)
-                                <input type="text" class="form-control" value="{{ number_format($transaction->production_plan->order->productionMaterial->units). ' Units' }}" disabled>
+                                <input type="text" class="form-control" value="{{ number_format($transaction->units). ' Units' }}" disabled>
                                 @endif
                             </div>
                         </div>
@@ -69,7 +71,7 @@
 
 
                         <div class="d-flex align-items-center justify-content-between">
-                            <a href="{{ route('warehouse.inventory.index') }}" class="btn btn-secondary mt-3">Close</a>
+                            <a href="{{ route('warehouse.inventory.index.outgoing') }}" class="btn btn-secondary mt-3">Close</a>
                             <div class="d-flex align-items-center mt-3">
                                 @can('update', $transaction)
                                 <a type="button" class="btn btn-lg btn-success mt-2 ms-1" data-bs-toggle="modal" data-bs-target="#itemDispatch">Item Dispatch</a>
@@ -96,7 +98,7 @@
                     @if ($transaction->tea_id)
                     - <strong>{{ $transaction->production_plan->order->orderItem->tea->tea_name }} - {{ number_format($transaction->production_plan->order->orderItem->quantity).' Kg' }}</strong> has been released for production.
                     @elseif ($transaction->material_id)
-                    - <strong>{{ $transaction->production_plan->order->productionMaterial->material->material_name }} - {{ number_format($transaction->production_plan->order->productionMaterial->units). ' Units' }}</strong> Black Tea has been released for production.
+                    - <strong>{{ $transaction->material->material_name }} - {{ number_format($transaction->units). ' Units' }}</strong> Black Tea has been released for production.
                     @endif
                 </h5>
                 <h5>

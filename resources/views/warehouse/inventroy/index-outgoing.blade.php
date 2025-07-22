@@ -54,10 +54,10 @@
                                         </td>
                                     @elseif ($transaction->material_id)
                                         <td class="d-none d-xl-table-cell">
-                                            {{ $transaction->production_plan->order->productionMaterial->material->material_name }}
+                                            {{ $transaction->material->material_name }}
                                         </td>
                                         <td class="d-none d-xl-table-cell">
-                                            {{ $transaction->production_plan->order->productionMaterial->units . ' Units' }}
+                                            {{ $transaction->units . ' Units' }}
                                         </td>
                                     @endif
                                     <td class="d-none d-xl-table-cell">

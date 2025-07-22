@@ -49,9 +49,9 @@ class LowMaterialStockNotification extends Notification
     {
         return [
             'icon' => 'alert-circle',
-            'color' => 'success',
-            'title' => 'WARNING!',
-            'message' => 'Material stock is running low. Please reorder to avoid production delays.',
+            'color' => 'danger',
+            'title' => 'TEA STOCK RUNNING LOW!',
+            'message' => $this->material->material_name . ' stock is running low.Remaining stock: ['. $this->material->stock_level .'].',
             'route' => route('production.material.show', $this->material),
         ];
     }

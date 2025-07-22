@@ -3,6 +3,7 @@
 use App\Models\Order;
 use App\Models\shippingProvider;
 use App\Models\User;
+use App\Models\Vessel;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,6 @@ return new class extends Migration
     {
         Schema::create('shipping_schedules', function (Blueprint $table) {
             $table->id();
-            $table->string('vessel_name');
             $table->date('departure_date');
             $table->date('arrival_date');
             $table->date('actual_departure_date')->nullable();
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('arrival_port');
             $table->string('shipping_note')->nullable();
             $table->string('shipping_documents')->nullable();
+            $table->foreignIdFor(Vessel::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(shippingProvider::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(Order::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');

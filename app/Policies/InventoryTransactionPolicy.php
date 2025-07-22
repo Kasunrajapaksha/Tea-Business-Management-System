@@ -33,8 +33,12 @@ class InventoryTransactionPolicy
         return false;
     }
 
-    public function delete(User $user): bool
+    public function delete(User $user, InventoryTransaction $inventoryTransaction): bool
     {
+        if($inventoryTransaction->status == 0 && $user->role->permissions->contains('permission_name', 'delete-transaction') ){
+            return true;
+        }
+
         return false;
     }
 }

@@ -22,4 +22,8 @@ class ShippingSchedule extends Model
     public function shippingProvider(){
         return $this->belongsTo(ShippingProvider::class);
     }
+
+    public function vessel(){
+        return $this->belongsTo(Vessel::class);
+    }
 }

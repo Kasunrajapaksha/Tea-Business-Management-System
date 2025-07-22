@@ -10,10 +10,12 @@ use Illuminate\Notifications\Notification;
 class RequestOutgingMaterialNotification extends Notification
 {
     use Queueable;
-    private $plan;
-    public function __construct($plan)
+    private $order;
+    private $transaction;
+    public function __construct($order, $transaction)
     {
-        $this->plan = $plan;
+        $this->order = $order;
+        $this->transaction = $transaction;
     }
 
     /**
@@ -48,8 +50,8 @@ class RequestOutgingMaterialNotification extends Notification
             'icon' => 'alert-circle',
             'color' => 'danger',
             'title' => 'REQUEAST MATERIAL!',
-            'message' => 'A request for production items has been made for Order [' . $this->plan->order->order_no . '].',
-            'route' => route('warehouse.inventory.show.outgoing', $this->plan->inventory_transaction()->where('production_plan_id', $this->plan->id)->where('item_type', 2)->value('id')),
+            'message' => 'A request for production items has been made for order [' . $this->order->order_no . '].',
+            'route' => route('warehouse.inventory.show.outgoing',$this->transaction)
         ];
     }
 }
