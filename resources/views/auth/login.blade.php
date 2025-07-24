@@ -47,7 +47,7 @@
                                                     <a href="" class="text-sm">Forget your password?</a>
                                                 </div>
                                                 <div class="d-grid gap-2 mt-3">
-                                                    <input type="submit" class="btn btn-lg btn-primary" value="Sing in">
+                                                    <input type="submit" class="btn btn-lg btn-primary" value="Sign in">
                                                 </div>
 
                                             </form>

@@ -10,11 +10,11 @@ use Illuminate\Notifications\Notification;
 class ReadyToShipNotification extends Notification
 {
     use Queueable;
-    public $schedule;
+    public $order;
 
-    public function __construct($schedule)
+    public function __construct($order)
     {
-        $this->schedule = $schedule;
+        $this->order = $order;
     }
 
     /**
@@ -49,8 +49,8 @@ class ReadyToShipNotification extends Notification
             'icon' => 'anchor',
             'color' => 'success',
             'title' => 'READY TO SHIP!',
-            'message' => 'The order ' . $this->schedule->order->order_no . ' is now ready for shipment.',
-            'route' => route('order.show', $this->schedule->order->id),
+            'message' => 'The order ' . $this->order->order_no . ' is now ready for shipment.',
+            'route' => route('order.show', $this->order->id),
         ];
     }
 }

@@ -82,7 +82,7 @@ class CustomerPaymentController extends Controller
             $user->notifications()->where('created_at', '<', now()->subDays(7))->delete();
         }
 
-        return redirect()->route('order.show',$order)->with('success','Customer payment updated successfully!');
+        return redirect()->route('finance.customer.payment.show',$customer_payment)->with('success','Customer payment updated successfully!');
     }
 
 

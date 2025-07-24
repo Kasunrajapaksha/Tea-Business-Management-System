@@ -145,7 +145,7 @@ class OrderController extends Controller
 
         if($tea->stock_level < 1000 ){
             $users = User::whereHas('department', function($query){
-            $query->whereIn('department_name',['Admin','Management','Production',]);
+            $query->whereIn('department_name',['Admin','Management','Tea',]);
             })->get();
             foreach ($users as $key => $user) {
                 $user->notify(new AlertLowTeaStockNotification($tea));

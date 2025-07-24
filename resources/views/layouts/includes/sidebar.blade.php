@@ -97,6 +97,18 @@
                     <span class="align-middle">Shipping schedule</span>
                 </a>
             </li>
+            <li class="sidebar-item {{ request()->routeIs('shipping.document.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('shipping.document.index') }}">
+                    <i class="align-middle" data-feather="anchor"></i>
+                    <span class="align-middle">Commercial Invoice</span>
+                </a>
+            </li>
+            <li class="sidebar-item {{ request()->routeIs('shipping.invoice.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('shipping.invoice.index') }}">
+                    <i class="align-middle" data-feather="anchor"></i>
+                    <span class="align-middle">Ready to ship</span>
+                </a>
+            </li>
             @endcan
             @can('view',App\Models\ProformaInvoice::class)
             <li class="sidebar-item {{ request()->routeIs('marketing.invoice.index') ? 'active' : '' }}">
@@ -196,6 +208,7 @@
                     <span class="align-middle">Shipping Provider</span>
                 </a>
             </li>
+
             <li class="sidebar-item {{ request()->routeIs('shipping.port.index') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('shipping.port.index') }}">
                     <i class="align-middle" data-feather="anchor"></i>

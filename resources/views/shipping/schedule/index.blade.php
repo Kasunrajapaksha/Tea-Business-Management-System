@@ -27,12 +27,6 @@
                                 <th class="d-none d-xl-table-cell">Order No</th>
                                 <th class="d-none d-xl-table-cell">Vessel Name</th>
                                 <th class="d-none d-xl-table-cell">Shipping Provider</th>
-                                <th class="d-none d-xl-table-cell">Departure Date</th>
-                                <th class="d-none d-xl-table-cell">Departure Port</th>
-                                <th class="d-none d-xl-table-cell">Arrival Date</th>
-                                <th class="d-none d-xl-table-cell">Arrival Port</th>
-                                <th class="d-none d-xl-table-cell">Shipping Cost (USD)</th>
-                                <th class="d-none d-xl-table-cell">Shipping Note</th>
                                 <th class="d-none d-xl-table-cell">Order Status</th>
                                 <th class="d-none d-md-table-cell">Action</th>
                             </tr>
@@ -42,14 +36,10 @@
                             @foreach ($schedules as $schedule )
                                 <tr>
                                     <td class="d-none d-xl-table-cell">{{ $schedule->order->order_no }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $schedule->vessel_name }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $schedule->shippingProvider->provider_name }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $schedule->departure_date }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $schedule->departure_port }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $schedule->arrival_date }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $schedule->arrival_port }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $schedule->shipping_cost }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $schedule->shipping_note }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $schedule->vessel ? $schedule->vessel->vessel_name : '' }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $schedule->shippingProvider ? $schedule->shippingProvider->provider_name : '' }}</td>
 
                                     <td class="d-none d-xl-table-cell">
                                         <x-status :status='$schedule->order->status' />

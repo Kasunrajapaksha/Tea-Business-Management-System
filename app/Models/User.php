@@ -78,6 +78,10 @@ class User extends Authenticatable implements CanResetPassword {
         return $this->hasMany(ProformaInvoice::class);
     }
 
+    public function commercialInvoice(){
+        return $this->hasMany(CommercialInvoice::class);
+    }
+
     public function customerPayment(){
         return $this->hasMany(CustomerPayment::class);
     }
@@ -88,6 +92,10 @@ class User extends Authenticatable implements CanResetPassword {
 
     public function productionMaterial(){
         return $this->hasMany(ProductionMaterial::class);
+    }
+
+    public function shippingDocument(){
+        return $this->hasMany(ShippingDocument::class);
     }
 
 

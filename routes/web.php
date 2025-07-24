@@ -23,7 +23,9 @@ use App\Http\Controllers\Production\MaterialController;
 use App\Http\Controllers\Production\ProductionController;
 use App\Http\Controllers\Production\ProductionMaterialController;
 use App\Http\Controllers\Production\ProductionPlanController;
+use App\Http\Controllers\Shipping\CommercialInvoiceController;
 use App\Http\Controllers\Shipping\ShippingController;
+use App\Http\Controllers\Shipping\ShippingDocumentController;
 use App\Http\Controllers\Shipping\ShippingPortsController;
 use App\Http\Controllers\Shipping\ShippingProviderController;
 use App\Http\Controllers\Shipping\ShippingScheduleController;
@@ -381,6 +383,27 @@ Route::middleware(['auth','department:Shipping,Admin,Management'])->group(functi
                 Route::get('/vessel/{vessel}/edit', 'edit')->name('vessel.edit');
                 Route::patch('/vessel/{vessel}/update', 'update')->name('vessel.update');
             });
+
+            Route::controller(CommercialInvoiceController::class)->group(function () {
+                Route::get('/invoice','index')->name('invoice.index');
+                Route::get('/invoice/{schedule}/create', 'create')->name('invoice.create');
+                Route::post('/invoice/{customer}/{orders}/store', 'store')->name('invoice.store');
+                Route::get('/invoice/{invoice}/{orders}/showPdf', 'showPdf')->name('invoice.pdf');
+                Route::get('/invoice/{customer}/{orders}/show', 'show')->name('invoice.show');
+                Route::get('/invoice/{invoice}/{orders}/generate', 'generate')->name('invoice.download');
+            });
+
+            Route::controller(ShippingDocumentController::class)->group(function () {
+                Route::get('/document', 'index')->name('document.index');
+                Route::get('/document/{invoice}', 'show')->name('document.show');
+                Route::get('/document/{invoice}/{orders}/create', 'create')->name('document.create');
+                Route::get('/document/{invoice}/{orders}/edit', 'edit')->name('document.edit');
+                Route::post('/document/{orders}/store', 'store')->name('document.store');
+                Route::post('/document/{invoice}/{orders}/update', 'update')->name('document.update');
+                Route::get('/document/{document}/{file}/download', 'download')->name('document.download');
+
+            });
+
         });
     });
 });
@@ -406,7 +429,7 @@ Route::middleware(['auth','department:Admin,Warehouse,Management'])->group(funct
 
 Route::get('/get-roles/{departmentId}', [RoleController::class, 'getRolesByDepartment']);
 Route::post('/get-ports-by-vessel', [ShippingScheduleController::class, 'getPortsByVessel'])->name('shipping.getPortsByVessel');
-
+Route::post('file/upload', [ShippingScheduleController::class, 'upload'])->name('file.upload');
 
 
 

@@ -10,10 +10,10 @@ use Illuminate\Notifications\Notification;
 class OrderDeliveredNotification extends Notification
 {
     use Queueable;
-    public $schedule;
-    public function __construct($schedule)
+    public $order;
+    public function __construct($order)
     {
-        $this->schedule = $schedule;
+        $this->order = $order;
     }
 
     /**
@@ -48,8 +48,8 @@ class OrderDeliveredNotification extends Notification
             'icon' => 'anchor',
             'color' => 'dark',
             'title' => 'ORDER DELIVERED!',
-            'message' => 'Order ' . $this->schedule->order->order_no . ' has been successfully delivered.',
-            'route' => route('order.show', $this->schedule->order->id),
+            'message' => 'Order ' . $this->order->order_no . ' has been successfully delivered.',
+            'route' => route('order.show', $this->order->id),
         ];
     }
 }

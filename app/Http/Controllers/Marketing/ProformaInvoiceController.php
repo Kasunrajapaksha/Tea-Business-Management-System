@@ -62,7 +62,7 @@ class ProformaInvoiceController extends Controller{
 
     public function show(ProformaInvoice $invoice){
         Gate::authorize('view', ProformaInvoice::class);
-        $order = Order::findOrFail(35);
+        $order = Order::findOrFail($invoice->order_id);
         return view('marketing.invoice.pdf', compact('invoice','order'));
     }
 

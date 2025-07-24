@@ -87,7 +87,7 @@
                         </div>
                     </div>
                     @endif
-                    @if ($order->productionPlan->order->status >= 16)
+                    @if ($order->status >= 16)
                     <div class="row">
                         <div class="mb-3 col-md-4">
                             @php
@@ -114,10 +114,10 @@
                             <label  class="form-label">Date of Shipping</label>
                             <input type="text" class="form-control" value="{{ $order->status >= 13 ? 'During the month of ' . \Carbon\Carbon::parse($order->shippingSchedule->departure_date)->format('F Y') : ''}}" disabled>
                         </div>
-                        <div class="mb-3 col-md-4">
+                        {{-- <div class="mb-3 col-md-4">
                             <label  class="form-label">Shipping Provider</label>
-                            <input type="text" class="form-control" value="{{ $order->status >= 13 ? $order->shippingSchedule->shippingProvider->provider_name : ''}}" disabled>
-                        </div>
+                            <input type="text" class="form-control" value="{{ $order->shippingSchedule->shippingProvider  ? $order->shippingSchedule->shippingProvider->provider_name : ''}}" disabled>
+                        </div> --}}
                         <div class="mb-3 col-md-4">
                             <label  class="form-label">Updated by</label>
                             <input type="text" class="form-control" value="{{ $order->status >= 13 ? $order->shippingSchedule->user->first_name . ' ' . $order->shippingSchedule->user->last_name : ''}}" disabled>

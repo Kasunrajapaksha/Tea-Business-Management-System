@@ -54,18 +54,31 @@
                             </div>
                         </div>
                         <hr>
+                        @if ($schedule->order->status >= 19 )
                         <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label  class="form-label" >Vessel Name</label>
-                                <input type="text" class="form-control" value="{{ $schedule->vessel->vessel_name}}" disabled>
-                            </div>
-                            <div class="mb-3 col-md-6">
+                            <div class="mb-3 col-md-4">
                                 <label  class="form-label" >Shipping Provider</label>
-                                <input type="text" class="form-control" value="{{ $schedule->shippingProvider->provider_name }}" disabled>
+                                <input type="text" class="form-control" value="{{ $schedule->shippingProvider ? $schedule->shippingProvider->provider_name : '' }}" disabled>
+                            </div>
+                            <div class="mb-3 col-md-4">
+                                <label  class="form-label" >Vessel Name</label>
+                                <input type="text" class="form-control" value="{{ $schedule->vessel ? $schedule->vessel->vessel_name : ''}}" disabled>
+                            </div>
+                            <div class="mb-3 col-md-4">
+                                <label  class="form-label" >Vessel No</label>
+                                <input type="text" class="form-control" value="{{ $schedule->vessel ? $schedule->vessel->tracking_number : '' }}" disabled>
                             </div>
                         </div>
-
+                        @endif
                         <div class="row">
+                            <div class="mb-3 col-md-3">
+                                <label  class="form-label" >Planned Departure Date</label>
+                                <input type="text" class="form-control" value="{{ $schedule->departure_date }}" disabled>
+                            </div>
+                            <div class="mb-3 col-md-3">
+                                <label  class="form-label" >Planned Arrival Date</label>
+                                <input type="text" class="form-control" value="{{ $schedule->arrival_date }}" disabled>
+                            </div>
                             <div class="mb-3 col-md-3">
                                 <label  class="form-label" >Departure Port</label>
                                 <input type="text" class="form-control" value="{{ $schedule->departure_port }}" disabled>
@@ -74,25 +87,9 @@
                                 <label  class="form-label" >Arrival Port</label>
                                 <input type="text" class="form-control" value="{{ $schedule->arrival_port}}" disabled>
                             </div>
-                            <div class="mb-3 col-md-3">
-                                <label  class="form-label" >Departure Date</label>
-                                <input type="text" class="form-control" value="{{ $schedule->departure_date }}" disabled>
-                            </div>
-                            <div class="mb-3 col-md-3">
-                                <label  class="form-label" >Arrival Date</label>
-                                <input type="text" class="form-control" value="{{ $schedule->arrival_date }}" disabled>
-                            </div>
                         </div>
-                        @if ($schedule->order->status >= 17 )
+                        @if ($schedule->order->status >= 19 )
                         <div class="row">
-                            <div class="mb-3 col-md-3">
-                                <label  class="form-label" >Shipping Cost (USD)</label>
-                                <input type="text" class="form-control" value="{{ $schedule->shipping_cost }}" disabled>
-                            </div>
-                            <div class="mb-3 col-md-3">
-                                <label  class="form-label" >Tracking Number</label>
-                                <input type="text" class="form-control" value="{{ $schedule->tracking_number }}" disabled>
-                            </div>
                             <div class="mb-3 col-md-3">
                                 <label  class="form-label" >Actual Departure Date</label>
                                 <input type="text" class="form-control" value="{{ $schedule->actual_departure_date }}" disabled>
@@ -100,12 +97,6 @@
                             <div class="mb-3 col-md-3">
                                 <label  class="form-label" >Actual Arrival Date</label>
                                 <input type="text" class="form-control" value="{{ $schedule->actual_arrival_date }}" disabled>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-12">
-                                <label  class="form-label" >Shipping Note</label>
-                                <textarea class="form-control" disabled>{{ $schedule->shipping_note}}</textarea>
                             </div>
                         </div>
                         @endif
@@ -124,17 +115,8 @@
                             <a href="{{ route('shipping.schedule.index') }}" class="btn btn-secondary mt-2">Close</a>
                             <div class="d-flex">
                                 @can('update',$schedule)
-                                @if ($schedule->order->status == 17)
-                                <a class="btn btn-success mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#updateSchadule">Ready To Ship</a>
-                                @endif
-                                @if ($schedule->order->status == 18)
-                                <a class="btn btn-info mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#updateSchadule">Shipped to Customer</a>
-                                @endif
-                                @if ($schedule->order->status == 19)
-                                <a class="btn btn-dark mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#updateSchadule">Order Delivered</a>
-                                @endif
                                 <form action="{{ route('shipping.schedule.edit', $schedule) }}">
-                                    <button type="submit" class="btn btn-primary mt-2 ms-1">Edit Schedule</button>
+                                    <button type="submit" class="btn btn-primary mt-2 ms-2">Update Schedule</button>
                                 </form>
                                 @endcan
                             </div>

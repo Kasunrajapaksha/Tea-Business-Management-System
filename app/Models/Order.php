@@ -42,4 +42,8 @@ class Order extends Model
     public function proformaInvoice(){
         return $this->hasOne(ProformaInvoice::class);
     }
+
+    public function commercialInvoice(){
+        return $this->belongsToMany(CommercialInvoice::class,'commercial_invoice_order');
+    }
 }
