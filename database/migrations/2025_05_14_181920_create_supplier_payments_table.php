@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('supplier_payments', function (Blueprint $table) {
             $table->id();
             $table->string('payment_no')->default('PAY00000000');
-            $table->decimal('amount',8,2);
+            $table->decimal('amount',15,2);
             $table->date('paid_at')->nullable();
             $table->string('transaction_reference')->nullable();
             $table->foreignIdFor(PaymentRequest::class)->nullable()->constrained()->onDelete('set null');

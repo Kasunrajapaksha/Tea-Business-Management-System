@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('production_end');
             $table->date('actual_aproduction_start')->nullable();
             $table->date('actual_production_end')->nullable();
+            $table->decimal('production_cost')->nullable();
             $table->foreignIdFor(Order::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();

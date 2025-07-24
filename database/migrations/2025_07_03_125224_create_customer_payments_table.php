@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('customer_payments', function (Blueprint $table) {
             $table->id();
             $table->string('customer_payment_no')->default('CPN000000');
+            $table->decimal('total_amount')->nullable();
             $table->date('paid_at');
             $table->string('transaction_reference');
+            $table->string('payment_document')->nullable();
             $table->foreignIdFor(ProformaInvoice::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();

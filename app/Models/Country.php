@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Port extends Model
+class Country extends Model
 {
     use HasFactory, Notifiable;
     protected $guarded = [];
 
-    public function vessel(){
-        return $this->belongsToMany(Vessel::class, 'vessel_ports');
+    public function customer(){
+        return $this->hasMany(Customer::class);
     }
 
-    public function country(){
-        return $this->belongsTo(Country::class);
+    public function port(){
+        return $this->hasMany(Port::class);
     }
 }

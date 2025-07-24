@@ -34,17 +34,27 @@
                         </div>
 
                         <div class="row">
-                            <div class="mb-3 col-md-6">
+                            <div class="mb-3 col-md-4">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" class="form-control" id="email" name="email" value="{{ old('email')}}">
                                 <x-error field="email" />
                             </div>
 
-                            <div class="mb-3 col-md-6">
-                                    <label for="number" class="form-label">Phone Number</label>
-                                    <input type="text" class="form-control" id="number" name="number" value="{{ old('number')}}">
-                                    <x-error field="number" />
-                                </div>
+                            <div class="mb-3 col-md-4">
+                                <label for="number" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="number" name="number" value="{{ old('number')}}">
+                                <x-error field="number" />
+                            </div>
+                            <div class="mb-3 col-md-4">
+                                <label for="country_id" class="form-label">Country</label>
+                                <select name="country_id" id="	country_id" class="form-select">
+                                        <option value="">Select Tea</option>
+                                        @foreach ($counties as $country )
+                                            <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>{{ $country->name}}</option>
+                                        @endforeach
+                                </select>
+                                <x-error field="country_id" />
+                            </div>
                         </div>
 
                         <div class="row">

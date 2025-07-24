@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="col-4">
                                     <label class="form-label" for="departure_port">Departure Port</label>
-                                    <select class="form-select" name="departure_port" id="departure_port" {{ $orders->first()->shippingSchedule->departure_port ? 'disabled' : ''}}>
+                                    <select class="form-select" name="departure_port" id="departure_port" {{ $orders->first()->shippingSchedule->arrival_port ? 'disabled' : ''}}>
                                         <option value="#">Select port</option>
                                         @foreach ($departurePorts as $port)
                                             <option value="{{ $port->port_name }}" {{ $orders->first()->shippingSchedule->departure_port == $port->port_name ? 'selected' : ''}}>{{ $port->port_name }}</option>
@@ -91,7 +91,7 @@
                                     <label class="form-label" for="shipping_cost">Shipping Cost (LKR)</label>
                                     <input type="text" class="form-control" name="shipping_cost"
                                     value="{{ $orders->first()->commercialInvoice->first() ? number_format($orders->first()->commercialInvoice->first()->shipping_cost,2) : ''}}"
-                                    {{ $orders->first()->commercialInvoice->first()->shipping_cost ? 'disabled' : ''}}>
+                                    {{ $orders->first()->commercialInvoice->first() ? 'disabled' : ''}}>
                                     <x-error field="shipping_cost" />
                                 </div>
                             </div>

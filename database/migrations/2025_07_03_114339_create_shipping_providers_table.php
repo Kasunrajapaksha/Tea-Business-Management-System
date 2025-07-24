@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('tracking_number');
             $table->string('email');
             $table->string('number');
+            $table->string('status')->default('active');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });

@@ -30,6 +30,7 @@
                             <tr>
                                 <th class="d-none d-xl-table-cell">ID</th>
                                 <th class="d-none d-xl-table-cell">Port Name</th>
+                                <th class="d-none d-xl-table-cell">Country</th>
                             </tr>
                         </thead>
 
@@ -38,6 +39,7 @@
                                 <tr>
                                     <td class="d-none d-xl-table-cell">{{$port->id}}</td>
                                     <td class="d-none d-xl-table-cell">{{$port->port_name}}</td>
+                                    <td class="d-none d-xl-table-cell">{{$port->country_id ? $port->country->code : ''}}</td>
 
                                     <td class="d-none d-xl-table-cell">
                                         @can('view', App\Models\ShippingProvider::class)

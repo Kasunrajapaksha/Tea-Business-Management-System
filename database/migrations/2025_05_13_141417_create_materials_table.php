@@ -16,8 +16,9 @@ return new class extends Migration
             $table->id();
             $table->string('material_no')->default('MTR00000000');
             $table->string('material_name');
-            $table->decimal('unit_price',8,2);
+            $table->decimal('unit_price');
             $table->integer('stock_level')->nullable();
+            $table->string('status')->default('active');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });

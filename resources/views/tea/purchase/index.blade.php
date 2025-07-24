@@ -53,7 +53,7 @@
                                     <td class="d-none d-xl-table-cell">{{ $purchase->user->first_name . ' ' . $purchase->user->last_name}}</td>
 
                                     <td class="d-none d-xl-table-cell">
-                                        <x-status :status=' $purchase->payment_request->handler ? $purchase->payment_request->status : 0 ' />
+                                        <x-status :status=' $purchase->payment_request ? $purchase->payment_request->status : 0 ' />
                                         </td>
 
                                     <td class="d-none d-xl-table-cell">

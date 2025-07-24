@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('commercial_invoices', function (Blueprint $table) {
             $table->id();
             $table->string('invoice_no')->default('CIN00000000');
+            $table->decimal('shipping_cost')->nullable();
             $table->foreignIdFor(Order::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->date('issued_at');

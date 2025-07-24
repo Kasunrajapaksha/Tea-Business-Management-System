@@ -18,4 +18,10 @@ class Customer extends Model
     public function order(){
         return $this->hasMany(Order::class);
     }
+
+     public function country(){
+        return $this->belongsTo(Country::class);
+    }
+
+    
 }

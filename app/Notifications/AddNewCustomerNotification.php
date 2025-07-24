@@ -54,7 +54,7 @@ class AddNewCustomerNotification extends Notification
             'color' => 'info',
             'title' => 'NEW CUSTOMER!',
             'message' => 'A new customer [' . $this->customer->customer_no . '] has been added by ' . $this->customer->user->first_name . ' ' . $this->customer->user->last_name . '.',
-            'route' => route('marketing.customer.index'),
+            'route' => route('marketing.customer.show',$this->customer->id),
         ];
     }
 }

@@ -107,7 +107,7 @@ class TeaPerchaseController extends Controller
     public function update(TeaPurchase $purchase){
         Gate::authorize('update', $purchase);
         $request = PaymentRequest::findOrFail($purchase->payment_request_id);
-        Gate::authorize('update', $request);
+        Gate::authorize('create', PaymentRequest::class);
 
         $validateData = request()->validate([
             'user_id' => ['exists:users,id'],

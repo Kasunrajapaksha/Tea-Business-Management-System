@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('production_materials', function (Blueprint $table) {
             $table->id();
             $table->integer('units');
-            $table->decimal('unit_price');
+            $table->decimal('cost',15,2);
             $table->foreignIdFor(Order::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(Material::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');

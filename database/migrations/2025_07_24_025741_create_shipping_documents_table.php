@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('packing_list');
             $table->string('freight_bill');
             $table->string('export_customs_clearance');
+            $table->string('proof_of_delivery')->nullable();
+            $table->string('delivery_receipt')->nullable();
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(CommercialInvoice::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();

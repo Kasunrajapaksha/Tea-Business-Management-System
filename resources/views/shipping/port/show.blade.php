@@ -12,7 +12,7 @@
 
     <h1>Ports</h1>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <form action="" method="post">
@@ -21,9 +21,14 @@
                         <input type="text" class="form-control" name="user_id" value="{{ Auth::user()->id }}" hidden>
 
                         <div class="row">
-                            <div class="mb-3 col-md-12">
+                            <div class="mb-3 col-md-6">
                                 <label  class="form-label" for="port_name">Port Name</label>
                                 <input type="text" class="form-control" name="port_name" value="{{ $port->port_name}}" disabled>
+                                <x-error field="port_name" />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label  class="form-label" for="port_name">Country</label>
+                                <input type="text" class="form-control" name="port_name" value="{{ $port->country_id ? $port->country->name : ''}}" disabled>
                                 <x-error field="port_name" />
                             </div>
                         </div>

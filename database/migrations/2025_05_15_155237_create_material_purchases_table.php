@@ -17,12 +17,12 @@ return new class extends Migration
     {
         Schema::create('material_purchases', function (Blueprint $table) {
             $table->id();
+            $table->string('material_purchase_no')->default('MP00000000');
+            $table->integer('units');
+            $table->decimal('unit_price');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
-            $table->string('material_purchase_no')->default('TP00000000');
             $table->foreignIdFor(Material::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(Supplier::class)->nullable()->constrained()->onDelete('set null');
-            $table->integer('units');
-            $table->decimal('unit_price',8,2);
             $table->foreignIdFor(PaymentRequest::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });

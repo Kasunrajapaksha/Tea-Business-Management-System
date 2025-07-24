@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('bank_details');
             $table->string('type');
+            $table->string('status')->default('active');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });

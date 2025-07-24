@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Marketing;
 
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use App\Models\Customer;
 use App\Models\User;
 use App\Notifications\AddNewCustomerNotification;
@@ -18,7 +19,8 @@ class CustomerController extends Controller {
 
     public function create(){
         Gate::authorize('create', Customer::class);
-        return view('marketing.customer.create');
+        $counties = Country::all();
+        return view('marketing.customer.create',compact('counties'));
     }
 
     public function show(Customer $customer){
@@ -44,6 +46,7 @@ class CustomerController extends Controller {
             'email' => ['required','email','lowercase'],
             'number' => ['required','numeric','digits:10'],
             'address' => ['required','string'],
+            'country_id' => ['exists:countries,id'],
         ]);
 
         //create user
@@ -114,7 +117,7 @@ class CustomerController extends Controller {
         ]);
 
         return redirect()->route('marketing.customer.index')->with('success','Customer deleted successfully!');
-    } 
+    }
 
 
 }

@@ -10,17 +10,27 @@
 
     <h1>Ports</h1>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <form action="{{ route('shipping.port.store') }}" method="post">
                         @csrf
 
                         <div class="row">
-                            <div class="mb-3 col-md-12">
+                            <div class="mb-3 col-md-6">
                                 <label  class="form-label" for="port_name">Port Name</label>
                                 <input type="text" class="form-control" name="port_name">
                                 <x-error field="port_name" />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="country_id" class="form-label">Country</label>
+                                <select name="country_id" id="country_id" class="form-select">
+                                        <option value="">Select Tea</option>
+                                        @foreach ($counties as $country )
+                                            <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>{{ $country->name}}</option>
+                                        @endforeach
+                                </select>
+                                <x-error field="country_id" />
                             </div>
                         </div>
 

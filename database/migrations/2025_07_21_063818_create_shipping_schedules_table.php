@@ -22,11 +22,8 @@ return new class extends Migration
             $table->date('actual_departure_date')->nullable();
             $table->date('actual_arrival_date')->nullable();
             $table->decimal('shipping_cost')->nullable();
-            $table->string('tracking_number')->nullable();
             $table->string('departure_port');
-            $table->string('arrival_port');
-            $table->string('shipping_note')->nullable();
-            $table->string('shipping_documents')->nullable();
+            $table->string('arrival_port')->nullable();
             $table->foreignIdFor(Vessel::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(shippingProvider::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(Order::class)->nullable()->constrained()->onDelete('set null');

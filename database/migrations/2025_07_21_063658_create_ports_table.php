@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Country;
 use App\Models\Port;
 use App\Models\Vessel;
 use Illuminate\Database\Migrations\Migration;
@@ -16,6 +17,7 @@ return new class extends Migration
         Schema::create('ports', function (Blueprint $table) {
             $table->id();
             $table->string('port_name');
+            $table->foreignIdFor(Country::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }

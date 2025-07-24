@@ -13,12 +13,12 @@ return new class extends Migration{
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_no')->default('ORD00000000');
-            $table->foreignIdFor(Customer::class)->nullable()->constrained()->onDelete('set null');
-            $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->string('packing_instractions');
-            $table->timestamp('order_date');
+            $table->date('order_date');
             $table->decimal('total_amount')->nullable();
             $table->integer('status')->default(0);
+            $table->foreignIdFor(Customer::class)->nullable()->constrained()->onDelete('set null');
+            $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('transaction_type');
             $table->boolean('item_type');
             $table->integer('status')->default(0);
-            $table->integer('units')->nullable()->default(null);
+            $table->decimal('units')->nullable()->default(null);
             $table->foreignIdFor(Tea::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(Material::class)->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(ProductionMaterial::class)->nullable()->constrained()->onDelete('set null');

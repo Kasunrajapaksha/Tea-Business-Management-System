@@ -23,7 +23,7 @@ class CommercialInvoiceController extends Controller
         $orders = Order::with(['customer'])->get();
         $groupedOrders = $orders->groupBy(function ($order) {
             return $order->customer->id;
-        }); 
+        });
         return view('shipping.commercial-invoice.index',compact(['groupedOrders']));
     }
 
@@ -32,7 +32,7 @@ class CommercialInvoiceController extends Controller
         $orders = Order::where('customer_id', $customer->id)->whereIn('id', $orderIds)->get();
         $providers = ShippingProvider::all();
         $vessels = Vessel::all();
-        $ports = Port::all();
+        $ports = Port::where('country_id',$customer->country_id);
         $departurePorts = Port::where('port_name','LIKE','%Sri Lanka%')->get();
 
         return view('shipping.commercial-invoice.show',compact(['customer','orders','providers','ports','vessels','departurePorts']));

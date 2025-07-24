@@ -20,7 +20,7 @@
 
                                         <div class="text-center mt-4">
                                             <img src="{{ asset('admin_asset/img/logo/continental_logo.png') }}" class="img-fluid" style="width: 200px">
-                                            <h1 class="h1 mt-4">Welcome Back!</h1>
+                                            <h1 class="h1 mt-4">Welcome!</h1>
                                             <p class="text-secondary pb-2"> Sign in to your account to continue.</p>
                                         </div>
 
@@ -39,14 +39,7 @@
                                                     <input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" />
                                                     <x-error field="password" />
                                                 </div>
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="form-check align-items-center">
-                                                        <input id="customControlInline" type="checkbox" class="form-check-input" value="remember-me" name="remember-me">
-                                                        <label class="form-check-label text-sm text-secondary" for="customControlInline">Remember me</label>
-                                                    </div>
-                                                    <a href="" class="text-sm">Forget your password?</a>
-                                                </div>
-                                                <div class="d-grid gap-2 mt-3">
+                                                <div class="d-grid gap-2 mt-4">
                                                     <input type="submit" class="btn btn-lg btn-primary" value="Sign in">
                                                 </div>
 
