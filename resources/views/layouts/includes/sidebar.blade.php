@@ -111,10 +111,16 @@
             </li>
             @endcan
             @can('view',App\Models\ProformaInvoice::class)
+            <li class="sidebar-item {{ request()->routeIs('marketing.document.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('marketing.document.index') }}">
+                    <i class="align-middle" data-feather="file"></i>
+                    <span class="align-middle">Proforma Invoice</span>
+                </a>
+            </li>
             <li class="sidebar-item {{ request()->routeIs('marketing.invoice.index') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('marketing.invoice.index') }}">
                     <i class="align-middle" data-feather="file"></i>
-                    <span class="align-middle">Proforma Invoice</span>
+                    <span class="align-middle">Rady to send</span>
                 </a>
             </li>
             @endcan

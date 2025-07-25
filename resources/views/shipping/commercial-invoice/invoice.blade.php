@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-
+    <br>
     <h2 class="header">COMMERCIAL INVOICE</h2>
 
     <table class="no-border">
@@ -20,7 +20,7 @@
             <td><strong>Exporter: Continental Tea</strong>
                 <br><br>
                 Phone: 011 045 4550
-                <br>
+                <br><br>
                 Email: continental@gmail
             </td>
             <td><strong>Importer: {{ $orders->first()->customer->first_name.' '.$orders->first()->customer->last_name}}</strong>

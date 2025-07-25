@@ -1,9 +1,8 @@
 <x-app-layout>
-<x-slot:title>Customer | Dashboard</x-slot:title>
+<x-slot:title>{{ Auth::user()->department->department_name }} | Customer</x-slot:title>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href='#'>Customer</a></li>
         <li class="breadcrumb-item active">All Customers</li>
     </ol>
 </nav>
@@ -32,8 +31,8 @@
                                 <th class="d-none d-xl-table-cell">Customer Name</th>
                                 <th class="d-none d-xl-table-cell">Email</th>
                                 <th class="d-none d-xl-table-cell">Telephone</th>
-                                <th class="d-none d-xl-table-cell">Address</th>
-                                <th>Orders</th>
+                                <th class="d-none d-xl-table-cell">Orders</th>
+                                <th class="d-none d-xl-table-cell">Status</th>
                                 <th class="d-none d-md-table-cell">Action</th>
                             </tr>
                         </thead>
@@ -46,12 +45,13 @@
                                     <td class="d-none d-xl-table-cell">{{ $customer->first_name . ' ' . $customer->last_name}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $customer->email}}</td>
                                     <td class="d-none d-xl-table-cell">{{ $customer->number}}</td>
-                                    <td class="d-none d-xl-table-cell" style="width: 200px">{{ $customer->address}}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $customer->order->count()}}</td>
+                                    <td class="d-none d-xl-table-cell"><span class="badge bg-info">{{ $customer->order->count()}} Orders</span></td>
 
+                                    <td><x-status :status='$customer->status' /></td>
+                                        
                                     <td class="d-none d-xl-table-cell" style="width: 150px">
                                         @can('create', App\Models\Order::class)
-                                        <a href="{{route('order.create',$customer)}}" class="btn btn-sm btn-success mt-1">New Order</a>
+                                        <a href="{{route('order.create',$customer)}}" class="btn btn-sm btn-secondary mt-1">New Order</a>
                                         @endcan
                                         @can('view', $customer)
                                         <a href="{{route('marketing.customer.show',$customer)}}" class="btn btn-sm btn-primary mt-1">Review</a>

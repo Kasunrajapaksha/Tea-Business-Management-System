@@ -9,11 +9,12 @@ use App\Models\User;
 use App\Notifications\AddNewCustomerNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller {
     public function index(){
         Gate::authorize('view', Customer::class);
-        $customers = Customer::where('status','active')->latest()->paginate(8);
+        $customers = Customer::latest()->paginate(5);
         return view('marketing.customer.index', compact('customers'));
     }
 
@@ -43,11 +44,14 @@ class CustomerController extends Controller {
             'user_id' => ['exists:users,id'],
             'first_name' => ['required','string','max:255'],
             'last_name' => ['required','string','max:255'],
-            'email' => ['required','email','lowercase'],
-            'number' => ['required','numeric','digits:10'],
-            'address' => ['required','string'],
-            'country_id' => ['exists:countries,id'],
-        ]);
+            'email' => ['required', 'email', 'lowercase', 'unique:customers,email'],
+            'number' => ['required', 'numeric', 'digits:10', 'unique:customers,number'],
+            'address' => ['required', 'string', 'min:10', 'max:255', 'regex:#^[a-zA-Z0-9\s,.\-\/]+$#'],
+            'country_id' => ['required','exists:countries,id'],
+        ],
+        [
+            'country_id.required' => 'Please select a valid country.',
+            ]);
 
         //create user
         $customer = Customer::create($validateData);
@@ -77,9 +81,9 @@ class CustomerController extends Controller {
     public function edit(Customer $customer){
         // authorization
         Gate::authorize("update", $customer);
-
+        $counties = Country::all();
         //return view
-        return view('marketing.customer.edit', compact('customer'));
+        return view('marketing.customer.edit', compact('customer','counties'));
     }
 
     public function update(Customer $customer){
@@ -96,27 +100,40 @@ class CustomerController extends Controller {
         $validateData = request()->validate([
             'first_name' => ['required','string','max:255'],
             'last_name' => ['required','string','max:255'],
-            'email' => ['required','email','lowercase'],
-            'number' => ['required','numeric','digits:10'],
-            'address' => ['required','string'],
-        ]);
+            'email' => ['required','email','lowercase',Rule::unique('customers', 'email')->ignore($customer->id)],
+            'number' => ['required','numeric','digits:10',Rule::unique('customers', 'number')->ignore($customer->id)],
+            'address' => ['required', 'string', 'min:10', 'max:255', 'regex:#^[a-zA-Z0-9\s,.\-\/]+$#'],
+            'country_id' => ['required','exists:countries,id'],
+        ],[
+            'country_id.required' => 'Please select a valid country.',
+            ]);
 
         //update user
-        $customer->update($validateData);
+        $customer->fill($validateData);
+        if ($customer->isDirty()) {
+            $customer->save();
+            return redirect()->route('marketing.customer.show', $customer)->with('success','Customer updated successfully!');
+        }
 
         //return view
-        return redirect()->route('marketing.customer.show', $customer)->with('success','Customer updated successfully!');
+        return redirect()->back();
 
     }
 
     public function destroy(Customer $customer){
-        Gate::authorize("delete", $customer);
+        Gate::authorize("update", $customer);
 
-        $customer->update([
-            'status' => 'inactive'
-        ]);
+        if($customer->status == 'active'){
+            $customer->update([
+                'status' => 'inactive'
+            ]);
+        } elseif($customer->status == 'inactive'){
+            $customer->update([
+                'status' => 'active'
+            ]);
+        }
 
-        return redirect()->route('marketing.customer.index')->with('success','Customer deleted successfully!');
+        return redirect()->route('marketing.customer.index')->with('success','Customer status updated!');
     }
 
 

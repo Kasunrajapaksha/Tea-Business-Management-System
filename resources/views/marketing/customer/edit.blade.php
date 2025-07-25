@@ -1,15 +1,15 @@
 <x-app-layout>
-    <x-slot:title>Marketing | Customer</x-slot:title>
+    <x-slot:title>{{ Auth::user()->department->department_name }} | Customer</x-slot:title>
 
     <nav aria-label="breadcrumb">
        <ol class="breadcrumb">
-           <li class="breadcrumb-item"><a href='{{ route('management.index') }}'>Marketing</a></li>
-           <li class="breadcrumb-item"><a href="{{ route('marketing.customer.create') }}"></a>Customer</li>
-           <li class="breadcrumb-item active">Update Customer</li>
+           <li class="breadcrumb-item"><a href='{{ route('marketing.customer.index') }}'>Marketing</a></li>
+           <li class="breadcrumb-item"><a href="{{ route('marketing.customer.show',$customer) }}">{{$customer->first_name .' '. $customer->last_name}}</a></li>
+           <li class="breadcrumb-item active">Edit</li>
        </ol>
    </nav>
 
-    <h1>Update Customer</h1>
+    <h1>Edit Customer</h1>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -33,17 +33,27 @@
                         </div>
 
                         <div class="row">
-                            <div class="mb-3 col-md-6">
+                            <div class="mb-3 col-md-4">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" class="form-control" id="email" name="email" value="{{ $customer->email }}">
                                 <x-error field="email" />
                             </div>
 
-                            <div class="mb-3 col-md-6">
+                            <div class="mb-3 col-md-4">
                                     <label for="number" class="form-label">Phone Number</label>
                                     <input type="text" class="form-control" id="number" name="number" value="{{ $customer->number }}">
                                     <x-error field="number" />
                                 </div>
+                                <div class="mb-3 col-md-4">
+                                <label for="country_id" class="form-label">Country</label>
+                                <select name="country_id" id="	country_id" class="form-select">
+                                        <option value="">Select Country</option>
+                                        @foreach ($counties as $country )
+                                            <option value="{{ $country->id }}" {{ $customer->country->id == $country->id ? 'selected' : '' }}>{{ $country->name}}</option>
+                                        @endforeach
+                                </select>
+                                <x-error field="country_id" />
+                            </div>
                         </div>
 
                         <div class="row">

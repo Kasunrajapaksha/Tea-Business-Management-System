@@ -40,7 +40,7 @@ class Order extends Model
     }
 
     public function proformaInvoice(){
-        return $this->hasOne(ProformaInvoice::class);
+    return $this->belongsToMany(ProformaInvoice::class, 'order_proforma_invoice');
     }
 
     public function commercialInvoice(){

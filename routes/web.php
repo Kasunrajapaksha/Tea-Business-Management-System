@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Marketing\MarketingDocumentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Tea\TeaTypeController;
@@ -36,7 +37,9 @@ use App\Http\Controllers\Tea\TeaController;
 use App\Http\Controllers\Tea\TeaPerchaseController;
 use App\Http\Controllers\Warehouse\InventoryTransactionsController;
 use App\Http\Controllers\Warehouse\WarehouseController;
+use App\Models\Bank;
 use App\Models\ShippingProvider;
+use App\Models\Supplier;
 
 //For Auth
 Route::controller(SessionController::class)->group(function () {
@@ -159,10 +162,20 @@ Route::middleware(['auth','department:Marketing,Admin,Management'])->group(funct
                 Route::get('/invoice',  'index')->name('invoice.index');
                 Route::get('/invoice/{invoice}/generate',  'generate')->name('invoice.generate');
                 Route::get('/invoice/{order}/create',  'create')->name('invoice.create');
-                Route::post('/invoice/{order}',  'store')->name('invoice.store');
-                Route::get('/invoice/{invoice}',  'show')->name('invoice.show');
+                // Route::post('/invoice/{order}',  'store')->name('invoice.store');
+                // Route::get('/invoice/{invoice}',  'show')->name('invoice.show');
+                Route::post('/invoice/{customer}/{orders}/store',  'store')->name('invoice.store');
+                Route::get('/invoice/{customer}/{orders}',  'show')->name('invoice.show');
                 Route::get('/invoice/{invoice}/edit',  'edit')->name('invoice.edit');
                 Route::patch('/invoice/{invoice}',  'update')->name('invoice.update');
+            });
+
+            Route::controller(MarketingDocumentController::class)->group(function () {
+                Route::get('/document', 'index')->name('document.index');
+                Route::get('/document/{invoice}', 'show')->name('document.show');
+                Route::get('/document/{invoice}/{orders}/showPdf', 'showPdf')->name('document.pdf');
+                Route::get('/document/{invoice}/{orders}/generate', 'generate')->name('document.download');
+
             });
 
         });
@@ -388,8 +401,8 @@ Route::middleware(['auth','department:Shipping,Admin,Management'])->group(functi
                 Route::get('/invoice','index')->name('invoice.index');
                 Route::get('/invoice/{schedule}/create', 'create')->name('invoice.create');
                 Route::post('/invoice/{customer}/{orders}/store', 'store')->name('invoice.store');
-                Route::get('/invoice/{invoice}/{orders}/showPdf', 'showPdf')->name('invoice.pdf');
                 Route::get('/invoice/{customer}/{orders}/show', 'show')->name('invoice.show');
+                Route::get('/invoice/{invoice}/{orders}/showPdf', 'showPdf')->name('invoice.pdf');
                 Route::get('/invoice/{invoice}/{orders}/generate', 'generate')->name('invoice.download');
             });
 
@@ -427,9 +440,12 @@ Route::middleware(['auth','department:Admin,Warehouse,Management'])->group(funct
     });
 });
 
+
+
 Route::get('/get-roles/{departmentId}', [RoleController::class, 'getRolesByDepartment']);
 Route::post('/get-ports-by-vessel', [ShippingScheduleController::class, 'getPortsByVessel'])->name('shipping.getPortsByVessel');
 Route::post('file/upload', [ShippingScheduleController::class, 'upload'])->name('file.upload');
+Route::get('/get-bank-by-code', [SupplierController::class, 'getBanks']);
 
 
 

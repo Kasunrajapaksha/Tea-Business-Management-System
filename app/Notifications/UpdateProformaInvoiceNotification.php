@@ -11,12 +11,14 @@ class UpdateProformaInvoiceNotification extends Notification
 {
     use Queueable;
     private $order;
+    private $invoice;
     /**
      * Create a new notification instance.
      */
-    public function __construct($order)
+    public function __construct($order, $invoice)
     {
         $this->order = $order;
+        $this->invoice = $invoice;
     }
 
     /**
@@ -51,7 +53,7 @@ class UpdateProformaInvoiceNotification extends Notification
             'icon' => 'package',
             'color' => 'info',
             'title' => 'PROFORMA INVOICE SENT!',
-            'message' => 'The proforma invoice for order [' . $this->order->order_no . '] has been sent by ' . $this->order->proformaInvoice->user->first_name . ' ' . $this->order->proformaInvoice->user->last_name . '.',
+            'message' => 'The proforma invoice for order [' . $this->order->order_no . '] has been sent by ' . $this->invoice->user->first_name . ' ' . $this->invoice->user->last_name . '.',
             'route' => route('order.show', $this->order),
         ];
     }

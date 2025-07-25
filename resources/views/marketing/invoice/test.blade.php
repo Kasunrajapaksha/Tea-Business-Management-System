@@ -32,7 +32,7 @@
                     @php
                         $customer = App\Models\Customer::findOrFail($customerId);
                     @endphp
-                    @if ($orders->every(fn($order) => $order->status == 17))
+                    @if ($orders->every(fn($order) => $order->status == 13))
                     <tr>
                         <td>{{ $customer->customer_no }}</td>
                         <td>{{ $orders->count() }}</td>
@@ -41,7 +41,7 @@
 
                         @endforeach
                         <td>
-                            <a href="{{ route('shipping.invoice.show', ['customer' => $orders->first()->customer->id, 'orders' => $orders->pluck('id')->join(',')]) }}"
+                            <a href="{{ route('marketing.invoice.show', ['customer' => $orders->first()->customer->id, 'orders' => $orders->pluck('id')->join(',')]) }}"
                                 class="btn btn-sm btn-primary">Review</a>
                         </td>
                         </tr>

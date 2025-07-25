@@ -1,14 +1,14 @@
 <x-app-layout>
-    <x-slot:title> Shipping | Shipping Provider </x-slot:title>
+    <x-slot:title> {{ Auth::user()->department->department_name }} | Shipping Provider </x-slot:title>
 
     <nav aria-label="breadcrumb">
        <ol class="breadcrumb">
-           <li class="breadcrumb-item"><a href=''>Shipping</a></li>
-           <li class="breadcrumb-item active">Shipping Provider</li>
+           <li class="breadcrumb-item"><a href='{{ route('shipping.provider.index') }}'>Shipping Providers</a></li>
+           <li class="breadcrumb-item active">Create Shipping Provider</li>
        </ol>
    </nav>
 
-    <h1>Shipping Provider</h1>
+    <h1>Create Shipping Provider</h1>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -43,9 +43,9 @@
                             </div>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-end">
-                            <a href="{{ route('shipping.provider.index') }}" class="btn btn-danger mt-2">Close</a>
-                            @can('view',App\Models\ShippingProvider::class)
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="{{ route('shipping.provider.index') }}" class="btn btn-secondary mt-2">Close</a>
+                            @can('create',App\Models\ShippingProvider::class)
                             <a class="btn btn-primary mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#addProvider">Add Provider</a>
                             @endcan
                         </div>
@@ -58,11 +58,11 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <h4>Are you sure you want to add this provider?</h4>
+                                    <h4>Are you sure you want to add new shipping provider?</h4>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Yes</button>
+                                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Yes</button>
                                 </div>
                             </div>
                         </div>

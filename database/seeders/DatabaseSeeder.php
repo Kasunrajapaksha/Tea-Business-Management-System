@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         // Department::factory(10)->create();
         // Role::factory(10)->create();
         // User::factory(10)->create();
+        // $this->call(CustomerSeeder::class);
 
     }
 }

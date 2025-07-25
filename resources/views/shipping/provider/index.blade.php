@@ -1,10 +1,9 @@
 <x-app-layout>
-<x-slot:title>Shipping | Shipping Provider</x-slot:title>
+<x-slot:title>{{ Auth::user()->department->department_name }} | Shipping Provider</x-slot:title>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href='#'>Shipping</a></li>
-        <li class="breadcrumb-item active">All Shipping Provider</li>
+        <li class="breadcrumb-item active">All Shipping Providers</li>
     </ol>
 </nav>
 
@@ -17,7 +16,7 @@
         @endcan
 
         <div class="mb-3">
-            <h1 class="d-inline align-middle">All Shipping Provider</h1>
+            <h1 class="d-inline align-middle">All Shipping Providers</h1>
         </div>
 
         <div class="col-12 d-flex">
@@ -33,6 +32,7 @@
                                 <th class="d-none d-xl-table-cell">Tracking No</th>
                                 <th class="d-none d-xl-table-cell">Email</th>
                                 <th class="d-none d-xl-table-cell">Telephone</th>
+                                <th class="d-none d-xl-table-cell">Status</th>
                                 <th class="d-none d-md-table-cell">Action</th>
                             </tr>
                         </thead>
@@ -45,6 +45,8 @@
                                     <td class="d-none d-xl-table-cell">{{ $provider->tracking_number }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $provider->email }}</td>
                                     <td class="d-none d-xl-table-cell">{{ $provider->number }}</td>
+
+                                    <td><x-status :status='$provider->status' /></td>
 
                                     <td class="d-none d-xl-table-cell">
                                         @can('view', App\Models\ShippingProvider::class)

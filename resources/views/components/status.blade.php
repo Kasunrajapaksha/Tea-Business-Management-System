@@ -2,6 +2,12 @@
 @props(['status'])
 
 @switch($status)
+    @case('active')
+        <span class="badge bg-success">Active</span>
+        @break
+    @case('inactive')
+        <span class="badge bg-danger">Inactive</span>
+        @break
     @case(0)
         <span class="badge bg-dark">Pending</span>
         @break

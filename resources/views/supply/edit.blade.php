@@ -1,14 +1,17 @@
 <x-app-layout>
-    <x-slot:title>Marketing | Customer</x-slot:title>
+    <x-slot:title>{{ Auth::user()->department->department_name }}  | Supplier</x-slot:title>
 
     <nav aria-label="breadcrumb">
        <ol class="breadcrumb">
-           <li class="breadcrumb-item"><a href="{{ route('supplier.index') }}">Suppliers</a></li>
-           <li class="breadcrumb-item active">Update Supplier</li>
+           <li class="breadcrumb-item"><a href="{{ route('supplier.index') }}">All Suppliers</a></li>
+           <li class="breadcrumb-item "><a href="{{ route('supplier.show',$supplier) }}">{{ $supplier->name }}</a></li>
+           <li class="breadcrumb-item active">Edit</li>
        </ol>
    </nav>
 
-    <h1>Create Supplier</h1>
+   <x-success-alert />
+
+    <h1>Edit Supplier</h1>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -54,9 +57,21 @@
                                 <x-error field="address" />
                             </div>
                             <div class="mb-3 col-md-6">
-                                <label for="bank_details" class="form-label">Bank Details</label>
-                                <textarea class="form-control" name="bank_details" rows="5">{{ $supplier->bank_details }}</textarea>
-                                <x-error field="bank_details" />
+                                <div>
+                                    <label for="bank_details" class="form-label">Account Number</label>
+                                    <input type="number" class="form-control" id="bank_details" name="bank_details" value="{{ $supplier->bank_details}}">
+                                    <x-error field="bank_details" />
+                                </div>
+                                <div class="mt-3">
+                                    <label for="bank_id" class="form-label">Bank</label>
+                                    <select name="bank_id" id="bank_id" class="form-select">
+                                            <option value="#">Select Bank</option>
+                                        @foreach ($banks as $bank )
+                                            <option value="{{ $bank->id }}" {{ $supplier->bank->id == $bank->id ? 'selected' : '' }}>{{ $bank->bank_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-error field="bank_id" />
+                                </div>
                             </div>
                         </div>
 

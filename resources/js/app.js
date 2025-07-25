@@ -91,6 +91,51 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    const accountInput = document.getElementById('bank_details');
+    const bankSelect = document.getElementById('bank_id');
+
+    const fetchBanks = async () => {
+        try {
+            const response = await fetch('/get-bank-by-code');
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching bank data:', error);
+            return [];
+        }
+    };
+
+    const matchBankByAccountNumber = (banks, accountNumber) => {
+        for (const bank of banks) {
+            const bankCode = bank.bank_code;
+            if (accountNumber.startsWith(bankCode)) {
+                return bank.id;
+            }
+        }
+        return null;
+    };
+
+    accountInput.addEventListener('input', async function () {
+        const accountNumber = this.value;
+
+        if (accountNumber.length >= 1) {
+            const banks = await fetchBanks();
+            const matchedBankId = matchBankByAccountNumber(banks, accountNumber);
+
+            if (matchedBankId) {
+                bankSelect.value = matchedBankId;
+            } else {
+                bankSelect.value = '#';
+            }
+        }
+    });
+});
+
+
+
+
+
 
 
 

@@ -12,7 +12,7 @@ class ProformaInvoice extends Model
     protected $guarded = [];
 
     public function order(){
-        return $this->belongsTo(Order::class);
+    return $this->belongsToMany(Order::class, 'order_proforma_invoice');
     }
 
     public function user(){

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Supply;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bank;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Notifications\AddNewSupplierNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class SupplierController extends Controller
 {
@@ -16,11 +19,11 @@ class SupplierController extends Controller
 
         $user = Auth::user();
          if(in_array($user->department->department_name, ['Admin','Management'])){
-            $suppliers = Supplier::where('status','active')->latest()->paginate(5);
+            $suppliers = Supplier::where('status','active')->latest()->paginate(8);
          } elseif($user->department->department_name == 'Tea'){
-            $suppliers = Supplier::where('type',01)->where('status','active')->latest()->paginate(8);
+            $suppliers = Supplier::where('type',01)->latest()->paginate(8);
          } elseif($user->department->department_name == 'Production'){
-            $suppliers = Supplier::where('type',02)->where('status','active')->latest()->paginate(8);
+            $suppliers = Supplier::where('type',02)->latest()->paginate(8);
          }
 
         return view('supply.index',compact('suppliers'));
@@ -28,8 +31,8 @@ class SupplierController extends Controller
 
     public function create() {
         Gate::authorize('create', Supplier::class);
-
-        return view('supply.create');
+        $banks = Bank::all();
+        return view('supply.create',compact('banks'));
     }
 
     public function show(Supplier $supplier){
@@ -49,11 +52,22 @@ class SupplierController extends Controller
             'user_id' => ['exists:users,id'],
             'name' => ['required','string','max:255'],
             'type' => ['required','numeric','digits:2'],
-            'email' => ['required','email','lowercase'],
-            'number' => ['required','numeric','digits:10'],
-            'address' => ['required', 'string', 'min:10', 'max:255', 'regex:/^[a-zA-Z0-9\s,.-]+$/'],
-            'bank_details' => ['required', 'string', 'min:10', 'max:255'],
+            'email' => ['required', 'email', 'lowercase', 'unique:suppliers,email'],
+            'number' => ['required', 'numeric', 'digits:10', 'unique:suppliers,number'],
+            'address' => ['required', 'string', 'min:10', 'max:255', 'regex:#^[a-zA-Z0-9\s,.\-\/]+$#'],
+            'bank_id' => ['exists:banks,id'],
+            'bank_details' => ['required', 'numeric'],
+        ], [
+            'bank_id.exists' => 'The selected bank is invalid.',
+            'bank_details.required' => 'The bank account number is required.',
         ]);
+
+        $bank = Bank::findOrFail($validateData['bank_id']);
+        if($bank->length != strlen($validateData['bank_details'])){
+            throw ValidationException::withMessages(
+                ['bank_details'=>'The account number is not matching for the selected bank.']);
+        }
+
 
         $supplier = Supplier::create($validateData);
 
@@ -80,8 +94,8 @@ class SupplierController extends Controller
 
     public function edit(Supplier $supplier) {
         Gate::authorize('update', $supplier);
-
-        return view('supply.edit', compact('supplier'));
+        $banks = Bank::all();
+        return view('supply.edit', compact('supplier','banks'));
     }
 
     public function update(Supplier $supplier){
@@ -93,24 +107,55 @@ class SupplierController extends Controller
 
         $validateData = request()->validate([
             'name' => ['required','string','max:255'],
-            'email' => ['required','email','lowercase'],
-            'number' => ['required','numeric','digits:10'],
-            'address' => ['required', 'string', 'min:10', 'max:255', 'regex:/^[a-zA-Z0-9\s,.-]+$/'],
-            'bank_details' => ['required', 'string', 'min:10', 'max:255'],
+            'email' => ['required','email','lowercase',Rule::unique('suppliers', 'email')->ignore($supplier->id)],
+            'number' => ['required','numeric','digits:10',Rule::unique('suppliers', 'number')->ignore($supplier->id)],
+            'address' => ['required', 'string', 'min:10', 'max:255', 'regex:#^[a-zA-Z0-9\s,.\-\/]+$#'],
+            'bank_id' => ['exists:banks,id'],
+            'bank_details' => ['required', 'numeric'],
+        ], [
+            'bank_id.exists' => 'The selected bank is invalid.',
+            'bank_details.required' => 'The bank account number is required.',
         ]);
 
-        $supplier->update($validateData);
+        $bank = Bank::findOrFail($validateData['bank_id']);
+        if($bank->length != strlen($validateData['bank_details'])){
+            throw ValidationException::withMessages(
+                ['bank_details'=>'The account number is not matching for the selected bank.']);
+        }
 
-        return redirect()->route('supplier.show',$supplier)->with('success','Supplier updated successfully!');
+        $supplier->fill($validateData);
+
+        if ($supplier->isDirty()) {
+            $supplier->save();
+            return redirect()->route('supplier.show',$supplier)->with('success','Supplier updated successfully!');
+        }
+
+        return redirect()->back();
     }
 
     public function destroy(Supplier $supplier){
-        Gate::authorize('delete',$supplier);
+        Gate::authorize('update',$supplier);
 
-        $supplier->update([
-            'status' => 'inactive'
-        ]);
+        if($supplier->status == 'active'){
+            $supplier->update([
+                'status' => 'inactive'
+            ]);
+        } elseif($supplier->status == 'inactive'){
+            $supplier->update([
+                'status' => 'active'
+            ]);
+        }
 
-        return redirect()->route('supplier.index')->with('success', 'Supplier deleted!');
+        return redirect()->route('supplier.index')->with('success', 'Supplier status updated!');
+    }
+
+
+
+
+
+
+    public function getBanks(){
+        $banks = Bank::all(['id', 'bank_code', 'bank_name']);
+        return response()->json($banks);
     }
 }

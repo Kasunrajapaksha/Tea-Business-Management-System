@@ -34,4 +34,8 @@ class Supplier extends Model
     public function inventory_transaction(){
         return $this->hasMany(InventoryTransaction::class);
     }
+
+    public function bank(){
+        return $this->belongsTo(Bank::class);
+    }
 }
